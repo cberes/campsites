@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Payment</title>
+  </head>
+  <body>
+    <p><span id="amount">$20.00</span> will be charged to your credit card.</span></p>
+    <form id="payment">
+      <table>
+        <tr>
+          <th><label for="cardholder_name">Name on card:</label></th>
+          <td><input id="cardholder_name" type="text" size="20"/></td>
+        </tr>
+        <tr>
+          <th><label for="pan">Card number:</label></th>
+          <td><input id="pan" type="text" size="20"/></td>
+        </tr>
+        <tr>
+          <th><label for="cvv">CVV:</label></th>
+          <td><input id="cvv" type="text" size="4"/></td>
+        </tr>
+        <tr>
+          <th>Expiration</th>
+          <td>
+            <label>Month: <input id="expiration_month" type="text" size="2"/></label>
+            <label>Year: <input id="expiration_year" type="text" size="4"/></label>
+          </td>
+        </tr>
+      </table>
+      <p>
+        <input id="next" type="submit" value="Next"/>
+        <input id="back" type="clear" value="Back"/>
+      </p>
+    </form>
+  </body>
+</html>
