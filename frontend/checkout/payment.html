@@ -11,31 +11,26 @@
       <h1>Payment</h1>
       <p><span id="amount">$20.00</span> will be charged to your credit card.</span></p>
       <form id="payment" action="confirmation.html">
-        <table>
-          <tr>
-            <th><label for="cardholder_name">Name on card:</label></th>
-            <td><input id="cardholder_name" type="text" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="pan">Card number:</label></th>
-            <td><input id="pan" type="text" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="cvv">CVV:</label></th>
-            <td><input id="cvv" type="text" size="4"/></td>
-          </tr>
-          <tr>
-            <th>Expiration</th>
-            <td>
-              <label>Month: <input id="expiration_month" type="text" size="2"/></label>
-              <label>Year: <input id="expiration_year" type="text" size="4"/></label>
-            </td>
-          </tr>
-        </table>
-        <p>
-          <input id="next" type="submit" value="Next"/>
-          <input id="back" type="reset" value="Back"/>
-        </p>
+        <div class="form-group">
+          <label for="cardholder_name">Name on card</label>
+          <input id="cardholder_name" class="form-control" type="text" size="20"/>
+        </div>
+        <div class="form-group">
+          <label for="pan">Card number</label>
+          <input id="pan" class="form-control" type="text" size="20"/>
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input id="cvv" class="form-control" type="text" size="4"/></td>
+        </div>
+        <div class="form-group">
+          <label>Expiration Month <input id="expiration_month" class="form-control" type="number" size="2"/></label>
+          <label>Year <input id="expiration_year" class="form-control" type="number" size="4"/></label>
+        </div>
+        <div class="btn-group" role="group">
+          <input id="next" class="btn btn-primary" type="submit" value="Next"/>
+          <input id="back" class="btn btn-secondary" type="reset" value="Back"/>
+        </div>
       </form>
     </div>
 

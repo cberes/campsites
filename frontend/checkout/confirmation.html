@@ -10,14 +10,16 @@
     <div class="container">
       <h1>Please confirm your order</h1>
       <h2>Order details</h2>
-      <ol id="order_items">
-        <li class="order_item">Campground X - Campsite Y - Sep 15-Sep 21</li>
+      <ol id="order_items" class="list-group">
+        <li class="order_item list-group-item">Campground X - Campsite Y - Sep 15-Sep 21</li>
       </ol>
       <h2>Payment details</h2>
       <p><span id="amount">$20.00</span> will be charged to your credit card.</span></p>
       <p>Card number: <span id="pan">***********1111</span></p>
-      <a id="cancel" href="/">Cancel</a>
-      <a id="confirm" href="thankyou.html">Confirm</a>
+      <div class="btn-group" role="group">
+        <a id="checkout" class="btn btn-primary" href="thankyou.html">Confirm</a>
+        <a id="clear" class="btn btn-secondary" href="/">Cancel</a>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

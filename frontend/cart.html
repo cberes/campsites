@@ -9,17 +9,21 @@
   <body>
     <div class="container">
       <h1>Shopping cart</h1>
-      <ol id="cart_contents">
-        <li class="cart_item">
-          Campground X - Campsite Y - Sep 15-Sep 21
-          <ul class="cart_links">
-            <li>EDIT</li>
-            <li>REMOVE</li>
-          </ul>
+      <ol id="cart_contents" class="list-group">
+        <li class="cart_item list-group-item">
+          <div class="container">
+            <div class="row">Campground X - Campsite Y - Sep 15-Sep 21</div>
+            <ul class="cart_links row nav">
+              <li class="nav-item"><a class="nav-link" href="campsite.html">EDIT</a></li>
+              <li class="nav-item"><a class="nav-link" href="index.html">REMOVE</a></li>
+            </ul>
+          </div>
         </li>
       </ol>
-      <a id="clear" href="index.html">Reset cart</a>
-      <a id="checkout" href="checkout/customer.html">Checkout</a>
+      <div class="btn-group" role="group">
+        <a id="checkout" class="btn btn-primary" href="checkout/customer.html">Checkout</a>
+        <a id="clear" class="btn btn-secondary" href="index.html">Reset cart</a>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

@@ -11,24 +11,22 @@
       <h1>Checkout</h1>
       <p>Please tell us about yourself.</p>
       <form id="customer" action="payment.html">
-        <table>
-          <tr>
-            <th><label for="name">Name:</label></th>
-            <td><input id="name" type="text" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="email">Email:</label></th>
-            <td><input id="email" type="text" size="20"/></td>
-          </tr>
-          <tr>
-            <th><label for="phone">Phone:</label></th>
-            <td><input id="phone" type="text" size="10"/></td>
-          </tr>
-        </table>
-        <p>
-          <input id="next" type="submit" value="Next"/>
-          <input id="back" type="reset" value="Back"/>
-        </p>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input id="name" class="form-control" type="text" size="20"/>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" class="form-control" type="email" size="20"/>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input id="phone" class="form-control" type="tel" size="10"/>
+        </div>
+        <div class="btn-group" role="group">
+          <input id="next" class="btn btn-primary" type="submit" value="Next"/>
+          <input id="back" class="btn btn-secondary" type="reset" value="Back"/>
+        </div>
       </form>
     </div>
 
