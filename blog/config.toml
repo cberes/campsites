@@ -1,0 +1,12 @@
+baseURL = "http://awayfromho.me/blog/"
+languageCode = "en-us"
+title = "Campsite Reservations Project"
+copyright = "&copy; 2017 Corey Beres"
+theme = "pickles"
+
+[params]
+  subtitle = "Development Blog"
+  author = "Corey Beres"
+  authorwebsite = "//seabears.net"
+  contact = "mailto:corey.beres@gmail.com"
+  bio = "SOA, web services, Android apps & SDKs, web applications, and database design"
