@@ -35,3 +35,5 @@ dependencies {
 checkstyle {
 	toolVersion = '8.2'
 }
+
+task run(dependsOn: 'bootRun')
