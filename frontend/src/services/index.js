@@ -1,12 +1,10 @@
-import HttpService from './http-service'
 import CampgroundService from './campground-service'
-
-const config = {
-  BACKEND_HOST: 'http://localhost:8080'
-}
+import HttpService from './http-service'
+import SettingsService from './settings-service'
 
 const http = new HttpService()
-
-export default {
-  campgrounds: new CampgroundService(config.BACKEND_HOST, http)
-}
+export const settings = new SettingsService({
+  backendHost: 'http://localhost:8080',
+  campgroundId: 0
+})
+export const campgroundService = new CampgroundService(settings.backendHost, http)

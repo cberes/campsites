@@ -9,11 +9,7 @@
 </template>
 
 <script>
-import services from '../services'
-
-const config = {
-  CAMPGROUND_ID: 0
-}
+import {campgroundService, settings} from '../services'
 
 export default {
   name: 'campground',
@@ -24,11 +20,11 @@ export default {
     }
   },
   mounted () {
-    this.loadCampground(config.CAMPGROUND_ID)
+    this.loadCampground(settings.campgroundId)
   },
   methods: {
     loadCampground (id) {
-      services.campgrounds.getCampground(id)
+      campgroundService.getCampground(id)
         .then(response => response.json())
         .then(result => (this.campground = result))
         .catch(reason => (this.error = reason.message))
