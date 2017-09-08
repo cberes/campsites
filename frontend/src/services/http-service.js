@@ -1,6 +1,7 @@
 export default class HttpService {
   get (url) {
-    return fetch(new Request(url))
+    const request = new Request(url)
+    return fetch(request).then(response => response.json())
   }
 }
 

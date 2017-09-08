@@ -25,7 +25,6 @@ export default {
   methods: {
     loadCampground (id) {
       campgroundService.getCampground(id)
-        .then(response => response.json())
         .then(result => (this.campground = result))
         .catch(reason => (this.error = reason.message))
     }
