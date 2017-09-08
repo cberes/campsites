@@ -11,11 +11,17 @@ export function waitForTicks (n, callback) {
 }
 
 export class MockHttpService {
-  get (url) {
-    return this.resultFunc(url)
+  getUrls () {
+    return this.urls
   }
 
-  setResultFunc (resultFunc) {
-    this.resultFunc = resultFunc
+  get (url) {
+    this.urls.push(url)
+    return this.result
+  }
+
+  setResult (result) {
+    this.result = result
+    this.urls = []
   }
 }

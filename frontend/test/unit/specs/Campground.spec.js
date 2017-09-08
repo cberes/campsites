@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import CampgroundService from '@/services/campground-service'
+import CampgroundService from '@/services/CampgroundService'
 import {MockHttpService, waitForTicks} from '../helpers'
 
 const mockHttp = new MockHttpService()
@@ -17,12 +17,10 @@ const CampgroundWithMocks = CampgroundInjector({
 
 describe('Campground.vue', () => {
   it('should render correct contents', done => {
-    mockHttp.setResultFunc(url => {
-      return Promise.resolve({
-        name: 'Example',
-        description: 'Test example queried ' + url
-      })
-    })
+    mockHttp.setResult(Promise.resolve({
+      name: 'Example',
+      description: 'Test example description'
+    }))
 
     const vm = new Vue({
       template: '<div><test></test></div>',
@@ -35,17 +33,17 @@ describe('Campground.vue', () => {
       expect(vm.$el.querySelector('#name').textContent)
         .to.equal('Example')
       expect(vm.$el.querySelector('#description').textContent)
-        .to.equal('Test example queried http://example.com/api/campground/1001')
+        .to.equal('Test example description')
+      expect(mockHttp.getUrls())
+        .to.include('http://example.com/api/campground/1001')
       done()
     })
   })
 
   it('should render error message', done => {
-    mockHttp.setResultFunc(() => {
-      return Promise.reject({
-        message: 'Error message'
-      })
-    })
+    mockHttp.setResult(Promise.reject({
+      message: 'Error message'
+    }))
 
     const vm = new Vue({
       template: '<div><test></test></div>',

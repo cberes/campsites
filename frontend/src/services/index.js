@@ -1,6 +1,6 @@
-import CampgroundService from './campground-service'
-import HttpService from './http-service'
-import SettingsService from './settings-service'
+import CampgroundService from './CampgroundService'
+import HttpService from './HttpService'
+import SettingsService from './SettingsService'
 
 const http = new HttpService()
 export const settings = new SettingsService({
