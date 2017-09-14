@@ -42,7 +42,7 @@ dependencies {
 
 junitPlatform {
 	filters {
-		includeClassNamePatterns '.*Test', '.*Tests', '.*IT'
+		includeClassNamePattern project.hasProperty('IT') ? '^.*IT$' : '^.*Tests?$'
 	}
 }
 
