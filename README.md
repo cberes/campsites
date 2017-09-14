@@ -1,5 +1,9 @@
 # Campsite Reservation System
 
+An open-source reservation system for campgrounds
+
+[![Build Status](https://travis-ci.org/cberes/campsites.svg?branch=master)](https://travis-ci.org/cberes/campsites)
+
 ## Pages
 
 1. Campgrounds intro
