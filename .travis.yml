@@ -1,7 +1,6 @@
 language: java
 sudo: false
 jdk:
-  - openjdk8
-  - oraclejdk8
+  - openjdk9
 before_install:
   - nvm install node
