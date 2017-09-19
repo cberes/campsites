@@ -1,7 +1,5 @@
 package net.seabears.campsites.controllers;
 
-import java.util.List;
-
 import net.seabears.campsites.controllers.exceptions.ResourceNotFoundException;
 import net.seabears.campsites.dao.AreaDao;
 import net.seabears.campsites.dao.CampsiteDao;
@@ -13,40 +11,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import net.seabears.campsites.dao.CampgroundDao;
-import net.seabears.campsites.domain.Campground;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/campground")
-public class CampgroundController {
+@RequestMapping("/api/area")
+public class AreaController {
     private final AreaDao areaDao;
-    private final CampgroundDao campgroundDao;
     private final CampsiteDao campsiteDao;
 
     @Autowired
-    public CampgroundController(final AreaDao areaDao, final CampgroundDao campgroundDao, final CampsiteDao campsiteDao) {
+    public AreaController(final AreaDao areaDao, final CampsiteDao campsiteDao) {
         this.areaDao = areaDao;
-        this.campgroundDao = campgroundDao;
         this.campsiteDao = campsiteDao;
     }
 
-    @GetMapping("")
-    public List<Campground> getCampgrounds() {
-        return campgroundDao.findAll();
-    }
-
     @GetMapping("/{id}")
-    public Campground getCampgrounds(@PathVariable final String id) {
-        return campgroundDao.find(id).orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
-    }
-
-    @GetMapping("/{id}/areas")
-    public List<Area> getAreas(@PathVariable final String id) {
-        return areaDao.findAllInCampground(id);
+    public Area getArea(@PathVariable final String id) {
+        return areaDao.find(id).orElseThrow(() -> new ResourceNotFoundException(Area.class, id));
     }
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final String id) {
-        return campsiteDao.findAllInCampground(id);
+        return campsiteDao.findAllInArea(id);
     }
 }

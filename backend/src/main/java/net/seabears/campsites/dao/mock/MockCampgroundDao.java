@@ -1,21 +1,20 @@
-package net.seabears.campsites.dao.impl;
+package net.seabears.campsites.dao.mock;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import org.springframework.stereotype.Repository;
 
 import net.seabears.campsites.dao.CampgroundDao;
 import net.seabears.campsites.domain.Campground;
 
-import static java.util.stream.IntStream.range;
+import javax.annotation.PostConstruct;
 
 @Repository
-public class MockCampgroundDao implements CampgroundDao {
-    private static final List<Campground> ITEMS;
-
-    static {
-        ITEMS = List.of(
+public class MockCampgroundDao extends MockDao<Campground> implements CampgroundDao {
+    public MockCampgroundDao() {
+        super(List.of(
                 buildCampground("Campground X",
                         "Campground X is a really fun place. It lets you get away from the toil of "
                         + "everyday life. The toil of everyday life where too many things at work "
@@ -24,8 +23,7 @@ public class MockCampgroundDao implements CampgroundDao {
                 buildCampground("Campground Y",
                         "We have the best campsites at Campground Y. Reallly tremendous campsites. "
                         + "And it's surrounded by a 'uge wall that our neighbors paid for. It's "
-                        + "completely surrounded. A tremendous, impenetrable wall."));
-        assignIds(ITEMS);
+                        + "completely surrounded. A tremendous, impenetrable wall.")));
     }
 
     private static Campground buildCampground(final String name, final String description) {
@@ -35,23 +33,23 @@ public class MockCampgroundDao implements CampgroundDao {
         return item;
     }
 
-    private static void assignIds(final List<Campground> items) {
-        range(0, items.size()).forEach(i -> items.get(i).setId(Integer.toString(i)));
+    @PostConstruct
+    private void init() {
+        assignIds();
+    }
+
+    @Override
+    protected BiConsumer<Campground, String> getIdSetter() {
+        return Campground::setId;
     }
 
     @Override
     public List<Campground> findAll() {
-        return ITEMS;
+        return allItems();
     }
 
     @Override
     public Optional<Campground> find(final String id) {
-        final int index = Integer.parseInt(id);
-        if (index >= 0 && index < ITEMS.size()) {
-            return Optional.of(ITEMS.get(index));
-        } else {
-            return Optional.empty();
-        }
+        return super.find(Integer.parseInt(id) - 1);
     }
-
 }
