@@ -37,8 +37,8 @@ public class CampgroundControllerIT {
 
     @Test
     public void getCampground() throws Exception {
-        ResponseEntity<Campground> response = template.getForEntity(base + "/api/campground/1", Campground.class);
-        assertThat(response.getBody().getId(), equalTo("1"));
+        ResponseEntity<Campground> response = template.getForEntity(base + "/api/campground/2", Campground.class);
+        assertThat(response.getBody().getId(), equalTo("2"));
         assertThat(response.getBody().getName(), equalTo("Campground Y"));
         assertThat(response.getBody().getDescription(), not(isEmptyOrNullString()));
     }
@@ -46,10 +46,10 @@ public class CampgroundControllerIT {
     @Test
     public void getCampgrounds() throws Exception {
         ResponseEntity<Campground[]> response = template.getForEntity(base + "/api/campground", Campground[].class);
-        assertThat(response.getBody()[0].getId(), equalTo("0"));
+        assertThat(response.getBody()[0].getId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Campground X"));
         assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
-        assertThat(response.getBody()[1].getId(), equalTo("1"));
+        assertThat(response.getBody()[1].getId(), equalTo("2"));
         assertThat(response.getBody()[1].getName(), equalTo("Campground Y"));
         assertThat(response.getBody()[1].getDescription(), not(isEmptyOrNullString()));
     }

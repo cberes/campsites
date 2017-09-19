@@ -24,14 +24,14 @@ public class CampgroundControllerTest {
     public void getCampgrounds() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/api/campground").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":\"0\",\"name\":\"Campground X\"},"
-                        + "{\"id\":\"1\",\"name\":\"Campground Y\"}]"));
+                .andExpect(content().json("[{\"id\":\"1\",\"name\":\"Campground X\"},"
+                        + "{\"id\":\"2\",\"name\":\"Campground Y\"}]"));
     }
 
     @Test
     public void getCampground() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/campground/1").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/api/campground/2").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":\"1\",\"name\":\"Campground Y\"}"));
+                .andExpect(content().json("{\"id\":\"2\",\"name\":\"Campground Y\"}"));
     }
 }
