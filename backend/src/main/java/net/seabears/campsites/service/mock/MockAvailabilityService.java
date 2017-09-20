@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,11 +24,11 @@ public class MockAvailabilityService implements AvailabilityService {
     }
 
     @Override
-    public CampgroundAvailability findAvailabilityForCampground(final String id, final Date start, final Date end) {
+    public CampgroundAvailability findAvailabilityForCampground(final String id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         availability.setCampgroundId(id);
         availability.setCampsites(dao.findAllInCampground(id).stream()
-                .map(campsite -> mockAvailability(campsite, toLocalDate(start), toLocalDate(end)))
+                .map(campsite -> mockAvailability(campsite, start, end))
                 .collect(toList()));
         return availability;
     }
@@ -43,23 +41,19 @@ public class MockAvailabilityService implements AvailabilityService {
     }
 
     @Override
-    public CampgroundAvailability findAvailabilityForArea(final String id, final Date start, final Date end) {
+    public CampgroundAvailability findAvailabilityForArea(final String id, final LocalDate start, final LocalDate end) {
         // assume 1 area per campground with the same ID
         return findAvailabilityForCampground(id, start, end);
     }
 
     @Override
-    public CampgroundAvailability findAvailabilityForCampsite(final String id, final Date start, final Date end) {
+    public CampgroundAvailability findAvailabilityForCampsite(final String id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         dao.find(id).ifPresent(campsite -> {
             availability.setCampgroundId(campsite.getCampgroundId());
-            availability.setCampsites(singletonList(mockAvailability(campsite, toLocalDate(start), toLocalDate(end))));
+            availability.setCampsites(singletonList(mockAvailability(campsite, start, end)));
         });
         return availability;
-    }
-
-    private static LocalDate toLocalDate(final Date d) {
-        return d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     private static List<DateAvailability> randomAvailability(final LocalDate start, final LocalDate end) {

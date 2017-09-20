@@ -6,11 +6,15 @@ import net.seabears.campsites.service.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @RestController
 @RequestMapping("/api/availability")
 public class AvailabilityController {
+    private static final String PARAM_START_DATE = "start";
+    private static final String PARAM_END_DATE = "end";
+
     private final AvailabilityService service;
 
     @Autowired
@@ -20,31 +24,45 @@ public class AvailabilityController {
 
     @GetMapping("/campground/{id}")
     public CampgroundAvailability getCampgroundAvailability(@PathVariable final String id,
-                                                            @RequestParam("start") final Date start,
-                                                            @RequestParam("end") final Date end) {
-        checkPeriod(start, end);
-        return service.findAvailabilityForCampground(id, start, end);
+                                                            @RequestParam(PARAM_START_DATE) final String start,
+                                                            @RequestParam(PARAM_END_DATE) final String end) {
+        final LocalDate startDate = parseDate(start, PARAM_START_DATE);
+        final LocalDate endDate = parseDate(end, PARAM_END_DATE);
+        checkPeriod(startDate, endDate);
+        return service.findAvailabilityForCampground(id, startDate, endDate);
     }
 
-    private static void checkPeriod(final Date start, final Date end) {
-        if (!start.before(end)) {
-            throw new BadArgumentException("end", "must be after start");
+    private static LocalDate parseDate(final String s, final String name) {
+        try {
+            return LocalDate.parse(s);
+        } catch (DateTimeParseException e) {
+            throw new BadArgumentException(name, e.getMessage());
+        }
+    }
+
+    private static void checkPeriod(final LocalDate start, final LocalDate end) {
+        if (!start.isBefore(end)) {
+            throw new BadArgumentException(PARAM_END_DATE, "must be after start");
         }
     }
 
     @GetMapping("/area/{id}")
     public CampgroundAvailability getAreaAvailability(@PathVariable final String id,
-                                                      @RequestParam("start") final Date start,
-                                                      @RequestParam("end") final Date end) {
-        checkPeriod(start, end);
-        return service.findAvailabilityForArea(id, start, end);
+                                                      @RequestParam(PARAM_START_DATE) final String start,
+                                                      @RequestParam(PARAM_END_DATE) final String end) {
+        final LocalDate startDate = parseDate(start, PARAM_START_DATE);
+        final LocalDate endDate = parseDate(end, PARAM_END_DATE);
+        checkPeriod(startDate, endDate);
+        return service.findAvailabilityForArea(id, startDate, endDate);
     }
 
     @GetMapping("/campsite/{id}")
     public CampgroundAvailability getCampsiteAvailability(@PathVariable final String id,
-                                                          @RequestParam("start") final Date start,
-                                                          @RequestParam("end") final Date end) {
-        checkPeriod(start, end);
-        return service.findAvailabilityForCampsite(id, start, end);
+                                                          @RequestParam(PARAM_START_DATE) final String start,
+                                                          @RequestParam(PARAM_END_DATE) final String end) {
+        final LocalDate startDate = parseDate(start, PARAM_START_DATE);
+        final LocalDate endDate = parseDate(end, PARAM_END_DATE);
+        checkPeriod(startDate, endDate);
+        return service.findAvailabilityForCampsite(id, startDate, endDate);
     }
 }
