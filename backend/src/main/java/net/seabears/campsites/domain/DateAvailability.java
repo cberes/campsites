@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class DateAvailability {
     private LocalDate date;
-    private Availability availability;
+    private Availability status;
 
     public LocalDate getDate() {
         return date;
@@ -16,11 +16,11 @@ public class DateAvailability {
         this.date = date;
     }
 
-    public Availability getAvailability() {
-        return availability;
+    public Availability getStatus() {
+        return status;
     }
 
-    public void setAvailability(final Availability availability) {
-        this.availability = availability;
+    public void setStatus(final Availability status) {
+        this.status = status;
     }
 }
