@@ -2,6 +2,8 @@ package net.seabears.campsites.controllers;
 
 import java.net.URL;
 
+import net.seabears.campsites.domain.Area;
+import net.seabears.campsites.domain.Campsite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +38,15 @@ public class CampgroundControllerIT {
     }
 
     @Test
+    public void getAreas() throws Exception {
+        ResponseEntity<Area[]> response = template.getForEntity(base + "/api/campground/1/areas", Area[].class);
+        assertThat(response.getBody()[0].getId(), equalTo("1"));
+        assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[0].getName(), equalTo("Campground X"));
+        assertThat(response.getBody()[0].getDescription(), equalTo("Entire campground"));
+    }
+
+    @Test
     public void getCampground() throws Exception {
         ResponseEntity<Campground> response = template.getForEntity(base + "/api/campground/2", Campground.class);
         assertThat(response.getBody().getId(), equalTo("2"));
@@ -51,6 +62,19 @@ public class CampgroundControllerIT {
         assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
         assertThat(response.getBody()[1].getId(), equalTo("2"));
         assertThat(response.getBody()[1].getName(), equalTo("Campground Y"));
+        assertThat(response.getBody()[1].getDescription(), not(isEmptyOrNullString()));
+    }
+
+    @Test
+    public void getCampsites() throws Exception {
+        ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/campground/1/campsites", Campsite[].class);
+        assertThat(response.getBody()[0].getId(), equalTo("1"));
+        assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[0].getName(), equalTo("Site A"));
+        assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
+        assertThat(response.getBody()[1].getId(), equalTo("2"));
+        assertThat(response.getBody()[1].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[1].getName(), equalTo("Site B"));
         assertThat(response.getBody()[1].getDescription(), not(isEmptyOrNullString()));
     }
 }

@@ -34,4 +34,20 @@ public class CampgroundControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":\"2\",\"name\":\"Campground Y\"}"));
     }
+
+    @Test
+    public void getAreas() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/api/campground/1/areas").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":\"1\",\"campgroundId\":\"1\",\"name\":\"Campground X\"," +
+                        "\"description\":\"Entire campground\"}]"));
+    }
+
+    @Test
+    public void getCampsites() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/api/campground/1/campsites").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":\"1\",\"campgroundId\":\"1\",\"name\":\"Site A\"},"
+                        + "{\"id\":\"2\",\"campgroundId\":\"1\",\"name\":\"Site B\"}]"));
+    }
 }
