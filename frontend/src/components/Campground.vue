@@ -1,8 +1,11 @@
 <template>
-  <div id="campground" v-if="campground">
+  <div id="campground" class="container" v-if="campground">
     <h1 id="name">{{ campground.name }}</h1>
     <p id="description">{{ campground.description }}</p>
-    <p>View the <a href="campsites.html">list of campsites</a> or the <a href="map.html">map</a>.</p>
+    <ul>
+      <li><router-link to="/campsites">View campsites</router-link></li>
+      <li><router-link to="/map">Campground map</router-link></li>
+    </ul>
   </div>
   <div class="error" v-else-if="error">{{ error }}</div>
   <div class="loading" v-else>Loading...</div>

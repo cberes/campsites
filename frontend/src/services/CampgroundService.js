@@ -12,4 +12,9 @@ export default class CampgroundService {
   getCampgrounds () {
     return this.http.get(this.baseUrl)
   }
+
+  getCampsites (id) {
+    const url = this.baseUrl + '/' + id + '/campsites'
+    return this.http.get(url)
+  }
 }
