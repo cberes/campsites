@@ -1,6 +1,6 @@
 export default class AvailabilityService {
-  constructor (host, http) {
-    this.baseUrl = host + '/api/availability'
+  constructor (settings, http) {
+    this.baseUrl = settings.backendHost + '/api/availability'
     this.http = http
   }
 
@@ -23,7 +23,7 @@ export default class AvailabilityService {
     return this.http.get(url)
   }
 
-  keyByCampsiteId (availability) {
+  static keyByCampsiteId (availability) {
     const keyed = {}
     availability.campsites.forEach(campsite => (keyed[campsite.id] = campsite.availability))
     return keyed

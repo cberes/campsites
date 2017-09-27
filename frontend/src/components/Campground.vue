@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {campgroundService, settings} from '../services'
+import injector from '../services/InjectionService'
 
 export default {
   name: 'campground',
@@ -23,11 +23,11 @@ export default {
     }
   },
   mounted () {
-    this.loadCampground(settings.campgroundId)
+    this.loadCampground(injector.inject('settings'), injector.inject('CampgroundService'))
   },
   methods: {
-    loadCampground (id) {
-      campgroundService.getCampground(id)
+    loadCampground (settings, campgroundService) {
+      campgroundService.getCampground(settings.campgroundId)
         .then(result => (this.campground = result))
         .catch(reason => (this.error = reason.message))
     }

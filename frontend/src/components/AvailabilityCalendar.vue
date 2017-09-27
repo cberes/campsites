@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {availabilityService} from '../services'
+import injector from '../services/InjectionService'
 import moment from 'moment'
 
 export default {
@@ -22,10 +22,10 @@ export default {
     }
   },
   mounted () {
-    this.loadAvailability(this.id, this.today)
+    this.loadAvailability(this.id, this.today, injector.inject('AvailabilityService'))
   },
   methods: {
-    loadAvailability (campsiteId, startDate) {
+    loadAvailability (campsiteId, startDate, availabilityService) {
       const start = moment(startDate, 'YYYY-MM-DD')
       const end = start.clone().add(14, 'days')
       availabilityService.getCampsite(campsiteId, start, end)

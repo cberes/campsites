@@ -14,7 +14,7 @@ describe('CampgroundService', () => {
       })
     }
 
-    const service = new CampgroundService('http://example.com', mockHttp)
+    const service = new CampgroundService({backendHost: 'http://example.com'}, mockHttp)
     service.getCampground(1001).then(result => {
       expect(result.value).to.equal('Queried http://example.com/api/campground/1001')
       done()
@@ -28,7 +28,7 @@ describe('CampgroundService', () => {
       })
     }
 
-    const service = new CampgroundService('http://example.com', mockHttp)
+    const service = new CampgroundService({backendHost: 'http://example.com'}, mockHttp)
     service.getCampgrounds().then(result => {
       expect(result.value).to.equal('Queried http://example.com/api/campground')
       done()

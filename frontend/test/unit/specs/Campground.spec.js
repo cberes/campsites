@@ -1,19 +1,24 @@
 import Vue from 'vue'
+import Campground from '@/components/Campground'
 import CampgroundService from '@/services/CampgroundService'
+import SettingsService from '@/services/SettingsService'
+import injector from '@/services/InjectionService'
 import {MockHttpService, waitForTicks} from '../helpers'
 
 const mockHttp = new MockHttpService()
 
-const CampgroundInjector = require('!!vue-loader?inject!../../../src/components/Campground.vue')
-
-const CampgroundWithMocks = CampgroundInjector({
-  '../services': {
-    campgroundService: new CampgroundService('http://example.com', mockHttp),
-    settings: {
-      campgroundId: 1001
-    }
-  }
-})
+function mount () {
+  injector.reset()
+  injector.register(CampgroundService, ['SettingsService', 'HttpService'])
+  injector.register(SettingsService, ['settings'])
+  injector.provide('HttpService', mockHttp)
+  injector.provide('settings', {
+    backendHost: 'http://example.com',
+    campgroundId: 1001
+  })
+  const Constructor = Vue.extend(Campground)
+  return new Constructor().$mount()
+}
 
 describe('Campground.vue', () => {
   it('should render correct contents', done => {
@@ -22,12 +27,7 @@ describe('Campground.vue', () => {
       description: 'Test example description'
     }))
 
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': CampgroundWithMocks
-      }
-    }).$mount()
+    const vm = mount()
 
     waitForTicks(3, () => {
       expect(vm.$el.querySelector('#name').textContent)
@@ -45,29 +45,19 @@ describe('Campground.vue', () => {
       message: 'Error message'
     }))
 
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': CampgroundWithMocks
-      }
-    }).$mount()
+    const vm = mount()
 
     waitForTicks(3, () => {
-      expect(vm.$el.querySelector('.error').textContent)
+      expect(vm.$el.textContent)
         .to.equal('Error message')
       done()
     })
   })
 
   it('should render loading message', () => {
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': CampgroundWithMocks
-      }
-    }).$mount()
+    const vm = mount()
 
-    expect(vm.$el.querySelector('.loading').textContent)
+    expect(vm.$el.textContent)
       .to.equal('Loading...')
   })
 })

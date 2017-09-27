@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import {availabilityService, campgroundService, settings} from '../services'
+import injector from '../services/InjectionService'
+import AvailabilityService from '../services/AvailabilityService'
 import QuickAvailability from './QuickAvailability.vue'
 import moment from 'moment'
 
@@ -40,20 +41,20 @@ export default {
     }
   },
   mounted () {
-    this.loadCampsites(settings.campgroundId)
-    this.loadAvailability(settings.campgroundId)
+    this.loadCampsites(injector.inject('settings'), injector.inject('CampgroundService'))
+    this.loadAvailability(injector.inject('settings'), injector.inject('AvailabilityService'))
   },
   methods: {
-    loadCampsites (id) {
-      campgroundService.getCampsites(id)
+    loadCampsites (settings, campgroundService) {
+      campgroundService.getCampsites(settings.campgroundId)
         .then(result => (this.campsites = result))
         .catch(reason => (this.error = reason.message))
     },
-    loadAvailability (id) {
+    loadAvailability (settings, availabilityService) {
       const start = moment()
       const end = moment().add(5, 'days')
-      availabilityService.getCampground(id, start, end)
-        .then(result => (this.availability = availabilityService.keyByCampsiteId(result)))
+      availabilityService.getCampground(settings.campgroundId, start, end)
+        .then(result => (this.availability = AvailabilityService.keyByCampsiteId(result)))
         .catch(reason => (this.error = reason.message))
     }
   }

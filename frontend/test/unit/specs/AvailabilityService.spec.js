@@ -15,7 +15,7 @@ describe('AvailabilityService', () => {
       })
     }
 
-    const service = new AvailabilityService('http://example.com', mockHttp)
+    const service = new AvailabilityService({backendHost: 'http://example.com'}, mockHttp)
     const start = moment({year: 2017, month: 0, day: 1})
     const end = moment({year: 2017, month: 0, day: 15})
     service.getArea(10101, start, end).then(result => {
@@ -31,7 +31,7 @@ describe('AvailabilityService', () => {
       })
     }
 
-    const service = new AvailabilityService('http://example.com', mockHttp)
+    const service = new AvailabilityService({backendHost: 'http://example.com'}, mockHttp)
     const start = moment({year: 2017, month: 0, day: 1})
     const end = moment({year: 2017, month: 0, day: 15})
     service.getCampground(10101, start, end).then(result => {
@@ -47,7 +47,7 @@ describe('AvailabilityService', () => {
       })
     }
 
-    const service = new AvailabilityService('http://example.com', mockHttp)
+    const service = new AvailabilityService({backendHost: 'http://example.com'}, mockHttp)
     const start = moment({year: 2017, month: 0, day: 1})
     const end = moment({year: 2017, month: 0, day: 15})
     service.getCampsite(10101, start, end).then(result => {
@@ -57,7 +57,7 @@ describe('AvailabilityService', () => {
   })
 
   it('keyByCampsiteId', () => {
-    const keyed = new AvailabilityService().keyByCampsiteId({
+    const keyed = AvailabilityService.keyByCampsiteId({
       campgroundId: 1001,
       campsites: [
         {

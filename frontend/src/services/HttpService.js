@@ -4,4 +4,3 @@ export default class HttpService {
     return fetch(request).then(response => response.json())
   }
 }
-

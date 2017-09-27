@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {campsiteService} from '../services'
+import injector from '../services/InjectionService'
 import AvailabilityCalendar from './AvailabilityCalendar.vue'
 import moment from 'moment'
 
@@ -52,10 +52,10 @@ export default {
     }
   },
   mounted () {
-    this.loadCampsite(this.$route.params.id)
+    this.loadCampsite(this.$route.params.id, injector.inject('CampsiteService'))
   },
   methods: {
-    loadCampsite (id) {
+    loadCampsite (id, campsiteService) {
       campsiteService.getCampsite(id)
         .then(result => (this.campsite = result))
         .catch(reason => (this.error = reason.message))

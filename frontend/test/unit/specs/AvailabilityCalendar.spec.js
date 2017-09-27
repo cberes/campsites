@@ -1,16 +1,26 @@
 import Vue from 'vue'
+import AvailabilityCalendar from '@/components/AvailabilityCalendar'
 import AvailabilityService from '@/services/AvailabilityService'
+import SettingsService from '@/services/SettingsService'
+import injector from '@/services/InjectionService'
 import {MockHttpService, waitForTicks} from '../helpers'
 
 const mockHttp = new MockHttpService()
 
-const AvailabilityCalendarInjector = require('!!vue-loader?inject!../../../src/components/AvailabilityCalendar.vue')
-
-const AvailabilityCalendarWithMocks = AvailabilityCalendarInjector({
-  '../services': {
-    availabilityService: new AvailabilityService('http://example.com', mockHttp)
-  }
-})
+function mount () {
+  injector.reset()
+  injector.register(AvailabilityService, ['SettingsService', 'HttpService'])
+  injector.register(SettingsService, ['settings'])
+  injector.provide('HttpService', mockHttp)
+  injector.provide('settings', {
+    backendHost: 'http://example.com'
+  })
+  const Constructor = Vue.extend(AvailabilityCalendar)
+  return new Constructor({propsData: {
+    id: 10101,
+    today: '2017-01-01'
+  }}).$mount()
+}
 
 describe('AvailabilityCalendar.vue', () => {
   it('should render correct contents', done => {
@@ -25,25 +35,16 @@ describe('AvailabilityCalendar.vue', () => {
       ]
     }))
 
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': AvailabilityCalendarWithMocks
-      },
-      propsData: {
-        id: 10101,
-        today: '2017-01-01'
-      }
-    }).$mount()
+    const vm = mount()
 
     waitForTicks(3, () => {
-      const items = vm.$el.querySelector('#availability').children
+      const items = vm.$el.children
       expect(items[0].textContent)
         .to.include('2017-01-01: RESERVED')
       expect(items[1].textContent)
         .to.include('2017-01-02: AVAILABLE')
       expect(mockHttp.getUrls())
-        .to.include('http://example.com/api/avilability/campsite/10101?start=2017-01-01&end=2017-01-15')
+        .to.include('http://example.com/api/availability/campsite/10101?start=2017-01-01&end=2017-01-15')
       done()
     })
   })
@@ -53,16 +54,7 @@ describe('AvailabilityCalendar.vue', () => {
       message: 'Error message'
     }))
 
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': AvailabilityCalendarWithMocks
-      },
-      propsData: {
-        id: 10101,
-        today: '2017-01-01'
-      }
-    }).$mount()
+    const vm = mount()
 
     waitForTicks(3, () => {
       expect(vm.$el.textContent)
@@ -72,16 +64,7 @@ describe('AvailabilityCalendar.vue', () => {
   })
 
   it('should render loading message', () => {
-    const vm = new Vue({
-      template: '<div><test></test></div>',
-      components: {
-        'test': AvailabilityCalendarWithMocks
-      },
-      propsData: {
-        id: 10101,
-        today: '2017-01-01'
-      }
-    }).$mount()
+    const vm = mount()
 
     expect(vm.$el.textContent)
       .to.equal('Loading...')
