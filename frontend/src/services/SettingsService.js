@@ -10,4 +10,8 @@ export default class SettingsService {
   get campgroundId () {
     return this.settings.campgroundId
   }
+
+  static injectionDependencies () {
+    return ['settings']
+  }
 }

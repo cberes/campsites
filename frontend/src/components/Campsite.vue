@@ -48,7 +48,7 @@ export default {
     return {
       campsite: null,
       error: null,
-      today: moment().format('YYYY-MM-DD')
+      today: moment().add(1, 'days').format('YYYY-MM-DD')
     }
   },
   mounted () {

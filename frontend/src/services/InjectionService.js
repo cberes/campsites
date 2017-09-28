@@ -13,11 +13,16 @@ class InjectionService {
     this.provided[name] = value
   }
 
-  register (service, dependencies) {
+  register (service) {
     this.registered[service.name] = {
       factory: service,
-      dependencies: dependencies || []
+      dependencies: InjectionService.getDependencies(service)
     }
+  }
+
+  static getDependencies (service) {
+    const func = service.injectionDependencies
+    return (typeof func === 'function' && func()) || []
   }
 
   resolve (name) {

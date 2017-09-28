@@ -9,8 +9,8 @@ const mockHttp = new MockHttpService()
 
 function mount () {
   injector.reset()
-  injector.register(AvailabilityService, ['SettingsService', 'HttpService'])
-  injector.register(SettingsService, ['settings'])
+  injector.register(AvailabilityService)
+  injector.register(SettingsService)
   injector.provide('HttpService', mockHttp)
   injector.provide('settings', {
     backendHost: 'http://example.com'

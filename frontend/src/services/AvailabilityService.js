@@ -28,4 +28,8 @@ export default class AvailabilityService {
     availability.campsites.forEach(campsite => (keyed[campsite.id] = campsite.availability))
     return keyed
   }
+
+  static injectionDependencies () {
+    return ['SettingsService', 'HttpService']
+  }
 }

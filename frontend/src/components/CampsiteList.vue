@@ -51,8 +51,8 @@ export default {
         .catch(reason => (this.error = reason.message))
     },
     loadAvailability (settings, availabilityService) {
-      const start = moment()
-      const end = moment().add(5, 'days')
+      const start = moment().add(1, 'days')
+      const end = start.clone().add(5, 'days')
       availabilityService.getCampground(settings.campgroundId, start, end)
         .then(result => (this.availability = AvailabilityService.keyByCampsiteId(result)))
         .catch(reason => (this.error = reason.message))

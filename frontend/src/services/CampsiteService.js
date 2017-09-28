@@ -8,4 +8,8 @@ export default class CampsiteService {
     const url = this.baseUrl + '/' + id
     return this.http.get(url)
   }
+
+  static injectionDependencies () {
+    return ['SettingsService', 'HttpService']
+  }
 }

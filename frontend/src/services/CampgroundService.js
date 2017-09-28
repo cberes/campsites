@@ -17,4 +17,8 @@ export default class CampgroundService {
     const url = this.baseUrl + '/' + id + '/campsites'
     return this.http.get(url)
   }
+
+  static injectionDependencies () {
+    return ['SettingsService', 'HttpService']
+  }
 }
