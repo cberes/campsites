@@ -1,6 +1,6 @@
 <template>
   <ul id="availability" class="container" v-if="availability">
-    <li v-for="period in availability">
+    <li class="availability-period" v-for="period in availability">
       {{ formatDate(period.date) }}: {{ period.status }}
     </li>
   </ul>

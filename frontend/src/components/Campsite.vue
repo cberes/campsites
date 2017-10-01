@@ -1,5 +1,5 @@
 <template>
-  <div id="campground" class="container" v-if="campsite">
+  <div id="campsite" class="container" v-if="campsite">
     <h1 id="name">{{ campsite.name }}</h1>
     <p id="description">{{ campsite.description }}</p>
     <img id="image" src="img/campsite.jpg" alt=""/>

@@ -28,6 +28,7 @@ class InjectionService {
   resolve (name) {
     const registration = this.registered[name]
     const dependencies = []
+    console.assert(registration.dependencies, 'dependency ' + name + ' was not found')
     for (let dependency of registration.dependencies) {
       dependencies.push(this.inject(dependency))
     }

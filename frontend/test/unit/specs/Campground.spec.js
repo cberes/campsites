@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import router from '@/router'
 import Campground from '@/components/Campground'
 import CampgroundService from '@/services/CampgroundService'
 import SettingsService from '@/services/SettingsService'
@@ -16,7 +17,7 @@ function mount () {
     backendHost: 'http://example.com',
     campgroundId: 1001
   })
-  const Constructor = Vue.extend(Campground)
+  const Constructor = Vue.extend({ ...Campground, router })
   return new Constructor().$mount()
 }
 
