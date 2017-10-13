@@ -29,7 +29,7 @@ public class MockAvailabilityService implements AvailabilityService {
     public CampgroundAvailability findAvailabilityForCampground(final String id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         availability.setCampgroundId(id);
-        availability.setCampsites(campsiteDao.findAllInCampground(id).stream()
+        availability.setCampsites(campsiteDao.findByCampgroundId(id).stream()
                 .map(campsite -> mockAvailability(campsite, start, end))
                 .collect(toList()));
         return availability;
@@ -46,7 +46,7 @@ public class MockAvailabilityService implements AvailabilityService {
     public CampgroundAvailability findAvailabilityForArea(final String id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         availability.setCampgroundId(areaDao.find(id).map(Area::getCampgroundId).orElse(""));
-        availability.setCampsites(campsiteDao.findAllInArea(id).stream()
+        availability.setCampsites(campsiteDao.findByAreaId(id).stream()
                 .map(campsite -> mockAvailability(campsite, start, end))
                 .collect(toList()));
         return availability;

@@ -21,6 +21,6 @@ public class CampsiteController {
 
     @GetMapping("/{id}")
     public Campsite getCampsite(@PathVariable final String id) {
-        return dao.find(id).orElseThrow(() -> new ResourceNotFoundException(Campsite.class, id));
+        return dao.findById(id).orElseThrow(() -> new ResourceNotFoundException(Campsite.class, id));
     }
 }

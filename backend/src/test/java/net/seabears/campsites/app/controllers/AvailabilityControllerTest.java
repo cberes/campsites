@@ -1,6 +1,6 @@
 package net.seabears.campsites.app.controllers;
 
-import net.seabears.campsites.app.enums.Availability;
+import net.seabears.campsites.enums.Availability;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;

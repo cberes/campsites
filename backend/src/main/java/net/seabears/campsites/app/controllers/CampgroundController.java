@@ -37,16 +37,16 @@ public class CampgroundController {
 
     @GetMapping("/{id}")
     public Campground getCampgrounds(@PathVariable final String id) {
-        return campgroundDao.find(id).orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
+        return campgroundDao.findById(id).orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
     }
 
     @GetMapping("/{id}/areas")
     public List<Area> getAreas(@PathVariable final String id) {
-        return areaDao.findAllInCampground(id);
+        return areaDao.findByCampgroundId(id);
     }
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final String id) {
-        return campsiteDao.findAllInCampground(id);
+        return campsiteDao.findByCampgroundId(id);
     }
 }

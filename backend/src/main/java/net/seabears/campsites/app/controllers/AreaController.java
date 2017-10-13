@@ -27,11 +27,11 @@ public class AreaController {
 
     @GetMapping("/{id}")
     public Area getArea(@PathVariable final String id) {
-        return areaDao.find(id).orElseThrow(() -> new ResourceNotFoundException(Area.class, id));
+        return areaDao.findById(id).orElseThrow(() -> new ResourceNotFoundException(Area.class, id));
     }
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final String id) {
-        return campsiteDao.findAllInArea(id);
+        return campsiteDao.findByAreaId(id);
     }
 }

@@ -2,7 +2,7 @@ package net.seabears.campsites.app.controllers;
 
 import net.seabears.campsites.app.domain.CampgroundAvailability;
 import net.seabears.campsites.app.domain.DateAvailability;
-import net.seabears.campsites.app.enums.Availability;
+import net.seabears.campsites.enums.Availability;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

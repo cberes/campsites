@@ -1,55 +1,51 @@
 package net.seabears.campsites.app.dao.mock;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-import net.seabears.campsites.app.dao.CampgroundDao;
 import org.springframework.stereotype.Repository;
 
 import net.seabears.campsites.app.domain.Campground;
 
-import javax.annotation.PostConstruct;
-
 @Repository
-public class MockCampgroundDao extends MockDao<Campground> implements CampgroundDao {
+public class MockCampgroundDao extends InMemoryCrudRepository<Campground, UUID> {
     public MockCampgroundDao() {
         super(List.of(
-                buildCampground("Campground X",
+                buildCampground("9cfa88ec-803d-4f22-83b5-af301af9ca96",
+                        "Campground X",
                         "Campground X is a really fun place. It lets you get away from the toil of "
                         + "everyday life. The toil of everyday life where too many things at work "
                         + "are misspelled. Located in the deepest, darkest depths of scenic Lake "
                         + "Ontario."),
-                buildCampground("Campground Y",
+                buildCampground("87767b0f-1ea1-4334-ae70-b7b18a33f5d1",
+                        "Campground Y",
                         "We have the best campsites at Campground Y. Reallly tremendous campsites. "
                         + "And it's surrounded by a 'uge wall that our neighbors paid for. It's "
                         + "completely surrounded. A tremendous, impenetrable wall.")));
     }
 
-    private static Campground buildCampground(final String name, final String description) {
+    private static Campground buildCampground(final String id, final String name, final String description) {
         final Campground item = new Campground();
+        item.setId(id);
         item.setName(name);
         item.setDescription(description);
         return item;
     }
 
-    @PostConstruct
-    private void init() {
-        assignIds();
-    }
-
     @Override
-    protected BiConsumer<Campground, String> getIdSetter() {
+    protected BiConsumer<Campground, UUID> idSetter() {
         return Campground::setId;
     }
 
     @Override
-    public List<Campground> findAll() {
-        return allItems();
+    protected Function<Campground, UUID> idGetter() {
+        return Campground::getId;
     }
 
     @Override
-    public Optional<Campground> find(final String id) {
-        return super.find(Integer.parseInt(id) - 1);
+    protected UUID newId() {
+        return UUID.randomUUID();
     }
 }

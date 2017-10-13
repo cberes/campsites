@@ -1,12 +1,10 @@
 package net.seabears.campsites.app.dao;
 
 import net.seabears.campsites.app.domain.Area;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
-public interface AreaDao {
-    List<Area> findAllInCampground(final String id);
-
-    Optional<Area> find(String id);
+public interface AreaDao extends CrudRepository<Area, UUID> {
+    Iterable<Area> findByCampgroundId(final String id);
 }

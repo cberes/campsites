@@ -5,13 +5,13 @@ import net.seabears.campsites.app.dao.CampsiteDao;
 import net.seabears.campsites.enums.*;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 @Repository
-public class MockCampsiteDao extends MockDao<Campsite> implements CampsiteDao {
+public class MockCampsiteDao extends InMemoryCrudRepository<Campsite, UUID> implements CampsiteDao {
     static class CampsiteBuilder {
         private final Campsite campsite = new Campsite();
 
@@ -126,28 +126,28 @@ public class MockCampsiteDao extends MockDao<Campsite> implements CampsiteDao {
                         .build()));
     }
 
-    @PostConstruct
-    private void init() {
-        assignIds();
-    }
-
     @Override
-    protected BiConsumer<Campsite, String> getIdSetter() {
+    protected BiConsumer<Campsite, UUID> idSetter() {
         return Campsite::setId;
     }
 
     @Override
-    public List<Campsite> findAllInCampground(final String id) {
-        return super.findWith(Campsite::getCampgroundId, id);
+    protected Function<Campsite, UUID> idGetter() {
+        return Campsite::getId;
     }
 
     @Override
-    public List<Campsite> findAllInArea(final String id) {
-        return super.findWith(Campsite::getAreaId, id);
+    protected UUID newId() {
+        return UUID.randomUUID();
     }
 
     @Override
-    public Optional<Campsite> find(final String id) {
-        return super.find(Integer.parseInt(id) - 1);
+    public Iterable<Campsite> findByCampgroundId(final String id) {
+        return super.findAll(Campsite::getCampgroundId, id);
+    }
+
+    @Override
+    public Iterable<Campsite> findByAreaId(final String id) {
+        return super.findAll(Campsite::getAreaId, id);
     }
 }
