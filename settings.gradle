@@ -1,3 +1,5 @@
+include 'core'
+include 'database'
 include 'backend'
 include 'frontend'
 
