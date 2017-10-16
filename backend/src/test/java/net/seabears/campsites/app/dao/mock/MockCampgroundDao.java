@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 import org.springframework.stereotype.Repository;
 
-import net.seabears.campsites.app.domain.Campground;
+import net.seabears.campsites.db.domain.Campground;
 
 @Repository
 public class MockCampgroundDao extends InMemoryCrudRepository<Campground, UUID> {
@@ -28,7 +28,7 @@ public class MockCampgroundDao extends InMemoryCrudRepository<Campground, UUID> 
 
     private static Campground buildCampground(final String id, final String name, final String description) {
         final Campground item = new Campground();
-        item.setId(id);
+        item.setId(UUID.fromString(id));
         item.setName(name);
         item.setDescription(description);
         return item;

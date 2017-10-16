@@ -1,7 +1,8 @@
 package net.seabears.campsites.app.dao.mock;
 
 import net.seabears.campsites.app.dao.AreaDao;
-import net.seabears.campsites.app.domain.Area;
+import net.seabears.campsites.db.domain.Area;
+import net.seabears.campsites.db.domain.Campground;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class MockAreaDao extends InMemoryCrudRepository<Area, UUID> implements A
     }
 
     private static Area buildArea(final String id, final String name, final String description, final String campgroundId) {
+        final Campground campground = new Campground();
+        campground.setId(UUID.fromString(campgroundId));
         final Area item = new Area();
-        item.setId(id);
-        item.setCampgroundId(campgroundId);
+        item.setId(UUID.fromString(id));
+        item.setCampground(campground);
         item.setName(name);
         item.setDescription(description);
         return item;
@@ -46,7 +49,7 @@ public class MockAreaDao extends InMemoryCrudRepository<Area, UUID> implements A
     }
 
     @Override
-    public Iterable<Area> findByCampgroundId(final String id) {
-        return super.findAll(Area::getCampgroundId, id);
+    public Iterable<Area> findByCampgroundId(final UUID id) {
+        return super.findAll(area -> area.getCampground().getId(), id);
     }
 }

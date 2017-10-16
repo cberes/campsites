@@ -1,7 +1,11 @@
 package net.seabears.campsites.app.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
+import net.seabears.campsites.app.adapters.AreaDtoAdapter;
+import net.seabears.campsites.app.adapters.CampgroundDtoAdapter;
+import net.seabears.campsites.app.adapters.CampsiteDtoAdapter;
 import net.seabears.campsites.app.controllers.exceptions.ResourceNotFoundException;
 import net.seabears.campsites.app.domain.Campsite;
 import net.seabears.campsites.app.dao.AreaDao;
@@ -16,37 +20,52 @@ import org.springframework.web.bind.annotation.RestController;
 import net.seabears.campsites.app.dao.CampgroundDao;
 import net.seabears.campsites.app.domain.Campground;
 
+import static net.seabears.campsites.app.controllers.util.ControllerUtils.toDtoList;
+
 @RestController
 @RequestMapping("/api/campground")
 public class CampgroundController {
     private final AreaDao areaDao;
     private final CampgroundDao campgroundDao;
     private final CampsiteDao campsiteDao;
+    private final AreaDtoAdapter areaDtoAdapter;
+    private final CampgroundDtoAdapter campgroundDtoAdapter;
+    private final CampsiteDtoAdapter campsiteDtoAdapter;
 
     @Autowired
-    public CampgroundController(final AreaDao areaDao, final CampgroundDao campgroundDao, final CampsiteDao campsiteDao) {
+    public CampgroundController(final AreaDao areaDao, final CampgroundDao campgroundDao, final CampsiteDao campsiteDao,
+                                final AreaDtoAdapter areaDtoAdapter, final CampgroundDtoAdapter campgroundDtoAdapter,
+                                final CampsiteDtoAdapter campsiteDtoAdapter) {
         this.areaDao = areaDao;
         this.campgroundDao = campgroundDao;
         this.campsiteDao = campsiteDao;
+        this.areaDtoAdapter = areaDtoAdapter;
+        this.campgroundDtoAdapter = campgroundDtoAdapter;
+        this.campsiteDtoAdapter = campsiteDtoAdapter;
     }
 
     @GetMapping("")
     public List<Campground> getCampgrounds() {
-        return campgroundDao.findAll();
+        return toDtoList(campgroundDao.findAll(), campgroundDtoAdapter);
     }
 
     @GetMapping("/{id}")
     public Campground getCampgrounds(@PathVariable final String id) {
-        return campgroundDao.findById(id).orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
+        final UUID uuid = UUID.fromString(id);
+        return campgroundDao.findById(uuid)
+                .map(campgroundDtoAdapter::adapt)
+                .orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
     }
 
     @GetMapping("/{id}/areas")
     public List<Area> getAreas(@PathVariable final String id) {
-        return areaDao.findByCampgroundId(id);
+        final UUID uuid = UUID.fromString(id);
+        return toDtoList(areaDao.findByCampgroundId(uuid), areaDtoAdapter);
     }
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final String id) {
-        return campsiteDao.findByCampgroundId(id);
+        final UUID uuid = UUID.fromString(id);
+        return toDtoList(campsiteDao.findByCampgroundId(uuid), campsiteDtoAdapter);
     }
 }
