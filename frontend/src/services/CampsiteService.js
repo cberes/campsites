@@ -1,6 +1,6 @@
 export default class CampsiteService {
   constructor (settings, http) {
-    this.baseUrl = settings.backendHost + '/api/campsite'
+    this.baseUrl = settings.backendHost + '/api/campsites'
     this.http = http
   }
 

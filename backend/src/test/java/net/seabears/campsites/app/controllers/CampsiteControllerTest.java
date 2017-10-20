@@ -22,7 +22,7 @@ public class CampsiteControllerTest {
 
     @Test
     public void getCampsites() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/campsite/2").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/api/campsites/2").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":\"2\",\"campgroundId\":\"1\",\"name\":\"Site B\"}"));
     }

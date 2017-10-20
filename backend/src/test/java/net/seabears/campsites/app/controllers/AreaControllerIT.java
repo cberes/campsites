@@ -35,7 +35,7 @@ public class AreaControllerIT {
 
     @Test
     public void getArea() throws Exception {
-        ResponseEntity<Area> response = template.getForEntity(base + "/api/area/1", Area.class);
+        ResponseEntity<Area> response = template.getForEntity(base + "/api/areas/1", Area.class);
         assertThat(response.getBody().getId(), equalTo("1"));
         assertThat(response.getBody().getCampgroundId(), equalTo("1"));
         assertThat(response.getBody().getName(), equalTo("Campground X"));
@@ -44,7 +44,7 @@ public class AreaControllerIT {
 
     @Test
     public void getCampsites() throws Exception {
-        ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/area/1/campsites", Campsite[].class);
+        ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/areas/1/campsites", Campsite[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
         assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Site A"));

@@ -10,15 +10,15 @@ public class Reservation {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "campsite_id", nullable = false)
     private Campsite campsite;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "payment_id")
     private Payment payment;
 

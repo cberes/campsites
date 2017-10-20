@@ -75,10 +75,10 @@ describe('CampsiteList.vue', () => {
       expect(vm.$el.querySelectorAll('.quick-availability .availability-period')[3].textContent)
         .to.include('2017-01-02: AVAILABLE')
       expect(mockHttpForAvailability.getUrls())
-        .to.include('http://example.com/api/availability/campground/1001?start=' +
+        .to.include('http://example.com/api/availability/campgrounds/1001?start=' +
         start.format('YYYY-MM-DD') + '&end=' + end.format('YYYY-MM-DD'))
       expect(mockHttpForCampground.getUrls())
-        .to.include('http://example.com/api/campground/1001/campsites')
+        .to.include('http://example.com/api/campgrounds/1001/campsites')
       done()
     })
   })

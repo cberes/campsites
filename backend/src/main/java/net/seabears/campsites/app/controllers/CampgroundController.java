@@ -23,7 +23,7 @@ import net.seabears.campsites.app.domain.Campground;
 import static net.seabears.campsites.app.controllers.util.ControllerUtils.toDtoList;
 
 @RestController
-@RequestMapping("/api/campground")
+@RequestMapping("/campgrounds")
 public class CampgroundController {
     private final AreaDao areaDao;
     private final CampgroundDao campgroundDao;

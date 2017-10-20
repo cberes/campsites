@@ -38,7 +38,7 @@ public class CampgroundControllerIT {
 
     @Test
     public void getAreas() throws Exception {
-        ResponseEntity<Area[]> response = template.getForEntity(base + "/api/campground/1/areas", Area[].class);
+        ResponseEntity<Area[]> response = template.getForEntity(base + "/api/campgrounds/1/areas", Area[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
         assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Campground X"));
@@ -47,7 +47,7 @@ public class CampgroundControllerIT {
 
     @Test
     public void getCampground() throws Exception {
-        ResponseEntity<Campground> response = template.getForEntity(base + "/api/campground/2", Campground.class);
+        ResponseEntity<Campground> response = template.getForEntity(base + "/api/campgrounds/2", Campground.class);
         assertThat(response.getBody().getId(), equalTo("2"));
         assertThat(response.getBody().getName(), equalTo("Campground Y"));
         assertThat(response.getBody().getDescription(), not(isEmptyOrNullString()));
@@ -55,7 +55,7 @@ public class CampgroundControllerIT {
 
     @Test
     public void getCampgrounds() throws Exception {
-        ResponseEntity<Campground[]> response = template.getForEntity(base + "/api/campground", Campground[].class);
+        ResponseEntity<Campground[]> response = template.getForEntity(base + "/api/campgrounds", Campground[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Campground X"));
         assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
@@ -66,7 +66,7 @@ public class CampgroundControllerIT {
 
     @Test
     public void getCampsites() throws Exception {
-        ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/campground/1/campsites", Campsite[].class);
+        ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/campgrounds/1/campsites", Campsite[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
         assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Site A"));

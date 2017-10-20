@@ -19,7 +19,7 @@ import java.util.UUID;
 import static net.seabears.campsites.app.controllers.util.ControllerUtils.toDtoList;
 
 @RestController
-@RequestMapping("/api/area")
+@RequestMapping("/areas")
 public class AreaController {
     private final AreaDao areaDao;
     private final CampsiteDao campsiteDao;

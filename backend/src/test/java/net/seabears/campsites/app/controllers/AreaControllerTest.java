@@ -22,7 +22,7 @@ public class AreaControllerTest {
 
     @Test
     public void getCampsites() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/area/1/campsites").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/api/areas/1/campsites").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":\"1\",\"campgroundId\":\"1\",\"name\":\"Site A\"},"
                         + "{\"id\":\"2\",\"campgroundId\":\"1\",\"name\":\"Site B\"}]"));
@@ -30,7 +30,7 @@ public class AreaControllerTest {
 
     @Test
     public void getAreas() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/area/1").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/api/areas/1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":\"1\",\"campgroundId\":\"1\",\"name\":\"Campground X\"," +
                         "\"description\":\"Entire campground\"}"));

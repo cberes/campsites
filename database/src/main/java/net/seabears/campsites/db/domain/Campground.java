@@ -1,9 +1,7 @@
 package net.seabears.campsites.db.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -12,14 +10,20 @@ public class Campground {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
-    private boolean active;
+    @Column(columnDefinition = "boolean not null default TRUE")
+    private boolean active = true;
 
     @Column(length = 100, nullable = false)
     private String name;
 
     @Column(length = 1024, nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "campground")
+    private Set<Area> area;
+
+    @OneToMany(mappedBy = "campground")
+    private Set<Campsite> campsites;
 
     public UUID getId() {
         return id;
@@ -51,5 +55,21 @@ public class Campground {
 
     public void setDescription(final String description) {
         this.description = description;
+    }
+
+    public Set<Area> getArea() {
+        return area;
+    }
+
+    public void setArea(final Set<Area> area) {
+        this.area = area;
+    }
+
+    public Set<Campsite> getCampsites() {
+        return campsites;
+    }
+
+    public void setCampsites(final Set<Campsite> campsites) {
+        this.campsites = campsites;
     }
 }

@@ -34,7 +34,7 @@ public class CampsiteControllerIT {
 
     @Test
     public void getCampsite() throws Exception {
-        ResponseEntity<Campsite> response = template.getForEntity(base + "/api/campsite/2", Campsite.class);
+        ResponseEntity<Campsite> response = template.getForEntity(base + "/api/campsites/2", Campsite.class);
         assertThat(response.getBody().getId(), equalTo("2"));
         assertThat(response.getBody().getCampgroundId(), equalTo("1"));
         assertThat(response.getBody().getName(), equalTo("Site B"));

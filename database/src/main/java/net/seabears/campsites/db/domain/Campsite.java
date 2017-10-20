@@ -5,6 +5,7 @@ import javax.persistence.*;
 import net.seabears.campsites.enums.*;
 import net.seabears.campsites.enums.Access;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -13,16 +14,16 @@ public class Campsite {
     @GeneratedValue
     private UUID id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "area_id", nullable = false)
     private Area area;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "campground_id", nullable = false)
     private Campground campground;
 
-    @Column(nullable = false)
-    private boolean active;
+    @Column(columnDefinition = "boolean not null default TRUE")
+    private boolean active = true;
 
     @Column(length = 100, nullable = false)
     private String name;
@@ -59,6 +60,9 @@ public class Campsite {
 
     @Column
     private Sewer sewer;
+
+    @OneToMany(mappedBy = "campsite")
+    private Set<Reservation> reservations;
 
     public UUID getId() {
         return id;
@@ -186,5 +190,13 @@ public class Campsite {
 
     public void setSewer(final Sewer sewer) {
         this.sewer = sewer;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(final Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

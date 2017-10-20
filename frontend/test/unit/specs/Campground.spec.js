@@ -36,7 +36,7 @@ describe('Campground.vue', () => {
       expect(vm.$el.querySelector('#description').textContent)
         .to.equal('Test example description')
       expect(mockHttp.getUrls())
-        .to.include('http://example.com/api/campground/1001')
+        .to.include('http://example.com/api/campgrounds/1001')
       done()
     })
   })

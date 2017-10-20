@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 @RestController
-@RequestMapping("/api/availability")
+@RequestMapping("/availability")
 public class AvailabilityController {
     private static final String PARAM_START_DATE = "start";
     private static final String PARAM_END_DATE = "end";

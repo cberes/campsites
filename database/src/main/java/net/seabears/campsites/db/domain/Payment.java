@@ -1,9 +1,6 @@
 package net.seabears.campsites.db.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -24,6 +21,9 @@ public class Payment {
 
     @Column(precision = 8, scale = 2, nullable = false)
     private BigDecimal fee;
+
+    @OneToOne(mappedBy = "payment")
+    private Reservation reservation;
 
     public UUID getId() {
         return id;
@@ -63,5 +63,13 @@ public class Payment {
 
     public void setFee(final BigDecimal fee) {
         this.fee = fee;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(final Reservation reservation) {
+        this.reservation = reservation;
     }
 }

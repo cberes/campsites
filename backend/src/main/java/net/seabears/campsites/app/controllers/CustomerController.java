@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/customers")
 public class CustomerController {
     private final CustomerDao dao;
     private final CustomerDtoAdapter dtoAdapter;

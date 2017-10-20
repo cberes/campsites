@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/campsite")
+@RequestMapping("/campsites")
 public class CampsiteController {
     private final CampsiteDao dao;
     private final CampsiteDtoAdapter dtoAdapter;
