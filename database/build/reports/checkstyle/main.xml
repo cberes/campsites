@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.2">
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/Entities.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/converters/UuidConverter.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Area.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Campground.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Campsite.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Customer.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Payment.java">
+</file>
+<file name="/home/corey/repos/campsites/database/src/main/java/net/seabears/campsites/db/domain/Reservation.java">
+</file>
+</checkstyle>

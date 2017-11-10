@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.2">
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/Access.java">
+</file>
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/Availability.java">
+</file>
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/Electric.java">
+</file>
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/Sewer.java">
+</file>
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/SiteType.java">
+</file>
+<file name="/home/corey/repos/campsites/core/src/main/java/net/seabears/campsites/enums/Water.java">
+</file>
+</checkstyle>

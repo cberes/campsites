@@ -11,7 +11,6 @@ apply plugin: 'java-library'
 apply plugin: 'checkstyle'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 9
 targetCompatibility = 9
 
@@ -32,5 +31,6 @@ junitPlatform {
 }
 
 checkstyle {
+	configDir = file("$rootDir/config/checkstyle")
 	toolVersion = '8.2'
 }

@@ -34,5 +34,6 @@ junitPlatform {
 }
 
 checkstyle {
+	configDir = file("$rootDir/config/checkstyle")
 	toolVersion = '8.2'
 }
