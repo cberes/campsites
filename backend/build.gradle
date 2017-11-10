@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.M4'
+		springBootVersion = '2.0.0.M6'
 	}
 	repositories {
 		mavenCentral()
@@ -33,12 +33,12 @@ repositories {
 dependencies {
 	compile project(':core')
 	compile project(':database')
-	compile 'org.springframework.boot:spring-boot-starter:2.0.0.M4'
-	compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.M4'
-	compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.0.M4'
+	compile 'org.springframework.boot:spring-boot-starter:2.0.0.M6'
+	compile 'org.springframework.boot:spring-boot-starter-web:2.0.0.M6'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa:2.0.0.M6'
 	compile 'org.postgresql:postgresql:42.1.4'
 	compile 'org.apache.ddlutils:ddlutils:1.0'
-	testCompile('org.springframework.boot:spring-boot-starter-test:2.0.0.M4') {
+	testCompile('org.springframework.boot:spring-boot-starter-test:2.0.0.M6') {
 		exclude module: 'junit'
 	}
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0'

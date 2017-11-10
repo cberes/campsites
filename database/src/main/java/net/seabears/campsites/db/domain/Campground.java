@@ -20,7 +20,7 @@ public class Campground {
     private String description;
 
     @OneToMany(mappedBy = "campground")
-    private Set<Area> area;
+    private Set<Area> areas;
 
     @OneToMany(mappedBy = "campground")
     private Set<Campsite> campsites;
@@ -57,12 +57,12 @@ public class Campground {
         this.description = description;
     }
 
-    public Set<Area> getArea() {
-        return area;
+    public Set<Area> getAreas() {
+        return areas;
     }
 
-    public void setArea(final Set<Area> area) {
-        this.area = area;
+    public void setAreas(final Set<Area> areas) {
+        this.areas = areas;
     }
 
     public Set<Campsite> getCampsites() {

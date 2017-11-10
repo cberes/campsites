@@ -1,8 +1,15 @@
 Vagrant.configure("2") do |config|
-  config.vm.provision "docker" do |d|
-    d.run "postgres-camping",
-      image: "postgres",
-      daemonize: true,
-      args: "-p 127.0.0.1:5432:5432 -e POSTGRES_DB=camping -e POSTGRES_PASSWORD=test -e POSTGRES_USER=test"
+  config.vm.provider "docker" do |d|
+    d.image = "postgres:9"
+    d.name = "postgres-camping"
+    d.env = {
+      POSTGRES_DB: "camping",
+      POSTGRES_USER: "test",
+      POSTGRES_PASSWORD: "test"
+    }
+    d.ports = ["127.0.0.1:5432:5432"]
+    d.remains_running = true
   end
+
+  config.vm.post_up_message = "To connect to the database, run:\n\n\tdocker run -it --rm --link postgres-camping:postgres postgres psql -h postgres -U test camping"
 end

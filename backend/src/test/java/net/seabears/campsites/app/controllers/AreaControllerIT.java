@@ -1,7 +1,7 @@
 package net.seabears.campsites.app.controllers;
 
-import net.seabears.campsites.app.domain.Area;
-import net.seabears.campsites.app.domain.Campsite;
+import net.seabears.campsites.db.domain.Area;
+import net.seabears.campsites.db.domain.Campsite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +37,7 @@ public class AreaControllerIT {
     public void getArea() throws Exception {
         ResponseEntity<Area> response = template.getForEntity(base + "/api/areas/1", Area.class);
         assertThat(response.getBody().getId(), equalTo("1"));
-        assertThat(response.getBody().getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody().getCampground().getId(), equalTo("1"));
         assertThat(response.getBody().getName(), equalTo("Campground X"));
         assertThat(response.getBody().getDescription(), equalTo("Entire campground"));
     }
@@ -46,11 +46,11 @@ public class AreaControllerIT {
     public void getCampsites() throws Exception {
         ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/areas/1/campsites", Campsite[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
-        assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[0].getCampground().getId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Site A"));
         assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
         assertThat(response.getBody()[1].getId(), equalTo("2"));
-        assertThat(response.getBody()[1].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[1].getCampground().getId(), equalTo("1"));
         assertThat(response.getBody()[1].getName(), equalTo("Site B"));
         assertThat(response.getBody()[1].getDescription(), not(isEmptyOrNullString()));
     }

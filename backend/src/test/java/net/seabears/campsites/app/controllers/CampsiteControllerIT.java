@@ -1,6 +1,6 @@
 package net.seabears.campsites.app.controllers;
 
-import net.seabears.campsites.app.domain.Campsite;
+import net.seabears.campsites.db.domain.Campsite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,7 +36,7 @@ public class CampsiteControllerIT {
     public void getCampsite() throws Exception {
         ResponseEntity<Campsite> response = template.getForEntity(base + "/api/campsites/2", Campsite.class);
         assertThat(response.getBody().getId(), equalTo("2"));
-        assertThat(response.getBody().getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody().getCampground().getId(), equalTo("1"));
         assertThat(response.getBody().getName(), equalTo("Site B"));
         assertThat(response.getBody().getDescription(), not(isEmptyOrNullString()));
     }

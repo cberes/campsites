@@ -2,9 +2,9 @@ package net.seabears.campsites.app.controllers;
 
 import java.net.URL;
 
-import net.seabears.campsites.app.domain.Area;
-import net.seabears.campsites.app.domain.Campground;
-import net.seabears.campsites.app.domain.Campsite;
+import net.seabears.campsites.db.domain.Area;
+import net.seabears.campsites.db.domain.Campground;
+import net.seabears.campsites.db.domain.Campsite;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,7 +40,7 @@ public class CampgroundControllerIT {
     public void getAreas() throws Exception {
         ResponseEntity<Area[]> response = template.getForEntity(base + "/api/campgrounds/1/areas", Area[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
-        assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[0].getCampground().getId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Campground X"));
         assertThat(response.getBody()[0].getDescription(), equalTo("Entire campground"));
     }
@@ -68,11 +68,11 @@ public class CampgroundControllerIT {
     public void getCampsites() throws Exception {
         ResponseEntity<Campsite[]> response = template.getForEntity(base + "/api/campgrounds/1/campsites", Campsite[].class);
         assertThat(response.getBody()[0].getId(), equalTo("1"));
-        assertThat(response.getBody()[0].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[0].getCampground().getId(), equalTo("1"));
         assertThat(response.getBody()[0].getName(), equalTo("Site A"));
         assertThat(response.getBody()[0].getDescription(), not(isEmptyOrNullString()));
         assertThat(response.getBody()[1].getId(), equalTo("2"));
-        assertThat(response.getBody()[1].getCampgroundId(), equalTo("1"));
+        assertThat(response.getBody()[1].getCampground().getId(), equalTo("1"));
         assertThat(response.getBody()[1].getName(), equalTo("Site B"));
         assertThat(response.getBody()[1].getDescription(), not(isEmptyOrNullString()));
     }
