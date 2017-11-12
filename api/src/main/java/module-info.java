@@ -1,7 +1,6 @@
 module net.seabears.campsites.api {
     requires javax.transaction.api;
     requires hibernate.core;
-    requires postgresql;
     requires spring.boot;
     requires spring.boot.autoconfigure;
     requires spring.core;

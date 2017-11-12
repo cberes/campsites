@@ -6,10 +6,11 @@ buildscript {
 		mavenCentral()
 		maven { url 'https://repo.spring.io/snapshot' }
 		maven { url 'https://repo.spring.io/milestone' }
+		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0-SNAPSHOT'
 	}
 }
 
@@ -21,7 +22,6 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 ext.moduleName = 'net.seabears.campsites.api'
 ext.testModules = [
 		'org.junit.jupiter.api',
-		'org.junit.jupiter.engine',
 		'org.junit.jupiter.params',
 		'spring.test',
 		'spring.boot.test',
@@ -38,21 +38,27 @@ dependencies {
 	}
 	compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion") {
 		exclude module: 'javassist' 			// the version used has a bug with module-info.java
+		exclude module: 'javax.transaction-api'	// conflicts with java.sql
 	}
-	compile 'org.postgresql:postgresql:42.1.4'
+	runtime 'org.postgresql:postgresql:42.1.4'
 	compile 'org.javassist:javassist:3.22.0-GA'
+	compile files("$rootDir/libs/javax.transaction-api-1.3.jar")
 	testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 		exclude module: 'junit'					// using junit 5
 		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
 		exclude module: 'hamcrest-library'		// conflicts with hamcrest-core
 	}
-	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0'
-	testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.0'
-	testCompile 'org.junit.jupiter:junit-jupiter-params:5.0.0'
-	testCompile 'com.h2database:h2:1.4.196'
+	testCompile 'org.junit.jupiter:junit-jupiter-api:5.1.0-SNAPSHOT'
+	testCompile 'org.junit.jupiter:junit-jupiter-params:5.1.0-SNAPSHOT'
+	testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.1.0-SNAPSHOT'
+	testRuntime 'org.junit.platform:junit-platform-console:1.1.0-SNAPSHOT'
+	testRuntime 'org.testng:testng:6.11'
+	testRuntime 'com.h2database:h2:1.4.196'
 }
 
 junitPlatform {
+	enableModulePath = true
+	details = 'TREE'
 	filters {
 		includeClassNamePattern project.hasProperty('IT') ? '^.*IT$' : '^.*Tests?$'
 	}

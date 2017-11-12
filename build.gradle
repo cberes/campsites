@@ -4,6 +4,7 @@ allprojects {
 }
 
 def javaProjects = [project(':core'), project(':database'), project(':backend'), project(':api')]
+
 configure(javaProjects) {
 	apply plugin: 'java'
 	apply plugin: 'checkstyle'
@@ -20,7 +21,7 @@ configure(javaProjects) {
 			mavenCentral()
 			maven { url 'https://repo.spring.io/snapshot' }
 			maven { url 'https://repo.spring.io/milestone' }
-			maven { url 'https://jitpack.io' } // for spring-test-junit5
+			maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } // for junit plugin
 		}
 
 		jar {
@@ -36,6 +37,8 @@ configure(javaProjects) {
 				options.compilerArgs = [
 						'--module-path', classpath.asPath,
 						'--add-modules', 'java.xml.bind',
+						'--add-reads', "$moduleName=java.xml.bind",
+						'--patch-module', "$moduleName=" + files(sourceSets.main.java.srcDirs).asPath,
 				]
 				classpath = files()
 			}
@@ -47,7 +50,7 @@ configure(javaProjects) {
 			doFirst {
 				options.compilerArgs = [
 						'--module-path', classpath.asPath,
-						'--add-modules', $testModules,
+						'--add-modules', testModules,
 						'--add-reads', "$moduleName=$testModules",
 						'--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
 				]
@@ -67,6 +70,18 @@ configure(javaProjects) {
 				]
 				classpath = files()
 			}
+		}
+
+		task testTemp(type: Exec, dependsOn: compileTestJava) {
+			executable = 'java'
+			args = [
+					'--module-path', files(configurations.compileClasspath, configurations.testRuntimeClasspath, compileTestJava.destinationDir).asPath,
+					'--add-modules', 'ALL-MODULE-PATH',
+					'--module', 'org.junit.platform.console',
+					'--scan-modules',
+					'--details', 'TREE',
+					'--reports-dir', "${buildDir}/test-results/junit-platform"
+			]
 		}
 
 		checkstyle {
