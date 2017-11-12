@@ -1,24 +1,26 @@
-package net.seabears.campsites.api.dao.mock;
+package net.seabears.campsites.api.db.mock;
 
-import net.seabears.campsites.be.dao.CampsiteDao;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
 import net.seabears.campsites.enums.*;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 
-@Repository
-public class MockCampsiteDao extends InMemoryCrudRepository<Campsite, UUID> implements CampsiteDao {
+@Component
+public class MockCampsiteData extends AbstractMockDataLoader<Campsite> {
     static class CampsiteBuilder {
         private final Campsite campsite = new Campsite();
 
         Campsite build() {
             return campsite;
+        }
+
+        CampsiteBuilder withId(final UUID id) {
+            campsite.setId(id);
+            return this;
         }
 
         CampsiteBuilder withCampgroundId(final UUID campgroundId) {
@@ -96,11 +98,12 @@ public class MockCampsiteDao extends InMemoryCrudRepository<Campsite, UUID> impl
         }
     }
 
-    public MockCampsiteDao() {
+    public MockCampsiteData() {
         super(List.of(
                 new CampsiteBuilder()
+                        .withId(UUID.fromString("084bfb46-21cb-4c8c-8a9a-3d0d67002d28"))
                         .withCampgroundId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
-                        .withAreaId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
+                        .withAreaId(UUID.fromString("0f20c7ef-c2cc-4431-85c0-74977fa2de63"))
                         .withName("Site A")
                         .withDescription("Located at the top of Mt. Very High, where the air is very thin.")
                         .withNotes(null)
@@ -115,8 +118,9 @@ public class MockCampsiteDao extends InMemoryCrudRepository<Campsite, UUID> impl
                         .withSewer(Sewer.NO)
                         .build(),
                 new CampsiteBuilder()
+                        .withId(UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508"))
                         .withCampgroundId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
-                        .withAreaId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
+                        .withAreaId(UUID.fromString("0f20c7ef-c2cc-4431-85c0-74977fa2de63"))
                         .withName("Site B")
                         .withDescription("Offers beautiful views of the lakeshore cliffs. Stay dry!")
                         .withNotes("Infested by ants")
@@ -133,27 +137,7 @@ public class MockCampsiteDao extends InMemoryCrudRepository<Campsite, UUID> impl
     }
 
     @Override
-    protected BiConsumer<Campsite, UUID> idSetter() {
-        return Campsite::setId;
-    }
-
-    @Override
-    protected Function<Campsite, UUID> idGetter() {
-        return Campsite::getId;
-    }
-
-    @Override
-    protected UUID newId() {
-        return UUID.randomUUID();
-    }
-
-    @Override
-    public Iterable<Campsite> findByCampgroundId(final UUID id) {
-        return super.findAll(campsite -> campsite.getCampground().getId(), id);
-    }
-
-    @Override
-    public Iterable<Campsite> findByAreaId(final UUID id) {
-        return super.findAll(campsite -> campsite.getArea().getId(), id);
+    public int getOrder() {
+        return DataLoadingPriority.CAMPSITE.priority();
     }
 }

@@ -14,48 +14,48 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'checkstyle'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
-sourceCompatibility = 9
-targetCompatibility = 9
-
-repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/snapshot' }
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://jitpack.io' } // for spring-test-junit5
-}
+ext.moduleName = 'net.seabears.campsites.api'
+ext.testModules = [
+		'org.junit.jupiter.api',
+		'org.junit.jupiter.engine',
+		'org.junit.jupiter.params',
+		'spring.test',
+		'spring.boot.test',
+		'spring.boot.test.autoconfigure'
+].join(',')
 
 dependencies {
 	compile project(':core')
 	compile project(':database')
 	compile project(':backend')
 	compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
-	compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
-	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+	compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
+		exclude module: 'tomcat-annotations-api'// conflicts with Hibernate
+	}
+	compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion") {
+		exclude module: 'javassist' 			// the version used has a bug with module-info.java
+	}
 	compile 'org.postgresql:postgresql:42.1.4'
-	compile 'org.apache.ddlutils:ddlutils:1.0'
+	compile 'org.javassist:javassist:3.22.0-GA'
 	testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
-		exclude module: 'junit'
+		exclude module: 'junit'					// using junit 5
+		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
+		exclude module: 'hamcrest-library'		// conflicts with hamcrest-core
 	}
 	testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0'
 	testCompile 'org.junit.jupiter:junit-jupiter-engine:5.0.0'
 	testCompile 'org.junit.jupiter:junit-jupiter-params:5.0.0'
-	testCompile 'com.github.sbrannen:spring-test-junit5:1.0.0'
+	testCompile 'com.h2database:h2:1.4.196'
 }
 
 junitPlatform {
 	filters {
 		includeClassNamePattern project.hasProperty('IT') ? '^.*IT$' : '^.*Tests?$'
 	}
-}
-
-checkstyle {
-	configDir = file("$rootDir/config/checkstyle")
-	toolVersion = '8.2'
 }
 
 task run(dependsOn: 'bootRun')

@@ -1,17 +1,14 @@
-package net.seabears.campsites.api.dao.mock;
+package net.seabears.campsites.api.db.mock;
+
+import net.seabears.campsites.db.domain.Campground;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
 
-import org.springframework.stereotype.Repository;
-
-import net.seabears.campsites.db.domain.Campground;
-
-@Repository
-public class MockCampgroundDao extends InMemoryCrudRepository<Campground, UUID> {
-    public MockCampgroundDao() {
+@Component
+public class MockCampgroundData extends AbstractMockDataLoader<Campground> {
+    public MockCampgroundData() {
         super(List.of(
                 buildCampground("9cfa88ec-803d-4f22-83b5-af301af9ca96",
                         "Campground X",
@@ -35,17 +32,7 @@ public class MockCampgroundDao extends InMemoryCrudRepository<Campground, UUID> 
     }
 
     @Override
-    protected BiConsumer<Campground, UUID> idSetter() {
-        return Campground::setId;
-    }
-
-    @Override
-    protected Function<Campground, UUID> idGetter() {
-        return Campground::getId;
-    }
-
-    @Override
-    protected UUID newId() {
-        return UUID.randomUUID();
+    public int getOrder() {
+        return DataLoadingPriority.CAMPGROUND.priority();
     }
 }

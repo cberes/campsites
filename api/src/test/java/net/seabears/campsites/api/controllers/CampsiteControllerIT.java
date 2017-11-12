@@ -12,9 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.net.URL;
+import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.CoreMatchers.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,10 +35,12 @@ public class CampsiteControllerIT {
 
     @Test
     public void getCampsite() throws Exception {
-        ResponseEntity<Campsite> response = template.getForEntity(base + "/api/campsites/2", Campsite.class);
-        assertThat(response.getBody().getId(), equalTo("2"));
-        assertThat(response.getBody().getCampground().getId(), equalTo("1"));
+        final UUID id = UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508");
+        ResponseEntity<Campsite> response = template.getForEntity(base + "/api/campsites/{0}", Campsite.class, id);
+        assertThat(response.getBody().getId(), equalTo(id));
+        assertThat(response.getBody().getCampground().getId(),
+                equalTo(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96")));
         assertThat(response.getBody().getName(), equalTo("Site B"));
-        assertThat(response.getBody().getDescription(), not(isEmptyOrNullString()));
+        assertThat(response.getBody().getDescription(), notNullValue(String.class));
     }
 }
