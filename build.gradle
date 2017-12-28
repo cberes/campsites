@@ -9,9 +9,11 @@ configure(javaProjects) {
 	apply plugin: 'java'
 	apply plugin: 'checkstyle'
 
-	ext.springBootVersion = '2.0.0.M6'
-	ext.springDataVersion = '2.0.1.RELEASE'
-	ext.springVersion = '5.0.1.RELEASE'
+	ext.springBootVersion = '2.0.0.M7'
+	ext.springDataVersion = '2.0.2.RELEASE'
+	ext.springVersion = '5.0.2.RELEASE'
+	ext.junitVersion = '5.1.0-M1'
+	ext.junitConsoleVersion = '1.1.0-M1'
 
 	sourceCompatibility = 9
 	targetCompatibility = 9
