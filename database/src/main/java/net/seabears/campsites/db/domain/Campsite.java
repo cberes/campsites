@@ -6,13 +6,12 @@ import net.seabears.campsites.enums.*;
 import net.seabears.campsites.enums.Access;
 
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 public class Campsite {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "area_id", nullable = false)
@@ -64,11 +63,11 @@ public class Campsite {
     @OneToMany(mappedBy = "campsite")
     private Set<Reservation> reservations;
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

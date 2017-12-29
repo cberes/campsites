@@ -18,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
@@ -40,8 +39,8 @@ public class AvailabilityControllerIT {
     }
 
     @Test
-    public void getCampsite() throws Exception {
-        final UUID id = UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508");
+    public void getCampsite() {
+        final long id = 2L;
         final String url = base + "/api/availability/campsite/{0}?start={1}&end={2}";
         final int days = 10;
         final LocalDate start = LocalDate.now();
@@ -49,7 +48,7 @@ public class AvailabilityControllerIT {
         final ResponseEntity<CampgroundAvailability> response = template.getForEntity(url, CampgroundAvailability.class,
                 id, start, end);
         final CampgroundAvailability availability = response.getBody();
-        assertThat(availability.getCampgroundId(), equalTo(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96")));
+        assertThat(availability.getCampgroundId(), equalTo(1L));
         assertThat(availability.getCampsites().get(0).getId(), equalTo(id));
         for (int day = 0; day < days; ++day) {
             final DateAvailability dateAvailability = availability.getCampsites().get(0).getAvailability().get(day);
@@ -59,9 +58,8 @@ public class AvailabilityControllerIT {
     }
 
     @ParameterizedTest
-    @CsvSource({"area, 0f20c7ef-c2cc-4431-85c0-74977fa2de63", "campground, 9cfa88ec-803d-4f22-83b5-af301af9ca96"})
-    public void getCampsites(final String resource, final String uuid) throws Exception {
-        final UUID id = UUID.fromString(uuid);
+    @CsvSource({"area, 1", "campground, 1"})
+    public void getCampsites(final String resource, final long id) {
         final String url = base + "/api/availability/{0}/{1}?start={2}&end={3}";
         final int days = 10;
         final LocalDate start = LocalDate.now();
@@ -71,20 +69,12 @@ public class AvailabilityControllerIT {
         final CampgroundAvailability availability = response.getBody();
         assertThat(availability.getCampgroundId(), equalTo(id));
         for (int i = 0; i < 2; i++) {
-            assertThat(availability.getCampsites().get(i).getId(), equalTo(getCampsiteId(i)));
+            assertThat(availability.getCampsites().get(i).getId(), equalTo(i + 1));
             for (int day = 0; day < days; ++day) {
                 final DateAvailability dateAvailability = availability.getCampsites().get(i).getAvailability().get(day);
                 assertThat(dateAvailability.getStatus(), notNullValue(Availability.class));
                 assertThat(dateAvailability.getDate(), equalTo(start.plusDays(day)));
             }
-        }
-    }
-
-    private static UUID getCampsiteId(final int index) {
-        if (index == 0) {
-            return UUID.fromString("084bfb46-21cb-4c8c-8a9a-3d0d67002d28");
-        } else {
-            return UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508");
         }
     }
 }

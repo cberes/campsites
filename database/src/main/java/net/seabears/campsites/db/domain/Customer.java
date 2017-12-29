@@ -2,13 +2,12 @@ package net.seabears.campsites.db.domain;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 public class Customer {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(columnDefinition = "boolean not null default TRUE")
     private boolean active = true;
@@ -31,11 +30,11 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private Set<Reservation> reservations;
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

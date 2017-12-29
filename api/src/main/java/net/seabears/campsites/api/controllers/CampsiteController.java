@@ -1,7 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import java.util.UUID;
-
 import net.seabears.campsites.api.controllers.exceptions.ResourceNotFoundException;
 import net.seabears.campsites.be.dao.CampsiteDao;
 import net.seabears.campsites.db.domain.Campsite;
@@ -22,9 +20,8 @@ public class CampsiteController {
     }
 
     @GetMapping("/{id}")
-    public Campsite getCampsite(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return dao.findById(uuid)
+    public Campsite getCampsite(@PathVariable final long id) {
+        return dao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Campsite.class, id));
     }
 }

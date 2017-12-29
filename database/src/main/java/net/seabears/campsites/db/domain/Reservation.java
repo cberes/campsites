@@ -2,13 +2,12 @@ package net.seabears.campsites.db.domain;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 public class Reservation {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "campsite_id", nullable = false)
@@ -28,11 +27,11 @@ public class Reservation {
     @Column(nullable = false)
     private LocalDate ending;
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

@@ -7,7 +7,6 @@ import net.seabears.campsites.enums.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class MockCampsiteData extends AbstractMockDataLoader<Campsite> {
@@ -18,19 +17,19 @@ public class MockCampsiteData extends AbstractMockDataLoader<Campsite> {
             return campsite;
         }
 
-        CampsiteBuilder withId(final UUID id) {
+        CampsiteBuilder withId(final long id) {
             campsite.setId(id);
             return this;
         }
 
-        CampsiteBuilder withCampgroundId(final UUID campgroundId) {
+        CampsiteBuilder withCampgroundId(final long campgroundId) {
             final Campground campground = new Campground();
             campground.setId(campgroundId);
             campsite.setCampground(campground);
             return this;
         }
 
-        CampsiteBuilder withAreaId(final UUID areaId) {
+        CampsiteBuilder withAreaId(final long areaId) {
             final Area area = new Area();
             area.setId(areaId);
             campsite.setArea(area);
@@ -101,9 +100,8 @@ public class MockCampsiteData extends AbstractMockDataLoader<Campsite> {
     public MockCampsiteData() {
         super(List.of(
                 new CampsiteBuilder()
-                        .withId(UUID.fromString("084bfb46-21cb-4c8c-8a9a-3d0d67002d28"))
-                        .withCampgroundId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
-                        .withAreaId(UUID.fromString("0f20c7ef-c2cc-4431-85c0-74977fa2de63"))
+                        .withCampgroundId(1L)
+                        .withAreaId(1L)
                         .withName("Site A")
                         .withDescription("Located at the top of Mt. Very High, where the air is very thin.")
                         .withNotes(null)
@@ -118,9 +116,8 @@ public class MockCampsiteData extends AbstractMockDataLoader<Campsite> {
                         .withSewer(Sewer.NO)
                         .build(),
                 new CampsiteBuilder()
-                        .withId(UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508"))
-                        .withCampgroundId(UUID.fromString("9cfa88ec-803d-4f22-83b5-af301af9ca96"))
-                        .withAreaId(UUID.fromString("0f20c7ef-c2cc-4431-85c0-74977fa2de63"))
+                        .withCampgroundId(1L)
+                        .withAreaId(1L)
                         .withName("Site B")
                         .withDescription("Offers beautiful views of the lakeshore cliffs. Stay dry!")
                         .withNotes("Infested by ants")

@@ -2,13 +2,12 @@ package net.seabears.campsites.db.domain;
 
 import javax.persistence.*;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 public class Area {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "campground_id", nullable = false)
@@ -26,11 +25,11 @@ public class Area {
     @OneToMany(mappedBy = "area")
     private Set<Campsite> campsites;
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

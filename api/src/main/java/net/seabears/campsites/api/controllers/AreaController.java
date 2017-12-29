@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.UUID;
 
 import static net.seabears.campsites.api.controllers.util.ControllerUtils.toDtoList;
 
@@ -29,15 +28,13 @@ public class AreaController {
     }
 
     @GetMapping("/{id}")
-    public Area getArea(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return areaDao.findById(uuid)
+    public Area getArea(@PathVariable final long id) {
+        return areaDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Area.class, id));
     }
 
     @GetMapping("/{id}/campsites")
-    public List<Campsite> getCampsites(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return toDtoList(campsiteDao.findByAreaId(uuid));
+    public List<Campsite> getCampsites(@PathVariable final long id) {
+        return toDtoList(campsiteDao.findByAreaId(id));
     }
 }

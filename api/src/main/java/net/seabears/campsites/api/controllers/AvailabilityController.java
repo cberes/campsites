@@ -23,7 +23,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/campground/{id}")
-    public CampgroundAvailability getCampgroundAvailability(@PathVariable final String id,
+    public CampgroundAvailability getCampgroundAvailability(@PathVariable final long id,
                                                             @RequestParam(PARAM_START_DATE) final String start,
                                                             @RequestParam(PARAM_END_DATE) final String end) {
         final LocalDate startDate = parseDate(start, PARAM_START_DATE);
@@ -47,7 +47,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/area/{id}")
-    public CampgroundAvailability getAreaAvailability(@PathVariable final String id,
+    public CampgroundAvailability getAreaAvailability(@PathVariable final long id,
                                                       @RequestParam(PARAM_START_DATE) final String start,
                                                       @RequestParam(PARAM_END_DATE) final String end) {
         final LocalDate startDate = parseDate(start, PARAM_START_DATE);
@@ -57,7 +57,7 @@ public class AvailabilityController {
     }
 
     @GetMapping("/campsite/{id}")
-    public CampgroundAvailability getCampsiteAvailability(@PathVariable final String id,
+    public CampgroundAvailability getCampsiteAvailability(@PathVariable final long id,
                                                           @RequestParam(PARAM_START_DATE) final String start,
                                                           @RequestParam(PARAM_END_DATE) final String end) {
         final LocalDate startDate = parseDate(start, PARAM_START_DATE);

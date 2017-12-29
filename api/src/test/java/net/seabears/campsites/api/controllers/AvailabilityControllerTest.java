@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,15 +31,15 @@ public class AvailabilityControllerTest {
 
     @Test
     public void getCampsiteAvailability() throws Exception {
-        final UUID id = UUID.fromString("7603ff4e-8515-4e20-be6f-ae3a58669508");
+        final long id = 2L;
         final int days = 10;
         final LocalDate start = LocalDate.now();
         final LocalDate end = start.plusDays(days);
         mvc.perform(MockMvcRequestBuilders.get("/api/availability/campsite/{0}?start={1}&end={2}", id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"campgroundId\":\"9cfa88ec-803d-4f22-83b5-af301af9ca96\","
-                        + "\"campsites\":[{\"id\":\"" + id + "\",\"availability\":"
+                .andExpect(content().json("{\"campgroundId\":1,"
+                        + "\"campsites\":[{\"id\":" + id + ",\"availability\":"
                         + buildAvailability(start, days) + "}]}"));
     }
 
@@ -74,18 +73,18 @@ public class AvailabilityControllerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"area, 0f20c7ef-c2cc-4431-85c0-74977fa2de63", "campground, 9cfa88ec-803d-4f22-83b5-af301af9ca96"})
-    public void getAvailability(final String resource, final String id) throws Exception {
+    @CsvSource({"area, 1", "campground, 1"})
+    public void getAvailability(final String resource, final long id) throws Exception {
         final int days = 10;
         final LocalDate start = LocalDate.now();
         final LocalDate end = start.plusDays(days);
         mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/{1}?start={2}&end={3}", resource, id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"campgroundId\":\"" + id + "\",\"campsites\":["
-                        + "{\"id\":\"084bfb46-21cb-4c8c-8a9a-3d0d67002d28\","
+                .andExpect(content().json("{\"campgroundId\":" + id + ",\"campsites\":["
+                        + "{\"id\":1,"
                         + "\"availability\":" + buildAvailability(start, days) + "},"
-                        + "{\"id\":\"7603ff4e-8515-4e20-be6f-ae3a58669508\","
+                        + "{\"id\":2,"
                         + "\"availability\":" + buildAvailability(start, days) + "}]}"));
     }
 

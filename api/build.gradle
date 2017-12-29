@@ -55,11 +55,10 @@ dependencies {
 	testRuntime "org.junit.platform:junit-platform-console:$junitConsoleVersion"
 	testRuntime 'org.testng:testng:6.11'
 	testRuntime 'com.h2database:h2:1.4.196'
+	testRuntime 'javax.xml.bind:jaxb-api:2.3.0'
 }
 
 junitPlatform {
-	enableModulePath = true
-	details = 'TREE'
 	filters {
 		includeClassNamePattern project.hasProperty('IT') ? '^.*IT$' : '^.*Tests?$'
 	}

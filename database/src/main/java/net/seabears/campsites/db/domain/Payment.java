@@ -2,13 +2,12 @@ package net.seabears.campsites.db.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Entity
 public class Payment {
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "transaction_id", length = 50, nullable = false)
     private String transactionId;
@@ -25,11 +24,11 @@ public class Payment {
     @OneToOne(mappedBy = "payment")
     private Reservation reservation;
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final UUID id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

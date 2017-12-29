@@ -4,6 +4,7 @@ module net.seabears.campsites.services {
     exports net.seabears.campsites.be.domain;
     exports net.seabears.campsites.be.service;
 
+    requires spring.beans;
     requires spring.core;
     requires spring.context;
     requires spring.data.commons;

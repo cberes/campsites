@@ -7,6 +7,7 @@ import net.seabears.campsites.be.domain.CampsiteAvailability;
 import net.seabears.campsites.be.domain.DateAvailability;
 import net.seabears.campsites.be.service.AvailabilityService;
 import net.seabears.campsites.db.domain.Area;
+import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
 import net.seabears.campsites.enums.Availability;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -33,11 +33,10 @@ public class MockAvailabilityService implements AvailabilityService {
     }
 
     @Override
-    public CampgroundAvailability findByCampgroundId(final String id, final LocalDate start, final LocalDate end) {
-        final UUID uuid = UUID.fromString(id);
+    public CampgroundAvailability findByCampgroundId(final long id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         availability.setCampgroundId(id);
-        availability.setCampsites(stream(campsiteDao.findByCampgroundId(uuid))
+        availability.setCampsites(stream(campsiteDao.findByCampgroundId(id))
                 .map(campsite -> mock(campsite, start, end))
                 .collect(toList()));
         return availability;
@@ -49,28 +48,26 @@ public class MockAvailabilityService implements AvailabilityService {
 
     private static CampsiteAvailability mock(final Campsite campsite, final LocalDate start, final LocalDate end) {
         final CampsiteAvailability siteAvailability = new CampsiteAvailability();
-        siteAvailability.setId(campsite.getId().toString());
+        siteAvailability.setId(campsite.getId());
         siteAvailability.setAvailability(randomAvailability(start, end));
         return siteAvailability;
     }
 
     @Override
-    public CampgroundAvailability findByAreaId(final String id, final LocalDate start, final LocalDate end) {
-        final UUID uuid = UUID.fromString(id);
+    public CampgroundAvailability findByAreaId(final long id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
-        availability.setCampgroundId(areaDao.findById(uuid).map(Area::getCampground).map(Object::toString).orElse(""));
-        availability.setCampsites(stream(campsiteDao.findByAreaId(uuid))
+        availability.setCampgroundId(areaDao.findById(id).map(Area::getCampground).map(Campground::getId).orElse(0L));
+        availability.setCampsites(stream(campsiteDao.findByAreaId(id))
                 .map(campsite -> mock(campsite, start, end))
                 .collect(toList()));
         return availability;
     }
 
     @Override
-    public CampgroundAvailability findByCampsiteId(final String id, final LocalDate start, final LocalDate end) {
-        final UUID uuid = UUID.fromString(id);
+    public CampgroundAvailability findByCampsiteId(final long id, final LocalDate start, final LocalDate end) {
         final CampgroundAvailability availability = new CampgroundAvailability();
-        campsiteDao.findById(uuid).ifPresent(campsite -> {
-            availability.setCampgroundId(campsite.getCampground().getId().toString());
+        campsiteDao.findById(id).ifPresent(campsite -> {
+            availability.setCampgroundId(campsite.getCampground().getId());
             availability.setCampsites(singletonList(mock(campsite, start, end)));
         });
         return availability;

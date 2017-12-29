@@ -18,7 +18,7 @@ injector.register(CampgroundService)
 injector.register(CampsiteService)
 injector.provide('settings', {
   backendHost: 'http://localhost:8080',
-  campgroundId: '359e1ec4-b6b4-4955-99cf-c20cdf81e1e8'
+  campgroundId: 1
 })
 
 Vue.config.productionTip = false

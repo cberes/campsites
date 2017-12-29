@@ -3,14 +3,14 @@ package net.seabears.campsites.be.domain;
 import java.util.List;
 
 public class CampsiteAvailability {
-    private String id;
+    private long id;
     private List<DateAvailability> availability;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(final String id) {
+    public void setId(final long id) {
         this.id = id;
     }
 

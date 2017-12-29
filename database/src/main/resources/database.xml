@@ -2,15 +2,15 @@
 <!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database.dtd">
 <database name="camping">
     <table name="campground">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="active" type="BIT" size="1" required="true" default="1"/>
         <column name="name" type="VARCHAR" size="100" required="true"/>
         <column name="description" type="VARCHAR" size="1024" required="true"/>
     </table>
 
     <table name="area">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
-        <column name="campground_id" type="UUID" required="true"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="campground_id" type="BIGINT" required="true"/>
         <column name="active" type="BIT" size="1" required="true" default="1"/>
         <column name="name" type="VARCHAR" size="100" required="true"/>
         <column name="description" type="VARCHAR" size="1024" required="true"/>
@@ -20,9 +20,9 @@
     </table>
 
     <table name="campsite">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
-        <column name="area_id" type="UUID" required="true"/>
-        <column name="campground_id" type="UUID" required="true"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="area_id" type="BIGINT" required="true"/>
+        <column name="campground_id" type="BIGINT" required="true"/>
         <column name="active" type="BIT" size="1" required="true" default="1"/>
         <column name="name" type="VARCHAR" size="100" required="true"/>
         <column name="description" type="VARCHAR" size="256" required="true"/>
@@ -45,10 +45,10 @@
     </table>
 
     <table name="reservation">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
-        <column name="campsite_id" type="UUID" required="true"/>
-        <column name="customer_id" type="UUID" required="true"/>
-        <column name="payment_id" type="UUID" required="false"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
+        <column name="campsite_id" type="BIGINT" required="true"/>
+        <column name="customer_id" type="BIGINT" required="true"/>
+        <column name="payment_id" type="BIGINT" required="false"/>
         <column name="starting" type="DATE" required="true"/>
         <column name="ending" type="DATE" required="true"/>
         <foreign-key foreignTable="campsite">
@@ -63,7 +63,7 @@
     </table>
 
     <table name="payment">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="transaction_id" type="VARCHAR" size="50" required="true"/>
         <column name="amount" type="DECIMAL" size="16, 2" required="true"/>
         <column name="tax" type="DECIMAL" size="16, 2" required="true"/>
@@ -74,7 +74,7 @@
     </table>
 
     <table name="customer">
-        <column name="id" type="UUID" primaryKey="true" required="true" default="gen_random_uuid()"/>
+        <column name="id" type="BIGINT" primaryKey="true" required="true" autoIncrement="true"/>
         <column name="active" type="BIT" size="1" required="true" default="1"/>
         <column name="first_name" type="VARCHAR" size="50" required="true"/>
         <column name="last_name" type="VARCHAR" size="50" required="true"/>

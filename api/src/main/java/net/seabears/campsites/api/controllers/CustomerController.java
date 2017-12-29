@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -22,9 +20,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Customer getArea(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return dao.findById(uuid)
+    public Customer getArea(@PathVariable final long id) {
+        return dao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Customer.class, id));
     }
 }

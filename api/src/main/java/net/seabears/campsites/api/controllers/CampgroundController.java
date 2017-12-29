@@ -1,7 +1,6 @@
 package net.seabears.campsites.api.controllers;
 
 import java.util.List;
-import java.util.UUID;
 
 import net.seabears.campsites.api.controllers.exceptions.ResourceNotFoundException;
 import net.seabears.campsites.be.dao.AreaDao;
@@ -40,21 +39,18 @@ public class CampgroundController {
     }
 
     @GetMapping("/{id}")
-    public Campground getCampgrounds(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return campgroundDao.findById(uuid)
+    public Campground getCampgrounds(@PathVariable final long id) {
+        return campgroundDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Campground.class, id));
     }
 
     @GetMapping("/{id}/areas")
-    public List<Area> getAreas(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return toDtoList(areaDao.findByCampgroundId(uuid));
+    public List<Area> getAreas(@PathVariable final long id) {
+        return toDtoList(areaDao.findByCampgroundId(id));
     }
 
     @GetMapping("/{id}/campsites")
-    public List<Campsite> getCampsites(@PathVariable final String id) {
-        final UUID uuid = UUID.fromString(id);
-        return toDtoList(campsiteDao.findByCampgroundId(uuid));
+    public List<Campsite> getCampsites(@PathVariable final long id) {
+        return toDtoList(campsiteDao.findByCampgroundId(id));
     }
 }
