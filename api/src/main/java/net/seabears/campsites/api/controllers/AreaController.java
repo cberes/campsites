@@ -1,15 +1,13 @@
 package net.seabears.campsites.api.controllers;
 
+import net.seabears.campsites.api.controllers.exceptions.BadArgumentException;
 import net.seabears.campsites.api.controllers.exceptions.ResourceNotFoundException;
 import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampsiteDao;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campsite;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,14 @@ public class AreaController {
     public AreaController(final AreaDao areaDao, final CampsiteDao campsiteDao) {
         this.areaDao = areaDao;
         this.campsiteDao = campsiteDao;
+    }
+
+    @PostMapping
+    public Area createArea(@RequestBody final Area area) {
+        if (area.getId() != 0L) {
+            throw new BadArgumentException("area", "id must be zero");
+        }
+        return areaDao.save(area);
     }
 
     @GetMapping("/{id}")
