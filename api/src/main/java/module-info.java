@@ -11,6 +11,7 @@ module net.seabears.campsites.api {
     opens net.seabears.campsites.api.filters to spring.core;
 
     requires javax.transaction.api;
+    requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires hibernate.core;
     requires jackson.annotations;

@@ -2,6 +2,7 @@ package net.seabears.campsites.api.serialization;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campground;
@@ -11,13 +12,13 @@ import java.util.Set;
 
 abstract class CampsiteMixin {
     @JsonProperty("areaId")
+    @JsonDeserialize(using = AreaIdDeserializer.class)
     @JsonSerialize(using = AreaIdSerializer.class)
-    // TODO deserializer
     abstract Area getArea();
 
     @JsonProperty("campgroundId")
+    @JsonDeserialize(using = CampgroundIdDeserializer.class)
     @JsonSerialize(using = CampgroundIdSerializer.class)
-    // TODO deserializer
     abstract Campground getCampground();
 
     @JsonIgnore
