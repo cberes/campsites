@@ -4,10 +4,16 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "payment",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"payment_processor_id", "transaction_id"}))
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "payment_processor_id", nullable = false)
+    private PaymentProcessor processor;
 
     @Column(name = "transaction_id", length = 50, nullable = false)
     private String transactionId;
@@ -30,6 +36,14 @@ public class Payment {
 
     public void setId(final long id) {
         this.id = id;
+    }
+
+    public PaymentProcessor getProcessor() {
+        return processor;
+    }
+
+    public void setProcessor(final PaymentProcessor processor) {
+        this.processor = processor;
     }
 
     public String getTransactionId() {

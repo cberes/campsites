@@ -8,6 +8,7 @@ import net.seabears.campsites.enums.Access;
 import java.util.Set;
 
 @Entity
+@Table(name = "campsite")
 public class Campsite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

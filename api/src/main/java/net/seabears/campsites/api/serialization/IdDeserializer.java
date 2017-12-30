@@ -3,6 +3,7 @@ package net.seabears.campsites.api.serialization;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.util.function.BiConsumer;
@@ -18,10 +19,11 @@ abstract class IdDeserializer<T> extends JsonDeserializer<T> {
 
     @Override
     public T deserialize(final JsonParser parser, final DeserializationContext context) throws IOException {
-        if (parser.getCurrentValue() == null) {
+        final JsonNode node = parser.getCodec().readTree(parser);
+        if (node.isNull()) {
             return null;
         } else {
-            return createObjectWithId(parser.getLongValue());
+            return createObjectWithId(node.asLong());
         }
     }
 

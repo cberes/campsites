@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "campground")
-public class Campground {
+@Table(name = "payment_processor")
+public class PaymentProcessor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -16,14 +16,8 @@ public class Campground {
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 1024, nullable = false)
-    private String description;
-
-    @OneToMany(mappedBy = "campground")
-    private Set<Area> areas;
-
-    @OneToMany(mappedBy = "campground")
-    private Set<Campsite> campsites;
+    @OneToMany(mappedBy = "processor")
+    private Set<Payment> payments;
 
     public long getId() {
         return id;
@@ -49,27 +43,11 @@ public class Campground {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public Set<Payment> getPayments() {
+        return payments;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    public Set<Area> getAreas() {
-        return areas;
-    }
-
-    public void setAreas(final Set<Area> areas) {
-        this.areas = areas;
-    }
-
-    public Set<Campsite> getCampsites() {
-        return campsites;
-    }
-
-    public void setCampsites(final Set<Campsite> campsites) {
-        this.campsites = campsites;
+    public void setPayments(final Set<Payment> payments) {
+        this.payments = payments;
     }
 }
