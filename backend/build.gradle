@@ -20,6 +20,7 @@ ext.testModules = [
 dependencies {
 	api project(':core')
 	api project(':database')
+	compile files("$rootDir/libs/javax.transaction-api-1.3.jar")
 	implementation "org.springframework:spring-core:$springVersion"
 	implementation "org.springframework:spring-context:$springVersion"
 	implementation "org.springframework.data:spring-data-commons:$springDataVersion"

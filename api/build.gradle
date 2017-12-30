@@ -43,7 +43,6 @@ dependencies {
 	}
 	runtime 'org.postgresql:postgresql:42.1.4'
 	compile 'org.javassist:javassist:3.22.0-GA'
-	compile files("$rootDir/libs/javax.transaction-api-1.3.jar")
 	testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 		exclude module: 'junit'					// using junit 5
 		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
