@@ -32,18 +32,14 @@ public class AreaControllerTest {
 
     @Test
     public void getCampsites() throws Exception {
-        final String url = "/api/areas/{id}/campsites";
+        final String url = "/areas/{id}/campsites";
         final long campgroundId = 1L;
         given(campsiteDao.findByAreaId(campgroundId)).willReturn(MockCampsiteData.allData());
 
         mvc.perform(MockMvcRequestBuilders.get(url, campgroundId).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":1,"
-                        + "\"campgroundId\":" + campgroundId + ","
-                        + "\"name\":\"Site A\"},"
-                        + "{\"id\":2,"
-                        + "\"campgroundId\":" + campgroundId + ","
-                        + "\"name\":\"Site B\"}]"));
+                .andExpect(content().json("[{\"id\":1,\"name\":\"Site A\"},"
+                        + "{\"id\":2,\"name\":\"Site B\"}]"));
     }
 
     @Test
@@ -52,10 +48,9 @@ public class AreaControllerTest {
         final long campgroundId = 1L;
         given(areaDao.findById(campgroundId)).willReturn(MockAreaData.get(0));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/areas/{id}", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/areas/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":" + id + ","
-                        + "\"campgroundId\":" + campgroundId + ","
                         + "\"name\":\"Campground X\","
                         + "\"description\":\"Entire campground\"}"));
     }

@@ -30,10 +30,8 @@ public class CampsiteControllerTest {
         final long id = 2L;
         given(dao.findById(id)).willReturn(MockCampsiteData.get(1));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campsites/{id}", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/campsites/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\"id\":" + id + ","
-                        + "\"campgroundId\":2,"
-                        + "\"name\":\"Site B\"}"));
+                .andExpect(content().json("{\"id\":" + id + ",\"name\":\"Site B\"}"));
     }
 }

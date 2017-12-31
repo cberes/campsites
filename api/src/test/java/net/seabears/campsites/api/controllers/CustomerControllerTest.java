@@ -30,7 +30,7 @@ public class CustomerControllerTest {
         final long id = 1L;
         given(dao.findById(id)).willReturn(MockCustomerData.get(0));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/customers/{id}", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/customers/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":" + id + ","
                         + "\"firstName\":\"George\","

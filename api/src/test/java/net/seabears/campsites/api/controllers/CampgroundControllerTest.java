@@ -39,7 +39,7 @@ public class CampgroundControllerTest {
     public void getCampgrounds() throws Exception {
         given(campgroundDao.findAll()).willReturn(MockCampgroundData.allData());
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campgrounds").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/campgrounds").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":1,"
                         + "\"name\":\"Campground X\"},"
@@ -52,7 +52,7 @@ public class CampgroundControllerTest {
         final long id = 2L;
         given(campgroundDao.findById(id)).willReturn(MockCampgroundData.get(1));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campgrounds/{id}", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":" + id + ",\"name\":\"Campground Y\"}"));
     }
@@ -62,10 +62,9 @@ public class CampgroundControllerTest {
         final long id = 1L;
         given(areaDao.findByCampgroundId(id)).willReturn(MockAreaData.allData().subList(0, 1));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campgrounds/{id}/areas", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}/areas", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{\"id\":1,"
-                        + "\"campgroundId\":" + id + ","
                         + "\"name\":\"Campground X\","
                         + "\"description\":\"Entire campground\"}]"));
     }
@@ -75,13 +74,9 @@ public class CampgroundControllerTest {
         final long id = 1L;
         given(campsiteDao.findByCampgroundId(id)).willReturn(MockCampsiteData.allData());
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campgrounds/{id}/campsites", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}/campsites", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":1,"
-                        + "\"campgroundId\":" + id + ","
-                        + "\"name\":\"Site A\"},"
-                        + "{\"id\":2,"
-                        + "\"campgroundId\":" + id + ","
-                        + "\"name\":\"Site B\"}]"));
+                .andExpect(content().json("[{\"id\":1,\"name\":\"Site A\"},"
+                        + "{\"id\":2,\"name\":\"Site B\"}]"));
     }
 }

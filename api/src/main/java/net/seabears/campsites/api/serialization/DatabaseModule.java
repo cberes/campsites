@@ -3,7 +3,9 @@ package net.seabears.campsites.api.serialization;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.seabears.campsites.db.domain.*;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DatabaseModule extends SimpleModule {
     private static final String NAME = DatabaseModule.class.getName();
 

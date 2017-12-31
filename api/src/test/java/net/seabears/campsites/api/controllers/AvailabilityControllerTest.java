@@ -40,7 +40,7 @@ public class AvailabilityControllerTest {
         final LocalDate end = start.plusDays(days);
         given(service.findByCampsiteId(id, start, end)).willReturn(MockAvailability.get(1, start, end, 2));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/availability/campsite/{0}?start={1}&end={2}", id, start, end)
+        mvc.perform(MockMvcRequestBuilders.get("/availability/campsite/{0}?start={1}&end={2}", id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"campgroundId\":1,"
@@ -63,7 +63,7 @@ public class AvailabilityControllerTest {
 
     private static String toJson(final LocalDate initial, final int dayOffset) {
         final LocalDate date = initial.plusDays(dayOffset);
-        return String.format("[%d,%d,%d]", date.getYear(), date.getMonthValue(), date.getDayOfMonth());
+        return String.format("\"%d-%02d-%02d\"", date.getYear(), date.getMonthValue(), date.getDayOfMonth());
     }
 
     private static Availability getStatus(final int offset) {
@@ -86,7 +86,7 @@ public class AvailabilityControllerTest {
         given(service.findByAreaId(id, start, end)).willReturn(MockAvailability.get(id, start, end, 1, 2));
         given(service.findByCampgroundId(id, start, end)).willReturn(MockAvailability.get(id, start, end, 1, 2));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/{1}?start={2}&end={3}", resource, id, start, end)
+        mvc.perform(MockMvcRequestBuilders.get("/availability/{0}/{1}?start={2}&end={3}", resource, id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"campgroundId\":" + id + ",\"campsites\":["
@@ -100,7 +100,7 @@ public class AvailabilityControllerTest {
     @ValueSource(strings = {"area", "campground", "campsite"})
     public void getAvailabilityWhenSameDates(final String resource) throws Exception {
         final LocalDate start = LocalDate.now();
-        mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/2?start={1}&end={2}", resource, start, start)
+        mvc.perform(MockMvcRequestBuilders.get("/availability/{0}/2?start={1}&end={2}", resource, start, start)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("Bad argument for end: must be after start"));
@@ -111,7 +111,7 @@ public class AvailabilityControllerTest {
     public void getAvailabilityWhenInvalidStartDate(final String resource) throws Exception {
         final String start = "2017-01-0A";
         final LocalDate end = LocalDate.now();
-        mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/2?start={1}&end={2}", resource, start, end)
+        mvc.perform(MockMvcRequestBuilders.get("/availability/{0}/2?start={1}&end={2}", resource, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(startsWith("Bad argument for start: ")));
@@ -122,7 +122,7 @@ public class AvailabilityControllerTest {
     public void getAvailabilityWhenInvalidEndDate(final String resource) throws Exception {
         final LocalDate start = LocalDate.now();
         final String end = "2017-01-0A";
-        mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/2?start={1}&end={2}", resource, start, end)
+        mvc.perform(MockMvcRequestBuilders.get("/availability/{0}/2?start={1}&end={2}", resource, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(startsWith("Bad argument for end: ")));

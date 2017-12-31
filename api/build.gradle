@@ -54,6 +54,7 @@ dependencies {
 	testRuntime "org.junit.platform:junit-platform-console:$junitConsoleVersion"
 	testRuntime 'org.testng:testng:6.11'
 	testRuntime 'com.h2database:h2:1.4.196'
+	testRuntime 'com.vaadin.external.google:android-json:0.0.20131108.vaadin1' // add this at runtime; jsonassert needs it
 	testRuntime 'javax.xml.bind:jaxb-api:2.3.0'
 }
 

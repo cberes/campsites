@@ -15,6 +15,7 @@ module net.seabears.campsites.api {
     requires javax.transaction.api;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.jsr310;
     requires hibernate.core;
     requires jackson.annotations;
     requires spring.beans;
