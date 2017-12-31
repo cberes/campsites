@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Customer getArea(@PathVariable final long id) {
+    public Customer getCustomer(@PathVariable final long id) {
         return dao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(Customer.class, id));
     }

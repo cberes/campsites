@@ -1,5 +1,7 @@
 package net.seabears.campsites.api.controllers;
 
+import net.seabears.campsites.api.data.MockAvailability;
+import net.seabears.campsites.be.service.AvailabilityService;
 import net.seabears.campsites.enums.Availability;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,9 +9,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,16 +19,18 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 
 import static org.hamcrest.CoreMatchers.startsWith;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
-@DataJpaTest
+@WebMvcTest(AvailabilityController.class)
 public class AvailabilityControllerTest {
     @Autowired
     private MockMvc mvc;
+
+    @MockBean
+    private AvailabilityService service;
 
     @Test
     public void getCampsiteAvailability() throws Exception {
@@ -35,6 +38,8 @@ public class AvailabilityControllerTest {
         final int days = 10;
         final LocalDate start = LocalDate.now();
         final LocalDate end = start.plusDays(days);
+        given(service.findByCampsiteId(id, start, end)).willReturn(MockAvailability.get(1, start, end, 2));
+
         mvc.perform(MockMvcRequestBuilders.get("/api/availability/campsite/{0}?start={1}&end={2}", id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -78,6 +83,9 @@ public class AvailabilityControllerTest {
         final int days = 10;
         final LocalDate start = LocalDate.now();
         final LocalDate end = start.plusDays(days);
+        given(service.findByAreaId(id, start, end)).willReturn(MockAvailability.get(id, start, end, 1, 2));
+        given(service.findByCampgroundId(id, start, end)).willReturn(MockAvailability.get(id, start, end, 1, 2));
+
         mvc.perform(MockMvcRequestBuilders.get("/api/availability/{0}/{1}?start={2}&end={3}", resource, id, start, end)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

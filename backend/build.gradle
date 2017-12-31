@@ -14,7 +14,10 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 ext.moduleName = 'net.seabears.campsites.services'
 ext.testModules = [
 		'org.junit.jupiter.api',
-		'org.junit.jupiter.params'
+		'org.junit.jupiter.params',
+		'spring.test',
+		'spring.boot.test',
+		'spring.boot.test.autoconfigure'
 ].join(',')
 
 dependencies {
@@ -27,6 +30,18 @@ dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 	testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
 	testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+	testRuntime 'org.javassist:javassist:3.22.0-GA'
+	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion") {
+		exclude module: 'javassist' 			// the version used has a bug with module-info.java
+		exclude module: 'javax.transaction-api'	// conflicts with java.sql
+	}
+	testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+		exclude module: 'junit'					// using junit 5
+		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
+		exclude module: 'hamcrest-library'		// conflicts with hamcrest-core
+	}
+	testRuntime 'com.h2database:h2:1.4.196'
+	testRuntime 'javax.xml.bind:jaxb-api:2.3.0'
 }
 
 junitPlatform {

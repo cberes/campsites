@@ -1,7 +1,7 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockCampsiteData;
-import net.seabears.campsites.be.dao.CampsiteDao;
+import net.seabears.campsites.api.data.MockCustomerData;
+import net.seabears.campsites.be.dao.CustomerDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,23 +17,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CampsiteController.class)
-public class CampsiteControllerTest {
+@WebMvcTest(CustomerController.class)
+public class CustomerControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @MockBean
-    private CampsiteDao dao;
+    private CustomerDao dao;
 
     @Test
-    public void getCampsites() throws Exception {
-        final long id = 2L;
-        given(dao.findById(id)).willReturn(MockCampsiteData.get(1));
+    public void getCustomers() throws Exception {
+        final long id = 1L;
+        given(dao.findById(id)).willReturn(MockCustomerData.get(0));
 
-        mvc.perform(MockMvcRequestBuilders.get("/api/campsites/{id}", id).accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/api/customers/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"id\":" + id + ","
-                        + "\"campgroundId\":2,"
-                        + "\"name\":\"Site B\"}"));
+                        + "\"firstName\":\"George\","
+                        + "\"lastName\":\"Washington\"}"));
     }
 }

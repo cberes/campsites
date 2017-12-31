@@ -10,6 +10,101 @@ import java.util.Set;
 @Entity
 @Table(name = "campsite")
 public class Campsite {
+    public static class Builder {
+        private final Campsite campsite = new Campsite();
+
+        public Campsite build() {
+            return campsite;
+        }
+
+        public Builder withId(final long id) {
+            campsite.setId(id);
+            return this;
+        }
+
+        public Builder withCampgroundId(final long campgroundId) {
+            final Campground campground = new Campground();
+            campground.setId(campgroundId);
+            return withCampground(campground);
+        }
+
+        public Builder withCampground(final Campground campground) {
+            campsite.setCampground(campground);
+            return this;
+        }
+
+        public Builder withAreaId(final long areaId) {
+            final Area area = new Area();
+            area.setId(areaId);
+            return withArea(area);
+        }
+
+        public Builder withArea(final Area area) {
+            campsite.setArea(area);
+            return this;
+        }
+
+        public Builder withName(final String name) {
+            campsite.setName(name);
+            return this;
+        }
+
+        public Builder withDescription(final String description) {
+            campsite.setDescription(description);
+            return this;
+        }
+
+        public Builder withNotes(final String notes) {
+            campsite.setNotes(notes);
+            return this;
+        }
+
+        public Builder withType(final SiteType type) {
+            campsite.setType(type);
+            return this;
+        }
+
+        public Builder withAccess(final Access access) {
+            campsite.setAccess(access);
+            return this;
+        }
+
+        public Builder withSize(final int size) {
+            campsite.setSize(size);
+            return this;
+        }
+
+        public Builder withMaxOccupancy(final int maxOccupancy) {
+            campsite.setMaxOccupancy(maxOccupancy);
+            return this;
+        }
+
+        public Builder withMaxVehicles(final int maxVehicles) {
+            campsite.setMaxVehicles(maxVehicles);
+            return this;
+        }
+
+        public Builder withPetsAllowed(final int petsAllowed) {
+            campsite.setPetsAllowed(petsAllowed);
+            return this;
+        }
+
+        public Builder withElectric(final Electric electric) {
+            campsite.setElectric(electric);
+            return this;
+        }
+
+        public Builder withWater(final Water water) {
+            campsite.setWater(water);
+            return this;
+        }
+
+        public Builder withSewer(final Sewer sewer) {
+            campsite.setSewer(sewer);
+            return this;
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
