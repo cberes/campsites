@@ -28,8 +28,8 @@ describe('AvailabilityCalendar.vue', () => {
       campsites: [
         {
           availability: [
-            {date: [2017, 1, 1], status: 'RESERVED'},
-            {date: [2017, 1, 2], status: 'AVAILABLE'}
+            {date: '2017-01-01', status: 'RESERVED'},
+            {date: '2017-01-02', status: 'AVAILABLE'}
           ]
         }
       ]
@@ -40,9 +40,9 @@ describe('AvailabilityCalendar.vue', () => {
     waitForTicks(3, () => {
       const items = vm.$el.children
       expect(items[0].textContent)
-        .to.include('2017-01-01: RESERVED')
+        .to.include('Jan 1: RESERVED')
       expect(items[1].textContent)
-        .to.include('2017-01-02: AVAILABLE')
+        .to.include('Jan 2: AVAILABLE')
       expect(mockHttp.getUrls())
         .to.include('http://example.com/api/availability/campsite/10101?start=2017-01-01&end=2017-01-15')
       done()

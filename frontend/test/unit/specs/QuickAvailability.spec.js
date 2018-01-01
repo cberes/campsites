@@ -13,13 +13,13 @@ describe('QuickAvailability.vue', () => {
     const Constructor = Vue.extend(QuickAvailability)
     const vm = new Constructor({propsData: {
       availability: [
-        {date: [2017, 1, 1], status: 'RESERVED'},
-        {date: [2017, 1, 2], status: 'AVAILABLE'}
+        {date: '2017-01-01', status: 'RESERVED'},
+        {date: '2017-01-02', status: 'AVAILABLE'}
       ]
     }}).$mount()
     expect(vm.$el.children[0].textContent)
-      .to.include('2017-01-01: RESERVED')
+      .to.include('Jan 1: RESERVED')
     expect(vm.$el.children[1].textContent)
-      .to.include('2017-01-02: AVAILABLE')
+      .to.include('Jan 2: AVAILABLE')
   })
 })

@@ -63,26 +63,26 @@ describe('AvailabilityService', () => {
         {
           id: 10101,
           availability: [
-            {date: [2017, 1, 1], status: 'RESERVED'},
-            {date: [2017, 1, 2], status: 'AVAILABLE'}
+            {date: '2017-01-01', status: 'RESERVED'},
+            {date: '2017-01-02', status: 'AVAILABLE'}
           ]
         },
         {
           id: 10102,
           availability: [
-            {date: [2017, 1, 1], status: 'FIRST_COME_FIRST_SERVE'},
-            {date: [2017, 1, 2], status: 'RESERVED'}
+            {date: '2017-01-01', status: 'FIRST_COME_FIRST_SERVE'},
+            {date: '2017-01-02', status: 'RESERVED'}
           ]
         }
       ]
     })
     expect(keyed[10101]).to.deep.equal([
-      {date: [2017, 1, 1], status: 'RESERVED'},
-      {date: [2017, 1, 2], status: 'AVAILABLE'}
+      {date: '2017-01-01', status: 'RESERVED'},
+      {date: '2017-01-02', status: 'AVAILABLE'}
     ])
     expect(keyed[10102]).to.deep.equal([
-      {date: [2017, 1, 1], status: 'FIRST_COME_FIRST_SERVE'},
-      {date: [2017, 1, 2], status: 'RESERVED'}
+      {date: '2017-01-01', status: 'FIRST_COME_FIRST_SERVE'},
+      {date: '2017-01-02', status: 'RESERVED'}
     ])
   })
 })

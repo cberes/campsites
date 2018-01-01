@@ -43,15 +43,15 @@ describe('CampsiteList.vue', () => {
         {
           id: 10102,
           availability: [
-            {date: [2017, 1, 1], status: 'RESERVED'},
-            {date: [2017, 1, 2], status: 'AVAILABLE'}
+            {date: '2017-01-01', status: 'RESERVED'},
+            {date: '2017-01-02', status: 'AVAILABLE'}
           ]
         },
         {
           id: 10101,
           availability: [
-            {date: [2017, 1, 1], status: 'FIRST_COME_FIRST_SERVED'},
-            {date: [2017, 1, 2], status: 'AVAILABLE'}
+            {date: '2017-01-01', status: 'FIRST_COME_FIRST_SERVED'},
+            {date: '2017-01-02', status: 'AVAILABLE'}
           ]
         }
       ]
@@ -67,15 +67,15 @@ describe('CampsiteList.vue', () => {
       expect(vm.$el.querySelectorAll('.name')[1].textContent)
         .to.equal('Example 2')
       expect(vm.$el.querySelectorAll('.quick-availability .availability-period')[0].textContent)
-        .to.include('2017-01-01: FIRST_COME_FIRST_SERVED')
+        .to.include('Jan 1: FIRST_COME_FIRST_SERVED')
       expect(vm.$el.querySelectorAll('.quick-availability .availability-period')[1].textContent)
-        .to.include('2017-01-02: AVAILABLE')
+        .to.include('Jan 2: AVAILABLE')
       expect(vm.$el.querySelectorAll('.quick-availability .availability-period')[2].textContent)
-        .to.include('2017-01-01: RESERVED')
+        .to.include('Jan 1: RESERVED')
       expect(vm.$el.querySelectorAll('.quick-availability .availability-period')[3].textContent)
-        .to.include('2017-01-02: AVAILABLE')
+        .to.include('Jan 2: AVAILABLE')
       expect(mockHttpForAvailability.getUrls())
-        .to.include('http://example.com/api/availability/campgrounds/1001?start=' +
+        .to.include('http://example.com/api/availability/campground/1001?start=' +
         start.format('YYYY-MM-DD') + '&end=' + end.format('YYYY-MM-DD'))
       expect(mockHttpForCampground.getUrls())
         .to.include('http://example.com/api/campgrounds/1001/campsites')
