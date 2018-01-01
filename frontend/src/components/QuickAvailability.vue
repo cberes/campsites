@@ -15,7 +15,7 @@ export default {
   props: ['availability'],
   methods: {
     formatDate (d) {
-      return moment({year: d[0], month: d[1] - 1, day: d[2]}).format('YYYY-MM-DD')
+      return moment(d, 'Y-MM-DD').format('MMM D')
     }
   }
 }
