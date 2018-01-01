@@ -1,4 +1,4 @@
-package net.seabears.campsites.api.data;
+package net.seabears.campsites.api.controllers;
 
 import net.seabears.campsites.be.domain.CampgroundAvailability;
 import net.seabears.campsites.be.domain.CampsiteAvailability;
@@ -11,12 +11,12 @@ import java.util.List;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 
-public final class MockAvailability {
+final class MockAvailability {
     private MockAvailability() {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
 
-    public static CampgroundAvailability get(final long campgroundId, final LocalDate start, final LocalDate end,
+    static CampgroundAvailability get(final long campgroundId, final LocalDate start, final LocalDate end,
                                              final long... campsiteIds) {
         final CampgroundAvailability availability = new CampgroundAvailability();
         availability.setCampgroundId(campgroundId);

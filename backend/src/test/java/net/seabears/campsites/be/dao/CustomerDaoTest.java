@@ -1,8 +1,8 @@
 package net.seabears.campsites.be.dao;
 
 import net.seabears.campsites.be.config.TestConfiguration;
-import net.seabears.campsites.be.data.MockCustomerData;
 import net.seabears.campsites.db.domain.Customer;
+import net.seabears.campsites.test.data.MockCustomerData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest
 public class CustomerDaoTest {
     @Autowired
-    private TestEntityManager entityManager;
+    private TestEntityManager em;
 
     @Autowired
     private CustomerDao dao;
 
     @Test
     public void findByIdShouldReturnCustomer() {
-        final long id = MockCustomerData.load(entityManager).get(0).getId();
+        final long id = MockCustomerData.load(em::persist).get(0).getId();
         Optional<Customer> customer = dao.findById(1L);
 
         assertThat(customer.isPresent(), is(true));

@@ -1,8 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockAreaData;
-import net.seabears.campsites.api.data.MockCampgroundData;
-import net.seabears.campsites.api.data.MockCampsiteData;
 import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampgroundDao;
 import net.seabears.campsites.be.dao.CampsiteDao;
@@ -37,7 +34,7 @@ public class CampgroundControllerTest {
 
     @Test
     public void getCampgrounds() throws Exception {
-        given(campgroundDao.findAll()).willReturn(MockCampgroundData.allData());
+        given(campgroundDao.findAll()).willReturn(MockDataLoader.loadCampgrounds());
 
         mvc.perform(MockMvcRequestBuilders.get("/campgrounds").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -50,7 +47,7 @@ public class CampgroundControllerTest {
     @Test
     public void getCampground() throws Exception {
         final long id = 2L;
-        given(campgroundDao.findById(id)).willReturn(MockCampgroundData.get(1));
+        given(campgroundDao.findById(id)).willReturn(MockDataLoader.getCampground(1));
 
         mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -60,7 +57,7 @@ public class CampgroundControllerTest {
     @Test
     public void getAreas() throws Exception {
         final long id = 1L;
-        given(areaDao.findByCampgroundId(id)).willReturn(MockAreaData.allData().subList(0, 1));
+        given(areaDao.findByCampgroundId(id)).willReturn(MockDataLoader.loadAreas(id));
 
         mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}/areas", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -72,7 +69,7 @@ public class CampgroundControllerTest {
     @Test
     public void getCampsites() throws Exception {
         final long id = 1L;
-        given(campsiteDao.findByCampgroundId(id)).willReturn(MockCampsiteData.allData());
+        given(campsiteDao.findByCampgroundId(id)).willReturn(MockDataLoader.loadCampsites(id));
 
         mvc.perform(MockMvcRequestBuilders.get("/campgrounds/{id}/campsites", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

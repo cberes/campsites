@@ -1,7 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockAreaData;
-import net.seabears.campsites.api.data.MockCampsiteData;
 import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampsiteDao;
 import org.junit.jupiter.api.Test;
@@ -34,7 +32,7 @@ public class AreaControllerTest {
     public void getCampsites() throws Exception {
         final String url = "/areas/{id}/campsites";
         final long campgroundId = 1L;
-        given(campsiteDao.findByAreaId(campgroundId)).willReturn(MockCampsiteData.allData());
+        given(campsiteDao.findByAreaId(campgroundId)).willReturn(MockDataLoader.loadCampsites(campgroundId));
 
         mvc.perform(MockMvcRequestBuilders.get(url, campgroundId).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -46,7 +44,7 @@ public class AreaControllerTest {
     public void getAreas() throws Exception {
         final long id = 1L;
         final long campgroundId = 1L;
-        given(areaDao.findById(campgroundId)).willReturn(MockAreaData.get(0));
+        given(areaDao.findById(campgroundId)).willReturn(MockDataLoader.getArea(0));
 
         mvc.perform(MockMvcRequestBuilders.get("/areas/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

@@ -1,6 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockAvailability;
 import net.seabears.campsites.be.service.AvailabilityService;
 import net.seabears.campsites.enums.Availability;
 import org.junit.jupiter.api.Test;

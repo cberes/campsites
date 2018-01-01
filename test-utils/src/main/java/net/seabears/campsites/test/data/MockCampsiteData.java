@@ -1,15 +1,12 @@
-package net.seabears.campsites.be.data;
+package net.seabears.campsites.test.data;
 
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campsite;
 import net.seabears.campsites.enums.*;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
-
-import static java.util.stream.IntStream.range;
+import java.util.function.UnaryOperator;
 
 public final class MockCampsiteData {
     private static final int A = (int) 'A';
@@ -18,17 +15,17 @@ public final class MockCampsiteData {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
 
-    public static List<Campsite> load(final TestEntityManager em, final List<Area> areas) {
+    public static List<Campsite> load(final UnaryOperator<Campsite> persist, final List<Area> areas) {
         final List<Campsite> campsites = new ArrayList<>(areas.size() * 2);
         for (int i = 0; i < areas.size(); ++i) {
-            campsites.add(campsite1(em, areas.get(i), i));
-            campsites.add(campsite2(em, areas.get(i), i));
+            campsites.add(persist.apply(campsite1(areas.get(i), i)));
+            campsites.add(persist.apply(campsite2(areas.get(i), i)));
         }
         return campsites;
     }
 
-    private static Campsite campsite1(final TestEntityManager em, final Area area, final int offset) {
-        return em.persist(new Campsite.Builder()
+    private static Campsite campsite1(final Area area, final int offset) {
+        return new Campsite.Builder()
                 .withCampground(area.getCampground())
                 .withArea(area)
                 .withName("Site " + (char) (A + offset))
@@ -43,11 +40,11 @@ public final class MockCampsiteData {
                 .withElectric(Electric.UNKNOWN_AMP)
                 .withWater(Water.YES)
                 .withSewer(Sewer.NO)
-                .build());
+                .build();
     }
 
-    private static Campsite campsite2(final TestEntityManager em, final Area area, final int offset) {
-        return em.persist(new Campsite.Builder()
+    private static Campsite campsite2(final Area area, final int offset) {
+        return new Campsite.Builder()
                 .withCampground(area.getCampground())
                 .withArea(area)
                 .withName("Site " + (char) (A + offset + 1))
@@ -62,6 +59,6 @@ public final class MockCampsiteData {
                 .withElectric(Electric.UNKNOWN_AMP)
                 .withWater(Water.YES)
                 .withSewer(Sewer.NO)
-                .build());
+                .build();
     }
 }

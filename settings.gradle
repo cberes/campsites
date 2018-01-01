@@ -2,5 +2,6 @@ include 'core'
 include 'database'
 include 'backend'
 include 'api'
+include 'test-utils'
 include 'frontend'
 

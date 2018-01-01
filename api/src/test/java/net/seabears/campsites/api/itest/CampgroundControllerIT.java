@@ -1,12 +1,17 @@
 package net.seabears.campsites.api.itest;
 
 import java.net.URL;
+import java.util.List;
 
-import net.seabears.campsites.api.data.MockCampgroundData;
+import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampgroundDao;
+import net.seabears.campsites.be.dao.CampsiteDao;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
+import net.seabears.campsites.test.data.MockAreaData;
+import net.seabears.campsites.test.data.MockCampgroundData;
+import net.seabears.campsites.test.data.MockCampsiteData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,17 +42,26 @@ public class CampgroundControllerIT {
     private TestRestTemplate template;
 
     @Autowired
-    private CampgroundDao dao;
+    private AreaDao areaDao;
 
-    private boolean filledDatabase;
+    @Autowired
+    private CampgroundDao campgroundDao;
+
+    @Autowired
+    private CampsiteDao campsiteDao;
 
     @BeforeEach
     public void setUp() throws Exception {
         this.base = new URL("http://localhost:" + port);
-        if (!filledDatabase) {
-            filledDatabase = true;
-            MockCampgroundData.allData().stream().peek(c -> c.setId(0L)).forEach(dao::save);
+        if (campgroundDao.count() == 0) {
+            fillDatabase();
         }
+    }
+
+    private void fillDatabase() {
+        final List<Campground> campgrounds = MockCampgroundData.load(campgroundDao::save);
+        final List<Area> areas = MockAreaData.load(areaDao::save, campgrounds);
+        MockCampsiteData.load(campsiteDao::save, areas);
     }
 
     @Test

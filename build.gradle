@@ -3,7 +3,7 @@ allprojects {
 	version = '0.0.1-SNAPSHOT'
 }
 
-def javaProjects = [project(':core'), project(':database'), project(':backend'), project(':api')]
+def javaProjects = [project(':test-utils'), project(':core'), project(':database'), project(':backend'), project(':api')]
 
 configure(javaProjects) {
 	apply plugin: 'java'

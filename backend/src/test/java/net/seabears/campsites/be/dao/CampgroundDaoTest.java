@@ -1,8 +1,8 @@
 package net.seabears.campsites.be.dao;
 
 import net.seabears.campsites.be.config.TestConfiguration;
-import net.seabears.campsites.be.data.MockCampgroundData;
 import net.seabears.campsites.db.domain.Campground;
+import net.seabears.campsites.test.data.MockCampgroundData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +21,14 @@ import static org.hamcrest.CoreMatchers.*;
 @DataJpaTest
 public class CampgroundDaoTest {
     @Autowired
-    private TestEntityManager entityManager;
+    private TestEntityManager em;
 
     @Autowired
     private CampgroundDao dao;
 
     @Test
     public void findByIdShouldReturnCampground() {
-        final long id = MockCampgroundData.load(entityManager).get(0).getId();
+        final long id = MockCampgroundData.load(em::persist).get(0).getId();
         Optional<Campground> campground = dao.findById(id);
 
         assertThat(campground.isPresent(), is(true));

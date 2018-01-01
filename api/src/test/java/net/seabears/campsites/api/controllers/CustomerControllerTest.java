@@ -1,6 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockCustomerData;
 import net.seabears.campsites.be.dao.CustomerDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,7 @@ public class CustomerControllerTest {
     @Test
     public void getCustomers() throws Exception {
         final long id = 1L;
-        given(dao.findById(id)).willReturn(MockCustomerData.get(0));
+        given(dao.findById(id)).willReturn(MockDataLoader.getCustomer(0));
 
         mvc.perform(MockMvcRequestBuilders.get("/customers/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

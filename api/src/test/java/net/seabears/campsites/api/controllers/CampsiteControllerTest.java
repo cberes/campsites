@@ -1,6 +1,5 @@
 package net.seabears.campsites.api.controllers;
 
-import net.seabears.campsites.api.data.MockCampsiteData;
 import net.seabears.campsites.be.dao.CampsiteDao;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,7 +27,7 @@ public class CampsiteControllerTest {
     @Test
     public void getCampsites() throws Exception {
         final long id = 2L;
-        given(dao.findById(id)).willReturn(MockCampsiteData.get(1));
+        given(dao.findById(id)).willReturn(MockDataLoader.getCampsite(1));
 
         mvc.perform(MockMvcRequestBuilders.get("/campsites/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

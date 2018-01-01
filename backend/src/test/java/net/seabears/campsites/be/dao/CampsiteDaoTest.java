@@ -1,12 +1,12 @@
 package net.seabears.campsites.be.dao;
 
 import net.seabears.campsites.be.config.TestConfiguration;
-import net.seabears.campsites.be.data.MockAreaData;
-import net.seabears.campsites.be.data.MockCampgroundData;
-import net.seabears.campsites.be.data.MockCampsiteData;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
+import net.seabears.campsites.test.data.MockAreaData;
+import net.seabears.campsites.test.data.MockCampgroundData;
+import net.seabears.campsites.test.data.MockCampsiteData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @DataJpaTest
 public class CampsiteDaoTest {
     @Autowired
-    private TestEntityManager entityManager;
+    private TestEntityManager em;
 
     @Autowired
     private CampsiteDao dao;
@@ -42,9 +42,9 @@ public class CampsiteDaoTest {
     }
 
     private List<Campsite> mockData() {
-        final List<Campground> campgrounds = MockCampgroundData.load(entityManager);
-        final List<Area> areas = MockAreaData.load(entityManager, campgrounds);
-        return MockCampsiteData.load(entityManager, areas);
+        final List<Campground> campgrounds = MockCampgroundData.load(em::persist);
+        final List<Area> areas = MockAreaData.load(em::persist, campgrounds);
+        return MockCampsiteData.load(em::persist, areas);
     }
 
     @Test

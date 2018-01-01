@@ -22,6 +22,7 @@ apply plugin: 'org.junit.platform.gradle.plugin'
 ext.moduleName = 'net.seabears.campsites.api'
 ext.mainClassName = "$moduleName/net.seabears.campsites.api.CampsitesApplication".toString()
 ext.testModules = [
+		'net.seabears.campsites.test',
 		'org.junit.jupiter.api',
 		'org.junit.jupiter.params',
 		'spring.test',
@@ -43,6 +44,7 @@ dependencies {
 	}
 	runtime 'org.postgresql:postgresql:42.1.4'
 	compile 'org.javassist:javassist:3.22.0-GA'
+	testCompile project(':test-utils')
 	testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 		exclude module: 'junit'					// using junit 5
 		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
