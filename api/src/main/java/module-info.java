@@ -2,12 +2,12 @@ module net.seabears.campsites.api {
     exports net.seabears.campsites.api;
     exports net.seabears.campsites.api.controllers;
     exports net.seabears.campsites.api.controllers.advice;
-    exports net.seabears.campsites.api.filters;
+    exports net.seabears.campsites.api.controllers.filters;
     exports net.seabears.campsites.api.serialization;
     opens net.seabears.campsites.api to spring.core;
     opens net.seabears.campsites.api.controllers to spring.beans;
     opens net.seabears.campsites.api.controllers.advice to spring.beans;
-    opens net.seabears.campsites.api.filters to spring.core;
+    opens net.seabears.campsites.api.controllers.filters to spring.core;
     opens net.seabears.campsites.api.serialization to com.fasterxml.jackson.databind, spring.core;
 
     requires javax.transaction.api;

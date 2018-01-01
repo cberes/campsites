@@ -1,7 +1,9 @@
-package net.seabears.campsites.api.controllers;
+package net.seabears.campsites.api.itest;
 
 import java.net.URL;
 
+import net.seabears.campsites.api.data.MockCampgroundData;
+import net.seabears.campsites.be.dao.CampgroundDao;
 import net.seabears.campsites.db.domain.Area;
 import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
@@ -9,11 +11,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -21,7 +25,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@TestPropertySource(properties = "spring.jpa.hibernate.ddl-auto=create-drop")
 public class CampgroundControllerIT {
     @LocalServerPort
     private int port;
@@ -31,9 +36,18 @@ public class CampgroundControllerIT {
     @Autowired
     private TestRestTemplate template;
 
+    @Autowired
+    private CampgroundDao dao;
+
+    private boolean filledDatabase;
+
     @BeforeEach
     public void setUp() throws Exception {
         this.base = new URL("http://localhost:" + port);
+        if (!filledDatabase) {
+            filledDatabase = true;
+            MockCampgroundData.allData().stream().peek(c -> c.setId(0L)).forEach(dao::save);
+        }
     }
 
     @Test

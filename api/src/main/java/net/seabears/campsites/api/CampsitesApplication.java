@@ -8,7 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @ComponentScan(basePackageClasses = {
         net.seabears.campsites.be.Components.class,
-        net.seabears.campsites.api.Components.class
+        net.seabears.campsites.api.controllers.Controllers.class,
+        net.seabears.campsites.api.serialization.Serialization.class
 })
 @EnableJpaRepositories(basePackageClasses = net.seabears.campsites.be.dao.Repositories.class)
 @EntityScan(basePackageClasses = net.seabears.campsites.db.Entities.class)

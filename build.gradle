@@ -13,7 +13,6 @@ configure(javaProjects) {
 	ext.springDataVersion = '2.0.2.RELEASE'
 	ext.springVersion = '5.0.2.RELEASE'
 	ext.junitVersion = '5.1.0-M1'
-	ext.junitConsoleVersion = '1.1.0-M1'
 
 	sourceCompatibility = 9
 	targetCompatibility = 9
@@ -72,18 +71,6 @@ configure(javaProjects) {
 				]
 				classpath = files()
 			}
-		}
-
-		task testTemp(type: Exec, dependsOn: compileTestJava) {
-			executable = 'java'
-			args = [
-					'--module-path', files(configurations.compileClasspath, configurations.testRuntimeClasspath, compileTestJava.destinationDir).asPath,
-					'--add-modules', 'ALL-MODULE-PATH',
-					'--module', 'org.junit.platform.console',
-					'--scan-modules',
-					'--details', 'TREE',
-					'--reports-dir', "${buildDir}/test-results/junit-platform"
-			]
 		}
 
 		checkstyle {

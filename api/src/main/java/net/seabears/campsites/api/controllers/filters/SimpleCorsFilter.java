@@ -1,4 +1,4 @@
-package net.seabears.campsites.api.filters;
+package net.seabears.campsites.api.controllers.filters;
 
 import org.springframework.stereotype.Component;
 
