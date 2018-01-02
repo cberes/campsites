@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.seabears.campsites.api.controllers.exceptions.BadArgumentException;
 import net.seabears.campsites.api.controllers.exceptions.ResourceNotFoundException;
+import net.seabears.campsites.api.controllers.util.ControllerUtils;
 import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampgroundDao;
 import net.seabears.campsites.be.dao.CampsiteDao;
@@ -12,8 +13,6 @@ import net.seabears.campsites.db.domain.Campground;
 import net.seabears.campsites.db.domain.Campsite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import static net.seabears.campsites.api.controllers.util.ControllerUtils.toDtoList;
 
 @RestController
 @RequestMapping("/campgrounds")
@@ -41,7 +40,7 @@ public class CampgroundController {
 
     @GetMapping("")
     public List<Campground> getCampgrounds() {
-        return toDtoList(campgroundDao.findAll());
+        return ControllerUtils.toList(campgroundDao.findAll());
     }
 
     @GetMapping("/{id}")
@@ -52,11 +51,11 @@ public class CampgroundController {
 
     @GetMapping("/{id}/areas")
     public List<Area> getAreas(@PathVariable final long id) {
-        return toDtoList(areaDao.findByCampgroundId(id));
+        return ControllerUtils.toList(areaDao.findByCampgroundId(id));
     }
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final long id) {
-        return toDtoList(campsiteDao.findByCampgroundId(id));
+        return ControllerUtils.toList(campsiteDao.findByCampgroundId(id));
     }
 }

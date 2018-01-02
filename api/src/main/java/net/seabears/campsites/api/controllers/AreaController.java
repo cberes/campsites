@@ -2,6 +2,7 @@ package net.seabears.campsites.api.controllers;
 
 import net.seabears.campsites.api.controllers.exceptions.BadArgumentException;
 import net.seabears.campsites.api.controllers.exceptions.ResourceNotFoundException;
+import net.seabears.campsites.api.controllers.util.ControllerUtils;
 import net.seabears.campsites.be.dao.AreaDao;
 import net.seabears.campsites.be.dao.CampsiteDao;
 import net.seabears.campsites.db.domain.Area;
@@ -10,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static net.seabears.campsites.api.controllers.util.ControllerUtils.toDtoList;
 
 @RestController
 @RequestMapping("/areas")
@@ -41,6 +40,6 @@ public class AreaController {
 
     @GetMapping("/{id}/campsites")
     public List<Campsite> getCampsites(@PathVariable final long id) {
-        return toDtoList(campsiteDao.findByAreaId(id));
+        return ControllerUtils.toList(campsiteDao.findByAreaId(id));
     }
 }
