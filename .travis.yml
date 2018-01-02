@@ -5,4 +5,4 @@ jdk:
 before_install:
   - nvm install node
 after_success:
-  - "./gradlew :backend:test -PIT"
+        - "./gradlew :api:test -PIT"
