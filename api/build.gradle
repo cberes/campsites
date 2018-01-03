@@ -76,7 +76,7 @@ bootRun {
 				'--add-opens', 'net.seabears.campsites.database/net.seabears.campsites.db.domain=spring.core',
 				'--add-opens', 'net.seabears.campsites.services/net.seabears.campsites.be.service.mock=spring.beans',
 				'--module', mainClassName,
-				'--spring.config.location=file:/home/corey/repos/campsites/api/src/main/resources/application.properties',
+				"--spring.config.location=file:$projectDir/src/main/resources/application.properties",
 		]
 		classpath = files()
 	}

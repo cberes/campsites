@@ -38,7 +38,7 @@ public class CampgroundController {
         return campgroundDao.save(campground);
     }
 
-    @GetMapping("")
+    @GetMapping
     public List<Campground> getCampgrounds() {
         return ControllerUtils.toList(campgroundDao.findAll());
     }
