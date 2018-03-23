@@ -20,8 +20,8 @@ configure(javaProjects) {
 	ext.springVersion = '5.0.4.RELEASE'
 	ext.junitVersion = '5.1.0'
 
-	sourceCompatibility = 9
-	targetCompatibility = 9
+	sourceCompatibility = 10
+	targetCompatibility = 10
 
 	afterEvaluate {
 		repositories {
