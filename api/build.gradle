@@ -1,34 +1,26 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.M7'
+		springBootVersion = '2.0.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
 		maven { url 'https://repo.spring.io/snapshot' }
 		maven { url 'https://repo.spring.io/milestone' }
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 	}
 	dependencies {
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0-M1'
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
 	}
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 ext.moduleName = 'net.seabears.campsites.api'
-ext.mainClassName = "$moduleName/net.seabears.campsites.api.CampsitesApplication".toString()
-ext.testModules = [
-		'net.seabears.campsites.test',
-		'org.junit.jupiter.api',
-		'org.junit.jupiter.params',
-		'spring.test',
-		'spring.boot.test',
-		'spring.boot.test.autoconfigure'
-].join(',')
+mainClassName = 'net.seabears.campsites.api.CampsitesApplication'
 
 dependencies {
 	compile project(':core')
@@ -38,24 +30,17 @@ dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
 		exclude module: 'tomcat-annotations-api'// conflicts with Hibernate
 	}
-	compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion") {
-		exclude module: 'javassist' 			// the version used has a bug with module-info.java
-		exclude module: 'javax.transaction-api'	// conflicts with java.sql
-	}
+	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
 	runtime 'org.postgresql:postgresql:42.1.4'
-	compile 'org.javassist:javassist:3.22.0-GA'
+	runtime 'javax.xml.bind:jaxb-api:2.3.0'
 	testCompile project(':test-utils')
 	testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
 		exclude module: 'junit'					// using junit 5
-		exclude module: 'android-json'			// conflicts with jsonassert, which actually requires this module
-		exclude module: 'hamcrest-library'		// conflicts with hamcrest-core
 	}
 	testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 	testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
 	testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 	testRuntime 'com.h2database:h2:1.4.196'
-	testRuntime 'com.vaadin.external.google:android-json:0.0.20131108.vaadin1' // add this at runtime; jsonassert needs it
-	testRuntime 'javax.xml.bind:jaxb-api:2.3.0'
 }
 
 junitPlatform {
@@ -63,23 +48,3 @@ junitPlatform {
 		includeClassNamePattern project.hasProperty('IT') ? '^.*IT$' : '^.*Tests?$'
 	}
 }
-
-bootRun {
-	inputs.property("moduleName", moduleName)
-	inputs.property("mainClassName", mainClassName)
-	doFirst {
-		jvmArgs = [
-				'--module-path', classpath.asPath,
-				'--add-modules', 'java.instrument,java.sql,java.xml.bind',
-				'--add-opens', 'java.base/java.lang=spring.core',
-				'--add-opens', 'net.seabears.campsites.database/net.seabears.campsites.db.domain=hibernate.core',
-				'--add-opens', 'net.seabears.campsites.database/net.seabears.campsites.db.domain=spring.core',
-				'--add-opens', 'net.seabears.campsites.services/net.seabears.campsites.be.service.mock=spring.beans',
-				'--module', mainClassName,
-				"--spring.config.location=file:$projectDir/src/main/resources/application.properties",
-		]
-		classpath = files()
-	}
-}
-
-task run(dependsOn: 'bootRun')

@@ -3,16 +3,22 @@ allprojects {
 	version = '0.0.1-SNAPSHOT'
 }
 
-def javaProjects = [project(':test-utils'), project(':core'), project(':database'), project(':backend'), project(':api')]
+def javaProjects = [
+		project(':test-utils'),
+		project(':core'),
+		project(':database'),
+		project(':backend'),
+		project(':api')
+]
 
 configure(javaProjects) {
 	apply plugin: 'java'
 	apply plugin: 'checkstyle'
 
-	ext.springBootVersion = '2.0.0.M7'
-	ext.springDataVersion = '2.0.2.RELEASE'
-	ext.springVersion = '5.0.2.RELEASE'
-	ext.junitVersion = '5.1.0-M1'
+	ext.springBootVersion = '2.0.0.RELEASE'
+	ext.springDataVersion = '2.0.5.RELEASE'
+	ext.springVersion = '5.0.4.RELEASE'
+	ext.junitVersion = '5.1.0'
 
 	sourceCompatibility = 9
 	targetCompatibility = 9
@@ -22,54 +28,12 @@ configure(javaProjects) {
 			mavenCentral()
 			maven { url 'https://repo.spring.io/snapshot' }
 			maven { url 'https://repo.spring.io/milestone' }
-			maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' } // for junit plugin
 		}
 
 		jar {
 			inputs.property("moduleName", moduleName)
 			manifest {
 				attributes('Automatic-Module-Name': moduleName)
-			}
-		}
-
-		compileJava {
-			inputs.property("moduleName", moduleName)
-			doFirst {
-				options.compilerArgs = [
-						'--module-path', classpath.asPath,
-						'--add-modules', 'java.xml.bind',
-						'--add-reads', "$moduleName=java.xml.bind",
-						'--patch-module', "$moduleName=" + files(sourceSets.main.java.srcDirs).asPath,
-				]
-				classpath = files()
-			}
-		}
-
-		compileTestJava {
-			inputs.property("moduleName", moduleName)
-			inputs.property("testModules", testModules)
-			doFirst {
-				options.compilerArgs = [
-						'--module-path', classpath.asPath,
-						'--add-modules', testModules,
-						'--add-reads', "$moduleName=$testModules",
-						'--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
-				]
-				classpath = files()
-			}
-		}
-
-		test {
-			inputs.property("moduleName", moduleName)
-			inputs.property("testModules", testModules)
-			doFirst {
-				jvmArgs = [
-						'--module-path', classpath.asPath,
-						'--add-modules', 'ALL-MODULE-PATH',
-						'--add-reads', "$moduleName=$testModules",
-						'--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
-				]
-				classpath = files()
 			}
 		}
 

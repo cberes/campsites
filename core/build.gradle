@@ -1,10 +1,9 @@
 buildscript {
 	repositories {
 		mavenCentral()
-		maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 	}
 	dependencies {
-		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0-M1'
+		classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
 	}
 }
 
@@ -12,10 +11,6 @@ apply plugin: 'java-library'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
 ext.moduleName = 'net.seabears.campsites.core'
-ext.testModules = [
-		'org.junit.jupiter.api',
-		'org.junit.jupiter.params'
-].join(',')
 
 dependencies {
 	testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
