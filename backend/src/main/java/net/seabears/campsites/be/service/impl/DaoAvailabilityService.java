@@ -40,7 +40,7 @@ public class DaoAvailabilityService implements AvailabilityService {
     public CampgroundAvailability findByCampgroundId(final long id, final LocalDate start, final LocalDate end) {
         final Iterable<Campsite> campsites = campsiteDao.findByCampgroundId(id);
         final List<Long> campsiteIds = campsiteIds(campsites);
-        return find(campsiteIds, start, end, id);
+        return findAvailability(id, campsiteIds, start, end);
     }
 
     private static List<Long> campsiteIds(final Iterable<Campsite> campsites) {
@@ -51,12 +51,19 @@ public class DaoAvailabilityService implements AvailabilityService {
         return campsites.map(Campsite::getId).collect(toList());
     }
 
+    private CampgroundAvailability findAvailability(final long campgroundId, final List<Long> campsiteIds,
+                                                    final LocalDate start, final LocalDate end) {
+        final LocalDate minDateToReserve = LocalDate.now().plusDays(MIN_DAYS_TO_RESERVE);
+        final AvailabilityFunction func = new AvailabilityFunction(minDateToReserve, STATUS_TOO_LATE);
+        return new AvailabilityBuilder(start, end, func).findAvailability(reservationDao, campgroundId, campsiteIds);
+    }
+
     @Override
     public CampgroundAvailability findByAreaId(final long id, final LocalDate start, final LocalDate end) {
         final long campgroundId = areaDao.findById(id).map(Area::getCampground).map(Campground::getId).orElse(0L);
         final Iterable<Campsite> campsites = campsiteDao.findByAreaId(id);
         final List<Long> campsiteIds = campsiteIds(campsites);
-        return find(campsiteIds, start, end, campgroundId);
+        return findAvailability(campgroundId, campsiteIds, start, end);
     }
 
     @Override
@@ -64,13 +71,6 @@ public class DaoAvailabilityService implements AvailabilityService {
         final Optional<Campsite> campsite = campsiteDao.findById(id);
         final long campgroundId = campsite.map(Campsite::getCampground).map(Campground::getId).orElse(0L);
         final List<Long> campsiteIds = campsiteIds(campsite.stream());
-        return find(campsiteIds, start, end, campgroundId);
-    }
-
-    private CampgroundAvailability find(final List<Long> campsiteIds, final LocalDate start, final LocalDate end,
-                                        final long campgroundId) {
-        final LocalDate minDateToReserve = LocalDate.now().plusDays(MIN_DAYS_TO_RESERVE);
-        final AvailabilityFunction func = new AvailabilityFunction(minDateToReserve, STATUS_TOO_LATE);
-        return new AvailabilityBuilder(start, end, func).findAvailability(reservationDao, campgroundId, campsiteIds);
+        return findAvailability(campgroundId, campsiteIds, start, end);
     }
 }
