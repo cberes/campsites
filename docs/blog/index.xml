@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2017 Corey Beres</copyright>
-    <lastBuildDate>Tue, 02 Jan 2018 21:23:49 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 01 Apr 2018 23:20:31 -0400</lastBuildDate>
     
 	<atom:link href="http://awayfromho.me/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java 10</title>
+      <link>http://awayfromho.me/blog/posts/java-10/</link>
+      <pubDate>Sun, 01 Apr 2018 23:20:31 -0400</pubDate>
+      
+      <guid>http://awayfromho.me/blog/posts/java-10/</guid>
+      <description>I was happy to get my hands on a copy of the third edition of &amp;ldquo;Effective Java&amp;rdquo; by Joshua Bloch. Near the end of chapter 4, he concludes his thoughts on modules as follows
+ It is too early to say whether modules will achieve widespread use outside of the JDK itself. In the meantime, it seems best to avoid them unless you have a compelling need.
+ I decided I have no compelling need to use Java&amp;rsquo;s module system, so I have removed the module declarations from my project.</description>
+    </item>
     
     <item>
       <title>Piecing Together the Puzzle</title>

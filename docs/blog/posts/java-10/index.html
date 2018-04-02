@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   
-  <title>Piecing Together the Puzzle</title>
-  <meta property="og:title" content="Piecing Together the Puzzle" />
-  <meta name="twitter:title" content="Piecing Together the Puzzle" />
+  <title>Java 10</title>
+  <meta property="og:title" content="Java 10" />
+  <meta name="twitter:title" content="Java 10" />
   
 
   
@@ -17,7 +17,7 @@
 
   <meta name="author" content="Corey Beres"/>
   <meta property="og:site_name" content="Campsite Reservations Project" />
-  <meta property="og:url" content="http://awayfromho.me/blog/posts/piecing-together-the-puzzle/" />
+  <meta property="og:url" content="http://awayfromho.me/blog/posts/java-10/" />
 
   
   <meta name="twitter:card" content="summary" />
@@ -54,12 +54,12 @@
 
 <article class="p-article">
   <header>
-    <h1>Piecing Together the Puzzle</h1>
+    <h1>Java 10</h1>
     <div>
       <div class="c-time">
         Posted on
-        <time datetime="2018-01-02T21:23:49-05:00">
-          Jan 2, 2018
+        <time datetime="2018-04-01T23:20:31-04:00">
+          Apr 1, 2018
         </time>
       </div>
       
@@ -67,77 +67,33 @@
   </header>
   
   <section id="js-article" class="p-article__body">
-    
+    <p>I was happy to get my hands on a copy of the third edition of &ldquo;Effective Java&rdquo; by <a href="https://twitter.com/joshbloch">Joshua Bloch</a>. Near the end of chapter 4, he concludes his thoughts on modules as follows</p>
 
-<p>I have fixed every test in the campsites project, and I even added new tests. The tests were broken by a combination of things: Java 9&rsquo;s module system, switching from mocked data to a real database, and some confusion with Junit 5. Since my last post, I fixed those problems.</p>
+<blockquote>
+<p>It is too early to say whether modules will achieve widespread use outside of the JDK itself. In the meantime, it seems best to avoid them unless you have a compelling need.</p>
+</blockquote>
 
-<h2 id="junit-5">Junit 5</h2>
+<p>I decided I have no compelling need to use Java&rsquo;s module system, so I have removed the module declarations from my project. It was an easy change to complete&ndash;I believe it took less than an hour. Now I can run tests via Gradle and IntelliJ. No hoops to jump through.</p>
 
-<p>The biggest blocker that I faced was my failure to get my tests running. I decided to use Junit 5. My lack of experience with Junit 5 <em>and</em> Java 9&rsquo;s module system made it a challenge to get my unit tests passing.</p>
+<p>I updated my project to build with Java 10. I was surprised to see that it was released so soon after Java 9. I learned that OpenJDK has adopted a more regular release cycle. I have yet to leverage the new <code>var</code> keyword, but I can imagine some uses for it (long field declarations with nested generics, to name one).</p>
 
-<p>I think some time away from the problem cleared my mind. I realized that Junit&rsquo;s new Gradle plugin uses the classpath (as opposed to the module system) when running tests. I thought Junit was ignoring my modules, because the class <code>javax.xml.bind.JAXBException</code> was not found. But it turns out I merely needed to add a new dependency, <code>javax.xml.bind:jaxb-api</code>.</p>
+<p>Also, I have implemented a service to determine when campsites are available based on reservations persisted to a database. Previously, the project used only mock availability data. I had initially worked on this a few months ago before I took a long break from this project. I revised the code, cleaned it up, and tested it.</p>
 
-<p>I&rsquo;m not sure if the Gradle plugin is ready for the module system. The plugin can run tests with javac&rsquo;s <code>--scan-modules</code> argument, but I&rsquo;m not familiar with that argument. Also, I abandoned my plan to execute tests with Junit&rsquo;s console runner, but I tried that method only because I failed to run tests using Junit&rsquo;s new plugin.</p>
-
-<p>Futhermore, I addressed some dependency problems I caused while trying to fix package splits. I solved this by adding artifacts such as <code>com.vaadin.external.google:android-json</code> as runtime test dependencies. I think a better solution would require using javac&rsquo;s <code>--patch-module</code> option, but I have yet to get that to work.</p>
-
-<h2 id="serving-up-new-test-slices">Serving up new test slices</h2>
-
-<p>I learned of some of <a href="https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4">Spring&rsquo;s improvements to testing</a>, and I applied those improvements to my project.</p>
-
-<p>First I converted my REST controller tests such that they test only the MVC slice by using the <code>@WebMvcTest</code> annotation. I learned a few things about this annotation&rsquo;s use.</p>
+<p>There are still a few changes needed for the availability service.</p>
 
 <ul>
-<li>I needed to add a class annotated with <code>@SpringBootApplication</code> in the same package as the controllers I was testing. I&rsquo;m not exactly sure why. Without this class, Spring tried to instantiate beans in the controllers that were not under test. I encountered the same problem when I tried moving the tests to a different package.</li>
-<li>I had to remove some assertions that depended on custom JSON serialization using Jackson. That&rsquo;s because only the MVC slice is addressed in these tests. That&rsquo;s fine, because I can test the JSON serialization in other tests.</li>
-<li>The endpoints cannot be accessed with the prefix specified by the <code>server.servlet.context-path</code> property. Again, that&rsquo;s fine, because I can test the path in other tests, e.g. integration tests.</li>
-<li>DAOs should be mocked with Mockito.</li>
+<li>The system queries for every single reservation record. This is unacceptable, but I need to learn more about Spring&rsquo;s JPA repositories so that I can write the proper query.</li>
+<li>The system will prohibit reserving a campsite less than 2 days in advance. I want this number of days to be a configurable setting.</li>
+<li>I want to allow campsites to be listed as &ldquo;first-come, first-served&rdquo; always.</li>
 </ul>
 
-<p>Next, I created tests for the project&rsquo;s JPA repositories using the <code>@DataJpaTest</code> annotation. I learned that this annotation should be used only for testing JPA--Spring will not setup other components. Use <code>@AutoConfigureTestDatabase</code> to tell Spring to setup an embedded database for general usage within tests.</p>
+<p>Next I want to focus on the frontend. I have said it before: I need to clean up the frontend because it has zero frills. Through work I learned about <a href="http://element.eleme.io">Element</a>. I would like to incorporate this library into the frontend. This will allow me to learn more about the library.</p>
 
-<p>Finally, I tested my custom JSON serialization using the <code>@JsonTest</code> annotation. I had created a Jackson <code>SimpleModule</code> for serialization, which I injected with a <code>WebMvcConfigurer</code> instance. To get these tests working, I needed to convert the module to a Spring bean. Spring knew what to do with the bean once I added the <code>@Component</code> annotation to the module.</p>
+<p>I would like to add the UI components that will allow a reservation to be created. I think this is the next logical step in make the campsites project into a usable product. Also, it will let me leverage the database availability services that I just completed.</p>
 
-<h2 id="mocked-data">Mocked data</h2>
+<p>Finally, I would like to host a version of the frontend at <a href="http://awayfromho.me">awayfromho.me</a>. This version should use mock services to persist data in the browser. Thus I will not need to pay for a server to run the Java/Spring backend.</p>
 
-<p>I ended up with tests inside two modules (backend and api) that created mock data. I could have put all the data mocking code inside backend&rsquo;s test module, created a test JAR for this module, and added the test JAR as a dependency for the api test module. Instead, I created new module, which I named &ldquo;test-utils.&rdquo; Each of backend and api&rsquo;s test modules depend on this module. I like this solution, because Gradle does not make test JARs as easy as Maven does.</p>
-
-<h2 id="fixed-integration-tests">Fixed integration tests</h2>
-
-<p>I fixed the campsites project&rsquo;s integration tests, which have not worked since I updated the project to read campsites from a database. The integration tests are a useful opportunity to test several components in concert--controllers, DAOs, serialization, and Spring properties.</p>
-
-<p>Rather than requiring a Postgres database to be running, I used the <code>@AutoConfigureTestDatabase</code> to tell Spring to create an embedded database for the tests. The advantage is that tests can be run without external dependencies. The obvious disadvantage is that interaction with Postgres is untested. However, because Gradle does not differentiate between unit tests, integration tests, and other kinds of tests unless you tell it to, I could easily create another set of integration tests that leverage a real Postgres database.</p>
-
-<p>I did notice some kinks with use of the <code>@AutoConfigureTestDatabase</code> annotation. Spring should have created the database by default, because I had specified that an embedded database (H2) should be used. However, I had to use <code>@TestPropertySource</code> to set the property <code>spring.jpa.hibernate.ddl-auto</code> to <code>create-drop</code>.</p>
-
-<h2 id="bigint-primary-keys-over-uuid">Bigint primary keys over UUID</h2>
-
-<p>I decided to use BIGINT primary keys instead of UUID primary keys. I had choden UUID keys because it would allow users to identity campgrounds and such with text keys instead of serial, numeric keys. I had a change of heart, and I decided that this advantage was not worth the potential disadvantages--slower database accesses, potential problems using a different database, etc. As I previously noted, I&rsquo;m using H2 for integration tests and Postgres for production, so this is a realistic concern.</p>
-
-<p>If I decide that I need to refer to campgrounds and campsites by text keys that are not serial, I can find another way to do so while retaining numeric keys. Besides, UUIDs are not very elegant aesthetically.</p>
-
-<h2 id="checkstyle">Checkstyle</h2>
-
-<p>I encountered build errors caused by Checkstyle. The <code>METHOD_REF</code> constant was not found, which indicated that I was not using a recent enough version of Checkstyle. However, I had specified version 8.2 of the tool, which should be fine. However, the error seems to be gone now.</p>
-
-<p>I was unsure if Checkstyle was even running, because I saw no warnings in the build output.  Fortunately, Checkstyle was active, but there were no warings. I looked over its configuration, and I added more rules. There probably are more rules that I should add.</p>
-
-<h2 id="remaining-problems">Remaining problems</h2>
-
-<p>To run my project, I need to specify the <code>spring.config.location</code> command-line argument. I do not know why this is, and I don&rsquo;t know where to start looking. I may be able to debug the problem using IntelliJ. Spring should use the <code>application.properties</code> file in the api module&rsquo;s resources. I thought the file might not be visible because of Java&rsquo;s module system, but according to the Java API, it should not be encapsulated, because the file is at the root level.</p>
-
-<h2 id="what-s-next">What&rsquo;s next</h2>
-
-<p>Now that I have data read from a database and my original tests running, I would like to add new components on the Java side:</p>
-
-<ul>
-<li>get availability from the database</li>
-<li>controller for reservations</li>
-</ul>
-
-<p>This would let me add a <em>very simple</em> shopping cart to the frontend. Then campsites can be reserved and availability changes can be observed. Furthermore, the frontend desperately needs some styling. It&rsquo;s hideous to look at. I&rsquo;ve been putting this off, because I rarely design websites nowadays.</p>
-
-<p>Once I address those problems, I&rsquo;d like to build a version of the frontend with mock data (i.e. no backend application) so that I can host it on github-pages at <a href="http://awayfromho.me">awayfromho.me</a>. I would love to have a version of the project available online, but I don&rsquo;t want to pay a monthly fee for this.</p>
+<p>I hope that working on these frontend tasks will let me build some momentum. I&rsquo;ve been very slow to progress with this project. Work on the backend is very similar to the work I do everyday for a living, so it has been tough to motivate myself to do more of that work for free.</p>
 
   </section>
   <footer>
@@ -146,12 +102,11 @@
       <div class="c-pagination__ctrl">
         <div class="c-pagination__newer">
           
-          <a href="http://awayfromho.me/blog/posts/java-10/">Newer</a>
           
         </div>
         <div class="c-pagination__older">
           
-          <a href="http://awayfromho.me/blog/posts/the-jigsaw-puzzle/">Older</a>
+          <a href="http://awayfromho.me/blog/posts/piecing-together-the-puzzle/">Older</a>
           
         </div>
       </div>
