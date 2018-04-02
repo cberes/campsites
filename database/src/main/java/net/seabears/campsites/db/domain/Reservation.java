@@ -2,6 +2,7 @@ package net.seabears.campsites.db.domain;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "reservation")
@@ -60,19 +61,48 @@ public class Reservation {
         this.payment = payment;
     }
 
+    /**
+     * Returns the date when the reservation begins.
+     * @return start date
+     */
     public LocalDate getStarting() {
         return starting;
     }
 
+    /**
+     * Sets the date when the reservation begins.
+     * @param starting start date
+     */
     public void setStarting(final LocalDate starting) {
         this.starting = starting;
     }
 
+    /**
+     * Returns the date when the reservation ends.
+     * Typically campsites are reserved for a number of nights. Thus the reservation may start 14:00 Monday
+     * and end 12:00 Tuesday. In this case, the ending date will be Tuesday.
+     * This allows consumers to get the total number of nights by subtracting
+     * {@link #getStarting() the starting date} from this ending date.
+     * @return end date
+     */
     public LocalDate getEnding() {
         return ending;
     }
 
+    /**
+     * Sets the date when the reservation ends.
+     * @param ending end date
+     * @see #getEnding()
+     */
     public void setEnding(final LocalDate ending) {
         this.ending = ending;
+    }
+
+    /**
+     * Returns the number of nights for which this record reserves the campsite.
+     * @return number of nights reserved
+     */
+    public int getNights() {
+        return (int) ChronoUnit.DAYS.between(starting, ending);
     }
 }

@@ -76,9 +76,12 @@ class AvailabilityBuilder {
     }
 
     private static void removePastDates(final List<Reservation> reservations, final LocalDate date) {
-        // TODO confirm that ending date is inclusive
-        while (!reservations.isEmpty() && reservations.get(0).getEnding().isBefore(date)) {
+        while (!reservations.isEmpty() && isBefore(reservations.get(0), date)) {
             reservations.remove(0);
         }
+    }
+
+    private static boolean isBefore(final Reservation reservation, final LocalDate date) {
+        return reservation.getEnding().isBefore(date) || reservation.getEnding().isEqual(date);
     }
 }
