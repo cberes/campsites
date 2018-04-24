@@ -50,8 +50,8 @@ public class DaoAvailabilityServiceTest {
         when(campsiteDao.findById(id)).thenReturn(campsites.stream().findFirst());
         when(reservationDao.findAll()).thenReturn(emptyList());
 
-        final LocalDate start = LocalDate.of(2018, 4, 1);
-        final LocalDate end = LocalDate.of(2018, 4, 10);
+        final LocalDate start = LocalDate.now();
+        final LocalDate end = start.plusDays(9);
         final CampgroundAvailability avail = service.findByCampsiteId(id, start, end.plusDays(1));
         assertThat(avail, notNullValue());
         assertThat(avail.getCampgroundId(), is(campsites.get(0).getCampground().getId()));
@@ -70,8 +70,8 @@ public class DaoAvailabilityServiceTest {
 
     @Test
     public void testReservations() {
-        final LocalDate start = LocalDate.of(2018, 4, 1);
-        final LocalDate end = LocalDate.of(2018, 4, 10);
+        final LocalDate start = LocalDate.now();
+        final LocalDate end = start.plusDays(9);
 
         final List<Campsite> campsites = mockCampsites().stream().limit(2).collect(toList());
         final long id = campsites.get(0).getCampground().getId();
