@@ -10,12 +10,22 @@ import SettingsService from './services/SettingsService'
 import AvailabilityService from './services/AvailabilityService'
 import CampgroundService from './services/CampgroundService'
 import CampsiteService from './services/CampsiteService'
+import MockAvailabilityService from './services/MockAvailabilityService'
+import MockCampgroundService from './services/MockCampgroundService'
+import MockCampsiteService from './services/MockCampsiteService'
 
-injector.register(HttpService)
-injector.register(SettingsService)
-injector.register(AvailabilityService)
-injector.register(CampgroundService)
-injector.register(CampsiteService)
+if (window.location.hostname === 'awayfromho.me') {
+  injector.register(SettingsService)
+  injector.provide('AvailabilityService', new MockAvailabilityService())
+  injector.provide('CampgroundService', new MockCampgroundService())
+  injector.provide('CampsiteService', new MockCampsiteService())
+} else {
+  injector.register(HttpService)
+  injector.register(SettingsService)
+  injector.register(AvailabilityService)
+  injector.register(CampgroundService)
+  injector.register(CampsiteService)
+}
 injector.provide('settings', {
   backendHost: 'http://localhost:8080',
   campgroundId: 1
