@@ -5,6 +5,7 @@
     <ul>
       <li><router-link to="/campsites">View campsites</router-link></li>
       <li><router-link to="/map">Campground map</router-link></li>
+      <li v-if="blog"><a href="/blog">Development blog</a></li>
     </ul>
   </div>
   <div class="error" v-else-if="error">{{ error }}</div>
@@ -19,7 +20,8 @@ export default {
   data () {
     return {
       campground: null,
-      error: null
+      error: null,
+      blog: window.location.hostname === 'awayfromho.me'
     }
   },
   mounted () {
