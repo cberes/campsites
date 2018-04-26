@@ -1,16 +1,37 @@
 <script>
+import Header from '@/components/header'
 import NavBar from '@/components/nav-bar'
 
 export default {
-  components: { NavBar }
+  components: { Header, NavBar },
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
+  }
 }
 </script>
 
 <template>
-  <div>
-    <NavBar/>
-    <slot/>
-  </div>
+  <el-container>
+    <el-header>
+      <Header :title="title"></Header>
+    </el-header>
+    <el-container>
+      <el-aside width="200px">
+        <NavBar/>
+      </el-aside>
+      <el-container>
+        <el-main>
+          <slot/>
+        </el-main>
+        <el-footer>
+          &copy; 2018 Corey Beres
+        </el-footer>
+      </el-container>
+    </el-container>
+  </el-container>
 </template>
 
 <style module>

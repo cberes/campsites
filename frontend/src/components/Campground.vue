@@ -1,17 +1,3 @@
-<template>
-  <div id="campground" class="container" v-if="campground">
-    <h1 id="name">{{ campground.name }}</h1>
-    <p id="description">{{ campground.description }}</p>
-    <ul>
-      <li><router-link to="/campsites">View campsites</router-link></li>
-      <li><router-link to="/map">Campground map</router-link></li>
-      <li v-if="blog"><a href="/blog/">Development blog</a></li>
-    </ul>
-  </div>
-  <div class="error" v-else-if="error">{{ error }}</div>
-  <div class="loading" v-else>Loading...</div>
-</template>
-
 <script>
 import injector from '../services/InjectionService'
 
@@ -20,8 +6,7 @@ export default {
   data () {
     return {
       campground: null,
-      error: null,
-      blog: window.location.hostname === 'awayfromho.me'
+      error: null
     }
   },
   mounted () {
@@ -36,6 +21,15 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="container" v-if="campground">
+    <h1 id="name">Welcome to {{ campground.name }}</h1>
+    <p id="description">{{ campground.description }}</p>
+  </div>
+  <div class="error" v-else-if="error">{{ error }}</div>
+  <div class="loading" v-else>Loading...</div>
+</template>
 
 <style scoped>
 .loading {

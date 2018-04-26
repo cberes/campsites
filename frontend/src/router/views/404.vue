@@ -12,24 +12,23 @@ export default {
       type: String,
       default: ''
     }
+  },
+  computed: {
+    title () {
+      return '404 ' + (this.resource || '') + ' Not Found'
+    }
   }
 }
 </script>
 
 <template>
-  <Layout>
-    <h1 :class="$style.title">
-      404
-      <span v-if="resource">
-        {{ resource }}
-      </span>
-      Not Found
-    </h1>
+  <Layout :title="title">
+    <p>We can't find what you're looking for.</p>
+    <p>
+      Return to the <router-link to="/">campground home</router-link>.
+    </p>
   </Layout>
 </template>
 
-<style lang="scss" module>
-.title {
-  text-align: center;
-}
+<style module>
 </style>
