@@ -1,26 +1,28 @@
 <template>
   <div class="container">
     <h1>Campsite list</h1>
-    <div id="campground" v-if="campsites">
-      <div class="row" v-for="campsite in campsites">
-        <div class="col-4">
+    <el-container v-if="campsites" direction="vertical">
+      <el-row :key="campsite.id" v-for="campsite in campsites">
+        <el-col :span="8">
           <router-link class="name" :to="{ name: 'campsite', params: { id: campsite.id }}">{{ campsite.name }}</router-link>
           <quick-availability :availability="availability[campsite.id]"></quick-availability>
-        </div>
-        <ul class="col-4">
-          <li class="size">{{ campsite.size }}'</li>
-          <li class="electric">{{ campsite.electric }}</li>
-          <li class="vehicles">Max {{ campsite.maxVehicles }} vehicle(s)</li>
-          <li class="occupancy">Max {{ campsite.maxOccupancy }} guests</li>
-          <li class="pets">Max {{ campsite.petsAllowed }} pets</li>
-        </ul>
-        <div class="col-4">
-          <img class="small" src="img/campsite.jpg" alt=""/>
-        </div>
-      </div>
-    </div>
-    <div class="error" v-else-if="error">{{ error }}</div>
-    <div class="loading" v-else>Loading...</div>
+        </el-col>
+        <el-col :span="8">
+          <ul>
+            <li class="size">{{ campsite.size }}'</li>
+            <li class="electric">{{ campsite.electric }}</li>
+            <li class="vehicles">Max {{ campsite.maxVehicles }} vehicle(s)</li>
+            <li class="occupancy">Max {{ campsite.maxOccupancy }} guests</li>
+            <li class="pets">Max {{ campsite.petsAllowed }} pets</li>
+          </ul>
+        </el-col>
+        <el-col :span="8">
+          <img class="small" src="img/campsite.jpg" alt="Pic"/>
+        </el-col>
+      </el-row>
+    </el-container>
+    <el-container class="error" v-else-if="error">{{ error }}</el-container>
+    <el-container class="loading" v-else>Loading...</el-container>
   </div>
 </template>
 

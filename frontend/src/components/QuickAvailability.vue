@@ -1,6 +1,6 @@
 <template>
   <ul class="quick-availability container" v-if="availability">
-    <li class="availability-period" v-for="period in availability">
+    <li class="availability-period" :key="period.date" v-for="period in availability">
       {{ formatDate(period.date) }}: {{ period.status }}
     </li>
   </ul>
