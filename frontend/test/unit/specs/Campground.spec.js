@@ -32,7 +32,7 @@ describe('Campground.vue', () => {
 
     waitForTicks(3, () => {
       expect(vm.$el.querySelector('#name').textContent)
-        .to.equal('Example')
+        .to.equal('Welcome to Example')
       expect(vm.$el.querySelector('#description').textContent)
         .to.equal('Test example description')
       expect(mockHttp.getUrls())
