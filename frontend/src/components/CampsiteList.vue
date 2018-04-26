@@ -4,7 +4,7 @@
     <div id="campground" v-if="campsites">
       <div class="row" v-for="campsite in campsites">
         <div class="col-4">
-          <router-link class="name" :to="{ name: 'Campsite', params: { id: campsite.id }}">{{ campsite.name }}</router-link>
+          <router-link class="name" :to="{ name: 'campsite', params: { id: campsite.id }}">{{ campsite.name }}</router-link>
           <quick-availability :availability="availability[campsite.id]"></quick-availability>
         </div>
         <ul class="col-4">
