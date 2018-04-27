@@ -9,22 +9,15 @@ export default {
 </script>
 
 <template>
-  <el-menu default-active="1">
-    <el-menu-item index="1">
-      <i class="el-icon-location"></i>
-      <router-link to="/">Campground Home</router-link>
+  <el-menu :router="true">
+    <el-menu-item index="/">
+      <i class="el-icon-location"></i> Campground Home
     </el-menu-item>
-    <el-menu-item index="2">
-      <i class="el-icon-tickets"></i>
-      <router-link to="/campsites">Campsite List</router-link>
+    <el-menu-item index="/campsites">
+      <i class="el-icon-tickets"></i> Campsite List
     </el-menu-item>
-    <el-menu-item index="3">
-      <i class="el-icon-picture"></i>
-      <router-link to="/map">Campsite Map</router-link>
-    </el-menu-item>
-    <el-menu-item index="4" v-if="demo">
-      <i class="el-icon-edit"></i>
-      <a href="/blog/">Development Blog</a>
+    <el-menu-item index="/map">
+      <i class="el-icon-picture"></i> Campsite Map
     </el-menu-item>
   </el-menu>
 </template>

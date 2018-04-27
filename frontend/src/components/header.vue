@@ -1,5 +1,5 @@
 <script>
-import injector from '../services/InjectionService'
+import store from '@/state/store'
 
 export default {
   props: {
@@ -15,12 +15,12 @@ export default {
   },
   mounted () {
     if (!this.props) {
-      this.loadCampground(injector.inject('settings'), injector.inject('CampgroundService'))
+      this.loadCampground()
     }
   },
   methods: {
-    loadCampground (settings, campgroundService) {
-      campgroundService.getCampground(settings.campgroundId)
+    loadCampground () {
+      store.dispatch('campgrounds/fetchCampground')
         .then(result => (this.campground = result))
         .catch(console.error)
     }

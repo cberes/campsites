@@ -1,9 +1,10 @@
 <script>
+import Footer from '@/components/footer'
 import Header from '@/components/header'
 import NavBar from '@/components/nav-bar'
 
 export default {
-  components: { Header, NavBar },
+  components: { Footer, Header, NavBar },
   props: {
     title: {
       type: String,
@@ -27,7 +28,7 @@ export default {
           <slot/>
         </el-main>
         <el-footer>
-          &copy; 2018 Corey Beres
+          <Footer></Footer>
         </el-footer>
       </el-container>
     </el-container>

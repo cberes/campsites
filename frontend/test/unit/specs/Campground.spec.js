@@ -22,25 +22,6 @@ function mount () {
 }
 
 describe('Campground.vue', () => {
-  it('should render correct contents', done => {
-    mockHttp.setResult(Promise.resolve({
-      name: 'Example',
-      description: 'Test example description'
-    }))
-
-    const vm = mount()
-
-    waitForTicks(3, () => {
-      expect(vm.$el.querySelector('#name').textContent)
-        .to.equal('Welcome to Example')
-      expect(vm.$el.querySelector('#description').textContent)
-        .to.equal('Test example description')
-      expect(mockHttp.getUrls())
-        .to.include('http://example.com/api/campgrounds/1001')
-      done()
-    })
-  })
-
   it('should render error message', done => {
     mockHttp.setResult(Promise.reject({
       message: 'Error message'
@@ -60,5 +41,24 @@ describe('Campground.vue', () => {
 
     expect(vm.$el.textContent)
       .to.equal('Loading...')
+  })
+
+  it('should render correct contents', done => {
+    mockHttp.setResult(Promise.resolve({
+      name: 'Example',
+      description: 'Test example description'
+    }))
+
+    const vm = mount()
+
+    waitForTicks(3, () => {
+      expect(vm.$el.querySelector('#name').textContent)
+        .to.equal('Welcome to Example')
+      expect(vm.$el.querySelector('#description').textContent)
+        .to.equal('Test example description')
+      expect(mockHttp.getUrls())
+        .to.include('http://example.com/api/campgrounds/1001')
+      done()
+    })
   })
 })
