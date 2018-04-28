@@ -4,17 +4,23 @@ import QuickAvailability from './QuickAvailability'
 export default {
   components: {QuickAvailability},
   name: 'campsite-list-item',
-  props: ['campsite', 'availability']
+  props: ['campsite', 'availability'],
+  methods: {
+    viewDetails () {
+      this.$router.push({ name: 'campsite', params: { id: this.campsite.id } })
+    }
+  }
 }
 </script>
 
 <template>
-  <el-row>
-    <el-col :span="8">
-      <router-link class="name" :to="{ name: 'campsite', params: { id: campsite.id }}">{{ campsite.name }}</router-link>
-      <quick-availability :availability="availability"></quick-availability>
-    </el-col>
-    <el-col :span="8">
+  <el-card class="box-card" :body-style="{ padding: '0px' }">
+    <div slot="header" class="clearfix">
+      <span class="name">{{ campsite.name }}</span>
+      <el-button class="button" type="text" @click="viewDetails">View Details</el-button>
+    </div>
+    <img class="small" src="/static/campsite-example.jpg" alt="Pic"/>
+    <div style="padding: 14px;">
       <ul>
         <li class="size">{{ campsite.size }}'</li>
         <li class="electric">{{ campsite.electric }}</li>
@@ -22,12 +28,39 @@ export default {
         <li class="occupancy">Max {{ campsite.maxOccupancy }} guests</li>
         <li class="pets">Max {{ campsite.petsAllowed }} pets</li>
       </ul>
-    </el-col>
-    <el-col :span="8">
-      <img class="small" src="img/campsite.jpg" alt="Pic"/>
-    </el-col>
-  </el-row>
+      <quick-availability :availability="availability"></quick-availability>
+    </div>
+  </el-card>
 </template>
 
 <style scoped>
+.button {
+  float: right;
+  padding: 3px 0;
+}
+
+img {
+  width: 100%;
+}
+
+.text {
+  font-size: 14px;
+}
+
+.item {
+  margin-bottom: 18px;
+}
+
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
+.clearfix:after {
+  clear: both
+}
+
+.box-card {
+  width: 480px;
+}
 </style>

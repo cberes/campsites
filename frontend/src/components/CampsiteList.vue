@@ -37,13 +37,15 @@ export default {
 
 <template>
   <div class="container">
-    <h1>Campsite list</h1>
-    <el-container v-if="campsites" direction="vertical">
-      <campsite-list-item
-        :key="campsite.id"
-        :campsite="campsite"
-        :availability="availability[campsite.id]"
-        v-for="campsite in campsites"></campsite-list-item>
+    <h2>Campsite list</h2>
+    <el-container direction="vertical" v-if="campsites">
+      <el-row>
+        <el-col :span="8" :key="campsite.id" v-for="campsite in campsites">
+          <campsite-list-item
+            :campsite="campsite"
+            :availability="availability[campsite.id]"></campsite-list-item>
+        </el-col>
+      </el-row>
     </el-container>
     <el-container class="error" v-else-if="error">{{ error }}</el-container>
     <el-container class="loading" v-else>Loading...</el-container>

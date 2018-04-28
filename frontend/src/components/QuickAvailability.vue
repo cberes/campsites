@@ -1,15 +1,3 @@
-<template>
-  <div class="quick-availability" v-if="availability">
-    <div class="availability-period" :key="period.date" v-for="period in availability">
-      <div class="header" v-html="formatDate(period)"></div>
-      <div class="body" :class="statusClass(period)">
-        <abbr :title="period.status">{{ formatStatus(period) }}</abbr>
-      </div>
-    </div>
-  </div>
-  <div class="loading" v-else>Loading...</div>
-</template>
-
 <script>
 import moment from 'moment'
 
@@ -37,11 +25,21 @@ export default {
 }
 </script>
 
+<template>
+  <div class="quick-availability" v-if="availability">
+    <div class="availability-period" :key="period.date" v-for="period in availability">
+      <div class="header" v-html="formatDate(period)"></div>
+      <div class="body" :class="statusClass(period)">
+        <abbr :title="period.status">{{ formatStatus(period) }}</abbr>
+      </div>
+    </div>
+  </div>
+  <div class="loading" v-else>Loading...</div>
+</template>
+
 <style scoped>
-* {
-  text-align: center;
-}
 .availability-period {
+  text-align: center;
   display: inline-block;
   margin-right: 10px;
 }
