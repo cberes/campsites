@@ -40,7 +40,7 @@ export default {
     <h2>Campsite list</h2>
     <el-container direction="vertical" v-if="campsites">
       <el-row>
-        <el-col :span="8" :key="campsite.id" v-for="campsite in campsites">
+        <el-col :xs="24" :sm="24" :md="24" :lg="12" :xl="8" :key="campsite.id" v-for="campsite in campsites">
           <campsite-list-item
             :campsite="campsite"
             :availability="availability[campsite.id]"></campsite-list-item>

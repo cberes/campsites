@@ -55,7 +55,7 @@ export default {
   padding: 0.5em 1em;
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
 }
-abbr {
+.body abbr {
   text-decoration: none;
   cursor: help;
 }

@@ -10,11 +10,13 @@ export default {
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@import '~normalize.css/normalize.css';
+@import '~element-ui/lib/theme-chalk/index.css';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
 }
 </style>

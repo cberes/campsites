@@ -62,5 +62,6 @@ img {
 
 .box-card {
   width: 480px;
+  margin-bottom: 25px;
 }
 </style>
