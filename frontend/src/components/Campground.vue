@@ -24,7 +24,7 @@ export default {
 
 <template>
   <div class="container" v-if="campground">
-    <h1 id="name">Welcome to {{ campground.name }}</h1>
+    <h2 id="name">Welcome to {{ campground.name }}</h2>
     <p id="description">{{ campground.description }}</p>
   </div>
   <div class="error" v-else-if="error">{{ error }}</div>

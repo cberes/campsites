@@ -1,41 +1,3 @@
-<template>
-  <div id="campsite" class="container" v-if="campsite">
-    <h1 id="name">{{ campsite.name }}</h1>
-    <p id="description">{{ campsite.description }}</p>
-    <img id="image" src="img/campsite.jpg" alt=""/>
-    <table>
-      <tr>
-        <th>Size</th><td id="size">{{ campsite.size }}'</td>
-      </tr>
-      <tr>
-        <th>Max vehicles</th><td id="vehicles">{{ campsite.maxVehicles }}</td>
-      </tr>
-      <tr>
-        <th>Max occupancy</th><td id="occupancy">{{ campsite.maxOccupancy }}</td>
-      </tr>
-      <tr>
-        <th>Pets allowed</th><td id="pets">{{ campsite.petsAllowed }}</td>
-      </tr>
-      <tr>
-        <th>Electric</th><td id="power">{{ campsite.electric }}</td>
-      </tr>
-      <tr>
-        <th>Water</th><td id="water">{{ campsite.water }}</td>
-      </tr>
-      <tr>
-        <th>Sewer</th><td id="sewer">{{ campsite.sewer }}</td>
-      </tr>
-    </table>
-    <h2 id="calendar">Availability</h2>
-    <availability-calendar :id="campsite.id" :today="today"></availability-calendar>
-    <p>
-      <router-link to="/cart">Reserve this campsite</router-link>
-    </p>
-  </div>
-  <div class="error" v-else-if="error">{{ error }}</div>
-  <div class="loading" v-else>Loading...</div>
-</template>
-
 <script>
 import injector from '../services/InjectionService'
 import AvailabilityCalendar from './AvailabilityCalendar.vue'
@@ -63,6 +25,44 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div id="campsite" class="container" v-if="campsite">
+    <h2 id="name">{{ campsite.name }}</h2>
+    <p id="description">{{ campsite.description }}</p>
+    <img id="image" src="/static/campsite-example.jpg"/>
+    <table>
+      <tr>
+        <th>Size</th><td id="size">{{ campsite.size }}'</td>
+      </tr>
+      <tr>
+        <th>Max vehicles</th><td id="vehicles">{{ campsite.maxVehicles }}</td>
+      </tr>
+      <tr>
+        <th>Max occupancy</th><td id="occupancy">{{ campsite.maxOccupancy }}</td>
+      </tr>
+      <tr>
+        <th>Pets allowed</th><td id="pets">{{ campsite.petsAllowed }}</td>
+      </tr>
+      <tr>
+        <th>Electric</th><td id="power">{{ campsite.electric }}</td>
+      </tr>
+      <tr>
+        <th>Water</th><td id="water">{{ campsite.water }}</td>
+      </tr>
+      <tr>
+        <th>Sewer</th><td id="sewer">{{ campsite.sewer }}</td>
+      </tr>
+    </table>
+    <h3 id="calendar">Availability</h3>
+    <availability-calendar :id="campsite.id" :today="today"></availability-calendar>
+    <p>
+      <router-link to="/cart">Reserve this campsite</router-link>
+    </p>
+  </div>
+  <div class="error" v-else-if="error">{{ error }}</div>
+  <div class="loading" v-else>Loading...</div>
+</template>
 
 <style scoped>
 .loading {

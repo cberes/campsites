@@ -19,7 +19,7 @@ export default {
       <span class="name">{{ campsite.name }}</span>
       <el-button class="button" type="text" @click="viewDetails">View Details</el-button>
     </div>
-    <img class="small" src="/static/campsite-example.jpg" alt="Pic"/>
+    <img class="small" src="/static/campsite-example.jpg"/>
     <div style="padding: 14px;">
       <ul>
         <li class="size">{{ campsite.size }}'</li>

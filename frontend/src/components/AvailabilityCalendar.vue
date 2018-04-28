@@ -1,13 +1,3 @@
-<template>
-  <ul id="availability" class="container" v-if="availability">
-    <li class="availability-period" :key="period.date" v-for="period in availability">
-      {{ formatDate(period.date) }}: {{ period.status }}
-    </li>
-  </ul>
-  <div class="error" v-else-if="error">{{ error }}</div>
-  <div class="loading" v-else>Loading...</div>
-</template>
-
 <script>
 import injector from '../services/InjectionService'
 import moment from 'moment'
@@ -38,6 +28,16 @@ export default {
   }
 }
 </script>
+
+<template>
+  <ul id="availability" class="container" v-if="availability">
+    <li class="availability-period" :key="period.date" v-for="period in availability">
+      {{ formatDate(period.date) }}: {{ period.status }}
+    </li>
+  </ul>
+  <div class="error" v-else-if="error">{{ error }}</div>
+  <div class="loading" v-else>Loading...</div>
+</template>
 
 <style scoped>
 .loading {
