@@ -18,8 +18,8 @@ describe('QuickAvailability.vue', () => {
       ]
     }}).$mount()
     expect(vm.$el.children[0].textContent)
-      .to.include('Jan 1: RESERVED')
+      .to.include('Su1 R')
     expect(vm.$el.children[1].textContent)
-      .to.include('Jan 2: AVAILABLE')
+      .to.include('Mo2 A')
   })
 })
