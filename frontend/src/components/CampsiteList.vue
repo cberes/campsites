@@ -1,39 +1,11 @@
-<template>
-  <div class="container">
-    <h1>Campsite list</h1>
-    <el-container v-if="campsites" direction="vertical">
-      <el-row :key="campsite.id" v-for="campsite in campsites">
-        <el-col :span="8">
-          <router-link class="name" :to="{ name: 'campsite', params: { id: campsite.id }}">{{ campsite.name }}</router-link>
-          <quick-availability :availability="availability[campsite.id]"></quick-availability>
-        </el-col>
-        <el-col :span="8">
-          <ul>
-            <li class="size">{{ campsite.size }}'</li>
-            <li class="electric">{{ campsite.electric }}</li>
-            <li class="vehicles">Max {{ campsite.maxVehicles }} vehicle(s)</li>
-            <li class="occupancy">Max {{ campsite.maxOccupancy }} guests</li>
-            <li class="pets">Max {{ campsite.petsAllowed }} pets</li>
-          </ul>
-        </el-col>
-        <el-col :span="8">
-          <img class="small" src="img/campsite.jpg" alt="Pic"/>
-        </el-col>
-      </el-row>
-    </el-container>
-    <el-container class="error" v-else-if="error">{{ error }}</el-container>
-    <el-container class="loading" v-else>Loading...</el-container>
-  </div>
-</template>
-
 <script>
 import injector from '../services/InjectionService'
 import AvailabilityService from '../services/AvailabilityService'
-import QuickAvailability from './QuickAvailability.vue'
+import CampsiteListItem from './CampsiteListItem'
 import moment from 'moment'
 
 export default {
-  components: {QuickAvailability},
+  components: {CampsiteListItem},
   name: 'campsite-list',
   data () {
     return {
@@ -62,6 +34,21 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div class="container">
+    <h1>Campsite list</h1>
+    <el-container v-if="campsites" direction="vertical">
+      <campsite-list-item
+        :key="campsite.id"
+        :campsite="campsite"
+        :availability="availability[campsite.id]"
+        v-for="campsite in campsites"></campsite-list-item>
+    </el-container>
+    <el-container class="error" v-else-if="error">{{ error }}</el-container>
+    <el-container class="loading" v-else>Loading...</el-container>
+  </div>
+</template>
 
 <style scoped>
 .loading {
