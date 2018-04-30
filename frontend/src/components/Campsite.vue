@@ -4,12 +4,13 @@ import AvailabilityCalendar from './AvailabilityCalendar.vue'
 import moment from 'moment'
 
 export default {
-  components: {AvailabilityCalendar},
   name: 'campsite',
+  components: {AvailabilityCalendar},
   data () {
     return {
       campsite: null,
       error: null,
+      now: moment(),
       today: moment().add(1, 'days').format('YYYY-MM-DD')
     }
   },
@@ -55,7 +56,7 @@ export default {
       </tr>
     </table>
     <h3 id="calendar">Availability</h3>
-    <availability-calendar :id="campsite.id" :today="today"></availability-calendar>
+    <availability-calendar :id="campsite.id"></availability-calendar>
     <p>
       <router-link to="/cart">Reserve this campsite</router-link>
     </p>
