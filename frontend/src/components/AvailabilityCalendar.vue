@@ -5,12 +5,17 @@ import Calendar from './Calendar.vue'
 
 export default {
   name: 'availability-calendar',
-  props: ['id'],
+  props: {
+    id: [String, Number],
+    today: {
+      type: Object,
+      default: () => moment()
+    }
+  },
   components: {Calendar},
   data () {
     return {
-      currentMonth: moment().date(1),
-      today: moment(),
+      currentMonth: this.today.date(1),
       availability: null,
       availabilityCache: {}
     }

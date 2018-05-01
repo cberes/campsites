@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import moment from 'moment'
 import AvailabilityCalendar from '@/components/AvailabilityCalendar'
 import AvailabilityService from '@/services/AvailabilityService'
 import SettingsService from '@/services/SettingsService'
@@ -18,8 +19,23 @@ function mount () {
   const Constructor = Vue.extend(AvailabilityCalendar)
   return new Constructor({propsData: {
     id: 10101,
-    today: '2017-01-01'
+    today: moment({year: 2017, month: 0, day: 1})
   }}).$mount()
+}
+
+function expectEmpty (el) {
+  const headers = el.getElementsByTagName('th')
+  const data = el.getElementsByTagName('td')
+
+  expect(headers.length).to.equal(8)
+  expect(headers[0].innerHTML).to.equal('January 2017')
+  expect(data.length).to.equal(35)
+  expect(data[0].children.length).to.equal(2)
+  expect(data[0].children[0].innerHTML).to.equal('1')
+  expect(data[0].children[1].innerHTML).to.equal('&nbsp;')
+  expect(data[1].children.length).to.equal(2)
+  expect(data[1].children[0].innerHTML).to.equal('2')
+  expect(data[1].children[1].innerHTML).to.equal('&nbsp;')
 }
 
 describe('AvailabilityCalendar.vue', () => {
@@ -38,13 +54,21 @@ describe('AvailabilityCalendar.vue', () => {
     const vm = mount()
 
     waitForTicks(3, () => {
-      const items = vm.$el.children
-      expect(items[0].textContent)
-        .to.include('Jan 1: RESERVED')
-      expect(items[1].textContent)
-        .to.include('Jan 2: AVAILABLE')
       expect(mockHttp.getUrls())
-        .to.include('http://example.com/api/availability/campsite/10101?start=2017-01-01&end=2017-01-15')
+        .to.include('http://example.com/api/availability/campsite/10101?start=2017-01-01&end=2017-02-01')
+
+      const headers = vm.$el.getElementsByTagName('th')
+      const data = vm.$el.getElementsByTagName('td')
+
+      expect(headers.length).to.equal(8)
+      expect(headers[0].innerHTML).to.equal('January 2017')
+      expect(data.length).to.equal(35)
+      expect(data[0].children.length).to.equal(2)
+      expect(data[0].children[0].innerHTML).to.equal('1')
+      expect(data[0].children[1].innerHTML).to.equal('R')
+      expect(data[1].children.length).to.equal(2)
+      expect(data[1].children[0].innerHTML).to.equal('2')
+      expect(data[1].children[1].innerHTML).to.equal('A')
       done()
     })
   })
@@ -57,16 +81,13 @@ describe('AvailabilityCalendar.vue', () => {
     const vm = mount()
 
     waitForTicks(3, () => {
-      expect(vm.$el.textContent)
-        .to.equal('Error message')
+      expectEmpty(vm.$el)
       done()
     })
   })
 
   it('should render loading message', () => {
     const vm = mount()
-
-    expect(vm.$el.textContent)
-      .to.equal('Loading...')
+    expectEmpty(vm.$el)
   })
 })
