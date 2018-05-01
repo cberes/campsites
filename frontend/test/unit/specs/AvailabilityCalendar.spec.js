@@ -8,7 +8,7 @@ import {MockHttpService, waitForTicks} from '../helpers'
 
 const mockHttp = new MockHttpService()
 
-function mount () {
+function mount (day) {
   injector.reset()
   injector.register(AvailabilityService)
   injector.register(SettingsService)
@@ -19,7 +19,7 @@ function mount () {
   const Constructor = Vue.extend(AvailabilityCalendar)
   return new Constructor({propsData: {
     id: 10101,
-    today: moment({year: 2017, month: 0, day: 1})
+    today: moment({year: 2017, month: 0, day: day || 1})
   }}).$mount()
 }
 

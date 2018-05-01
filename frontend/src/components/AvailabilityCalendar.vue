@@ -9,7 +9,7 @@ export default {
     id: [String, Number],
     today: {
       type: Object,
-      default: () => moment()
+      default: () => moment().add({days: 1}).month() > moment().month() ? moment().add({days: 1}) : moment()
     }
   },
   components: {Calendar},
