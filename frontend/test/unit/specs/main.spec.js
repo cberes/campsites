@@ -11,6 +11,6 @@ describe('@layouts/main', () => {
     const vm = slotComp.$mount()
     const tags = vm.$el.getElementsByTagName('el-main')
     expect(tags.length).to.equal(1)
-    expect(tags[0].innerHTML).to.equal(slotContent)
+    expect(tags[0].innerHTML.replace(/\s*[\w-]+="[^"]*"/g, '')).to.equal(slotContent)
   })
 })
