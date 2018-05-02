@@ -96,5 +96,6 @@ export default {
 <style scoped>
 button, button:active, button:focus {
   outline: none;
+  margin-top: 10em;
 }
 </style>
