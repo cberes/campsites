@@ -1,4 +1,4 @@
-baseURL = "https://awayfromho.me/blog/"
+baseURL = "http://awayfromho.me/blog/"
 languageCode = "en-us"
 title = "Campsite Reservations Project"
 copyright = "&copy; 2017 Corey Beres"
